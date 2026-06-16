@@ -479,7 +479,7 @@ def main():
     """
     
         send_email(
-            "🔴 Bear Market Alert",
+            "[DEV]🔴 Bear Market Alert",
             body,
             None
         )
@@ -525,7 +525,7 @@ def main():
     """
 
         send_email(
-            "📉 Daily Scanner - No Candidates",
+            "[DEV]📉 Daily Scanner - No Candidates",
             body,
             None
         )
@@ -579,7 +579,7 @@ def main():
     print("Sending Email...")
     
     send_email(
-        "📈 Daily Stock Scanner Top 20",
+        "[DEV]📈 Daily Stock Scanner Top 20",
         email_body,
         excel_file
     )
