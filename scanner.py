@@ -217,7 +217,21 @@ def analyze_stock(ticker, market_bull, spy_return):
 
         if relative_strength < -5:
             return None
-            
+
+        # ==========================
+        # ADX
+        # ==========================
+        
+        from ta.trend import ADXIndicator
+        
+        adx_indicator = ADXIndicator(
+            high=high,
+            low=low,
+            close=close,
+            window=14
+        )
+        
+        adx = adx_indicator.adx().iloc[-1]
         # ==========================
         # SCORE ENGINE V2.1
         # ==========================
@@ -273,19 +287,19 @@ def analyze_stock(ticker, market_bull, spy_return):
         # 3. RELATIVE STRENGTH (15)
         # ==========================
         
-        rs_score = 0
+        strength_score = 0
         
         if relative_strength > 30:
-            rs_score = 15
+            strength_score = 15
         
         elif relative_strength > 20:
-            rs_score = 12
+            strength_score = 12
         
         elif relative_strength > 10:
-            rs_score = 8
+            strength_score = 8
         
         elif relative_strength > 5:
-            rs_score = 5
+            strength_score = 5
         
         score += rs_score
         
@@ -341,13 +355,28 @@ def analyze_stock(ticker, market_bull, spy_return):
             pass
         
         score -= risk_penalty
+
+        # ==========================
+        # Institutional 1. ADX SCORE
+        # ==========================
         
+        adx_score = 0
+        
+        if adx > 25 and plus_di > minus_di:
+            adx_score = 6
+        elif adx > 20 and plus_di > minus_di:
+            adx_score = 4
+        else:
+            adx_score = 0
+        
+        score += adx_score
+
         # ==========================
         # LIMIT SCORE
         # ==========================
         
         score = max(0, min(score, 100))
-        
+
         # ==========================
         # SIGNAL
         # ==========================
@@ -373,26 +402,27 @@ def analyze_stock(ticker, market_bull, spy_return):
             return None
         
         return {
-        
+
             "Ticker": ticker,
         
             "Score": score,
         
             "Signal": signal,
         
-            "RS": round(relative_strength,2),
+            # Core Scores
         
             "TrendScore": trend_score,
-        
             "MomentumScore": momentum_score,
-        
-            "RSScore": rs_score,
-        
+            "StrengthScore": strength_score
             "VolumeScore": volume_score,
-        
             "MarketScore": market_score,
-        
+            "ADXScore": adx_score,
             "RiskPenalty": risk_penalty,
+        
+            # Indicators
+        
+            "RelativeStrength": round(relative_strength, 2)
+            "ADX": round(adx,2),
         
             "Price": round(current_price,2),
         
@@ -401,13 +431,10 @@ def analyze_stock(ticker, market_bull, spy_return):
             "VolumeRatio": round(volume_ratio,2),
         
             "MA20": round(float(ma20),2),
-        
             "MA50": round(float(ma50),2),
-        
             "MA200": round(float(ma200),2),
         
             "MACD": round(macd_line,2),
-        
             "SignalLine": round(signal_line,2),
         
             "MiddleBB": round(middle_band,2)
