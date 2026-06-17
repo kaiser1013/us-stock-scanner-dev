@@ -8,3 +8,20 @@
 | v2.5        | Chart Pattern Detection        |   ⭐⭐⭐ |
 | v2.6        | Backtesting Engine             | ⭐⭐⭐⭐⭐ |
 | v3.0        | TradingView + Python 全自動交易決策平台 | ⭐⭐⭐⭐⭐ |
+
+Stable
+Version 2.0
+2026-06-10
+Features:
+MA20
+MA50
+RSI
+Volume
+Breakout
+Market Filter
+
+--------------
+
+Dev
+Version 2.1
+Score Engine
