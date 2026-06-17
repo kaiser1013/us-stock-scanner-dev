@@ -109,8 +109,6 @@ def analyze_stock(ticker, market_bull, spy_return):
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
 
-        return df
-
         # ==========================
         # DATA
         # ==========================
@@ -162,10 +160,11 @@ def analyze_stock(ticker, market_bull, spy_return):
         # ==========================
 
         if current_price < ma20:
-            print(f"{ticker}: Below MA20")
+            print(f"{ticker}: Price Below MA20")
             return None
 
         if ma20 < ma50:
+            print(f"{ticker}: MA20 below MA50")
             return None
 
         # ==========================
@@ -185,6 +184,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         signal_line = macd.macd_signal().iloc[-1]
 
         if pd.isna(macd_line) or pd.isna(signal_line):
+            print(f"{ticker}: MACD NaN")
             return None
 
         # ==========================
@@ -219,6 +219,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         # ==========================
         
         if len(close)<70:
+            print(f"{ticker}: Insufficient history")
             return None
             
         stock_return = (
@@ -228,6 +229,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         relative_strength = stock_return - spy_return
 
         if relative_strength < -5:
+            print(f"{ticker}: Weak Relative Strength")
             return None
 
         # ==========================
