@@ -731,3 +731,5 @@ No stocks passed analysis (or scoring too strict).
         email_body,
         excel_file
     )
+
+if __name__ == "__main__": main()
