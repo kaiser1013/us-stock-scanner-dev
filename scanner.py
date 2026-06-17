@@ -5,6 +5,12 @@ import yfinance as yf
 
 import time
 
+def safe_last(series):
+    if series is None or len(series) == 0:
+        return None
+    v = series.iloc[-1]
+    return None if pd.isna(v) else float(v)
+
 def safe_download(ticker):
     for i in range(3):
         try:
@@ -113,12 +119,24 @@ def analyze_stock(ticker, market_bull, spy_return):
 
         df = safe_download(ticker)
 
-        if df.empty:
+        if df is None or df.empty:
             print(f"{ticker}: No data")
+            return None
+
+        if "Close" not in df.columns:
+            print(f"{ticker}: Missing Close")
+            return None
+
+        if df["Close"].isna().all():
+            print(f"{ticker}: Close all NaN")
             return None
 
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
+
+        if len(df) < 210:
+            print(f"{ticker}: insufficient data {len(df)}")
+            return None
 
         # ==========================
         # DATA
@@ -131,16 +149,15 @@ def analyze_stock(ticker, market_bull, spy_return):
 
         current_price = float(close.iloc[-1])
 
-        ma20 = close.rolling(20).mean().iloc[-1]
-        ma50 = close.rolling(50).mean().iloc[-1]
-        ma200 = close.rolling(200).mean().iloc[-1]
-
-        avg_volume = volume.rolling(20).mean().iloc[-1]
+        ma20 = safe_last(close.rolling(20).mean())
+        ma50 = safe_last(close.rolling(50).mean())
+        ma200 = safe_last(close.rolling(200).mean())
+        avg_volume = safe_last(volume.rolling(20).mean())
 
         if avg_volume <= 0:
             return None
 
-        if pd.isna(ma20) or pd.isna(ma50) or pd.isna(ma200) or pd.isna(avg_volume):
+        if ma20 is None or ma50 is None or ma200 is None or avg_volume is None:
             print(f"{ticker}: Indicator NaN")
             return None
 
