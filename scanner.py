@@ -413,7 +413,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         
             "TrendScore": trend_score,
             "MomentumScore": momentum_score,
-            "StrengthScore": strength_score
+            "StrengthScore": strength_score,
             "VolumeScore": volume_score,
             "MarketScore": market_score,
             "ADXScore": adx_score,
