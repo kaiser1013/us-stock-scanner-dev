@@ -6,25 +6,36 @@ import yfinance as yf
 import time
 
 def safe_download(ticker):
-
     for i in range(3):
+        try:
+            print(f"{ticker}: attempt {i+1}")
 
-        print(f"{ticker}: attempt {i+1}")
+            df = yf.download(
+                ticker,
+                period="1y",   # 🔥 改大 window（重要）
+                interval="1d",
+                auto_adjust=True,
+                progress=False
+            )
 
-        df = yf.download(
-            ticker,
-            period="6mo",
-            interval="1d",
-            auto_adjust=True,
-            progress=False
-        )
+            if df is None or df.empty:
+                continue
 
-        if df is not None and not df.empty:
+            if "Close" not in df.columns:
+                continue
+
+            if df["Close"].isna().all():
+                print(f"{ticker}: ALL Close NaN")
+                continue
+
             return df
+
+        except Exception as e:
+            print(f"{ticker} download error: {e}")
 
         time.sleep(1)
 
-    return pd.DataFrame()
+    return None
 
 from datetime import datetime
 
