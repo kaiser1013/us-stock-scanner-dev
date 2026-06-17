@@ -134,18 +134,11 @@ def analyze_stock(ticker, market_bull, spy_return):
             print(f"{ticker}: No data")
             return None
 
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
+        close = df["Close"]
 
-        if "Close" not in df.columns:
-            print(f"{ticker}: Missing Close")
-            continue
-
-        close = df["close"]
-
-        if Close.isna().all():
+        if close.isna().all():
             print(f"{ticker}: Close all NaN")
-            continue
+            return None
 
         if len(df) < 210:
             print(f"{ticker}: insufficient data {len(df)}")
