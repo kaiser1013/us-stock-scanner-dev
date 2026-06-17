@@ -96,7 +96,7 @@ def get_sp500_tickers():
 # =====================================
 
 def analyze_stock(ticker, market_bull, spy_return):
-
+print(f"[ENTER] {ticker}")
     try:
 
         df = safe_download(ticker)
@@ -242,7 +242,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         # ==========================
         # SCORE ENGINE V2.1
         # ==========================
-
+        print(f"[MID] {ticker} indicators OK")
         score = 0
 
         # --------------------------
@@ -395,7 +395,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         # ⚠️ 建議：暫時保留所有結果（方便 ranking）
         # if score < 60:
         #     return None
-
+        print(f"[EXIT] {ticker} score={score}")
         return {
 
             "Ticker": ticker,
