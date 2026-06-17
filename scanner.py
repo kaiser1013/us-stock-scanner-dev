@@ -96,7 +96,9 @@ def get_sp500_tickers():
 # =====================================
 
 def analyze_stock(ticker, market_bull, spy_return):
-print(f"[ENTER] {ticker}")
+    
+    print(f"[ENTER] {ticker}")
+    
     try:
 
         df = safe_download(ticker)
