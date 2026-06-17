@@ -219,65 +219,199 @@ def analyze_stock(ticker, market_bull, spy_return):
             return None
             
         # ==========================
-        # Score
+        # SCORE ENGINE V2.1
         # ==========================
-
-        score = 0
-
-        if relative_strength > 20:
-            score += 20
         
-        elif relative_strength > 10:
-            score += 15
-
-        elif relative_strength > 0:
-            score += 10
+        score = 0
+        
+        # ==========================
+        # 1. TREND (30)
+        # ==========================
+        
+        trend_score = 0
         
         if current_price > ma20:
-            score += 25
+            trend_score += 10
         
-        if volume_ratio > 1.5:
-            score += 20
+        if ma20 > ma50:
+            trend_score += 10
         
-        if 50 < rsi < 70:
-            score += 15
-
+        if ma50 > ma200:
+            trend_score += 10
+        
+        score += trend_score
+        
+        # ==========================
+        # 2. MOMENTUM (20)
+        # ==========================
+        
+        momentum_score = 0
+        
+        # RSI
+        
+        if 55 <= rsi <= 65:
+            momentum_score += 10
+        
+        elif 50 <= rsi < 55:
+            momentum_score += 7
+        
+        elif 65 < rsi <= 70:
+            momentum_score += 5
+        
+        # MACD
+        
         if macd_line > signal_line:
-            score += 25
-
-        if current_price > middle_band:
-            score += 15
-
-        market_bonus=0
-
+        
+            if macd_line > 0:
+                momentum_score += 10
+            else:
+                momentum_score += 7
+        
+        score += momentum_score
+        
+        # ==========================
+        # 3. RELATIVE STRENGTH (15)
+        # ==========================
+        
+        rs_score = 0
+        
+        if relative_strength > 30:
+            rs_score = 15
+        
+        elif relative_strength > 20:
+            rs_score = 12
+        
+        elif relative_strength > 10:
+            rs_score = 8
+        
+        elif relative_strength > 5:
+            rs_score = 5
+        
+        score += rs_score
+        
+        # ==========================
+        # 4. VOLUME (20)
+        # ==========================
+        
+        volume_score = 0
+        
+        if volume_ratio > 2.5:
+            volume_score = 20
+        
+        elif volume_ratio > 2.0:
+            volume_score = 18
+        
+        elif volume_ratio > 1.5:
+            volume_score = 15
+        
+        elif volume_ratio > 1.2:
+            volume_score = 10
+        
+        elif volume_ratio > 1.0:
+            volume_score = 5
+        
+        score += volume_score
+        
+        # ==========================
+        # 5. MARKET (15)
+        # ==========================
+        
+        market_score = 0
+        
         if market_bull:
-            market_bonus=10
-
-        score+=market_bonus
-
-        if score < 50:
-            return None
-
-        if score >= 80:
+            market_score = 15
+        
+        score += market_score
+        
+        # ==========================
+        # RISK PENALTY
+        # ==========================
+        
+        risk_penalty = 0
+        
+        # Avoid chasing
+        
+        if rsi > 75:
+            risk_penalty += 5
+        
+        try:
+            if current_price > upper_band:
+                risk_penalty += 5
+        except:
+            pass
+        
+        score -= risk_penalty
+        
+        # ==========================
+        # LIMIT SCORE
+        # ==========================
+        
+        score = max(0, min(score, 100))
+        
+        # ==========================
+        # SIGNAL
+        # ==========================
+        
+        if score >= 90:
             signal = "🔥 STRONG BUY"
-        elif score >= 65:
+        
+        elif score >= 80:
+            signal = "🟢 BUY"
+        
+        elif score >= 70:
             signal = "🟡 WATCH"
+        
+        elif score >= 60:
+            signal = "⚪ MONITOR"
+        
         else:
             signal = "NO TRADE"
-
+        
+        # Optional quality filter
+        
+        if score < 60:
+            return None
+        
         return {
+        
             "Ticker": ticker,
+        
             "Score": score,
-            "RS": round(relative_strength, 2),
+        
             "Signal": signal,
-            "Price": round(current_price, 2),
-            "RSI": round(rsi, 2),
-            "VolumeRatio": round(volume_ratio, 2),
-            "MA20": round(float(ma20), 2),
-            "MA50": round(ma50,2),
+        
+            "RS": round(relative_strength,2),
+        
+            "TrendScore": trend_score,
+        
+            "MomentumScore": momentum_score,
+        
+            "RSScore": rs_score,
+        
+            "VolumeScore": volume_score,
+        
+            "MarketScore": market_score,
+        
+            "RiskPenalty": risk_penalty,
+        
+            "Price": round(current_price,2),
+        
+            "RSI": round(rsi,2),
+        
+            "VolumeRatio": round(volume_ratio,2),
+        
+            "MA20": round(float(ma20),2),
+        
+            "MA50": round(float(ma50),2),
+        
+            "MA200": round(float(ma200),2),
+        
             "MACD": round(macd_line,2),
+        
             "SignalLine": round(signal_line,2),
+        
             "MiddleBB": round(middle_band,2)
+        
         }
 
     except Exception as e:
