@@ -31,6 +31,7 @@ from datetime import datetime
 from ta.momentum import RSIIndicator
 from ta.trend import MACD
 from ta.volatility import BollingerBands
+from ta.trend import ADXIndicator
 
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -110,6 +111,8 @@ def analyze_stock(ticker, market_bull, spy_return):
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
 
+        return df
+
         # ==========================
         # DATA
         # ==========================
@@ -131,6 +134,7 @@ def analyze_stock(ticker, market_bull, spy_return):
             return None
 
         if pd.isna(ma20) or pd.isna(ma50) or pd.isna(ma200) or pd.isna(avg_volume):
+            print(f"{ticker}: Indicator NaN")
             return None
 
         volume_ratio = float(volume.iloc[-1] / avg_volume)
@@ -199,12 +203,14 @@ def analyze_stock(ticker, market_bull, spy_return):
         # ==========================
 
         if rsi < 40:
+            print(f"{ticker}: RSI too weak")
             return None
 
         if rsi > 80:
             return None
 
         if volume_ratio < 0.8:
+            print(f"{ticker}: Low volume")
             return None
 
         if macd_line < signal_line - 0.1:
@@ -213,7 +219,10 @@ def analyze_stock(ticker, market_bull, spy_return):
         # ==========================
         # RELATIVE STRENGTH
         # ==========================
-
+        
+        if len(close)<70:
+            return None
+            
         stock_return = (
             close.iloc[-1] / close.iloc[-63] - 1
         ) * 100
@@ -611,6 +620,7 @@ def main():
     else:
 
         print("TEST MODE ENABLED")
+        tickers=TICKERS
 
     # ==========================
     # BEAR MARKET PROTECTION
