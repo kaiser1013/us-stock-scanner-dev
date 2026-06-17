@@ -96,7 +96,7 @@ def get_sp500_tickers():
 # =====================================
 
 def analyze_stock(ticker, market_bull, spy_return):
-    
+
     try:
 
         df = safe_download(ticker)
@@ -104,26 +104,35 @@ def analyze_stock(ticker, market_bull, spy_return):
         if df.empty:
             print(f"{ticker}: No data")
             return None
-            
+
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
-    
+
+        # ==========================
+        # DATA
+        # ==========================
+
         close = df["Close"]
+        high = df["High"]
+        low = df["Low"]
         volume = df["Volume"]
 
         current_price = float(close.iloc[-1])
-        
+
         ma20 = close.rolling(20).mean().iloc[-1]
+        ma50 = close.rolling(50).mean().iloc[-1]
+        ma200 = close.rolling(200).mean().iloc[-1]
 
         avg_volume = volume.rolling(20).mean().iloc[-1]
 
         if avg_volume <= 0:
             return None
-        if pd.isna(ma20) or pd.isna(avg_volume):
+
+        if pd.isna(ma20) or pd.isna(ma50) or pd.isna(ma200) or pd.isna(avg_volume):
             return None
 
         volume_ratio = float(volume.iloc[-1] / avg_volume)
-        
+
         print(
             f"{ticker} | "
             f"Price={current_price:.2f} | "
@@ -132,9 +141,8 @@ def analyze_stock(ticker, market_bull, spy_return):
             f"VolRatio={volume_ratio:.2f}"
         )
 
-
         # ==========================
-        # Layer 1: Liquidity Filter（流動性）
+        # LAYER 1: LIQUIDITY FILTER
         # ==========================
 
         if current_price < 20:
@@ -146,17 +154,15 @@ def analyze_stock(ticker, market_bull, spy_return):
             return None
 
         # ==========================
-        # Layer 2: Trend Filter（方向）
+        # LAYER 2: TREND FILTER
         # ==========================
 
         if current_price < ma20:
             print(f"{ticker}: Below MA20")
-            return None  # 明顯 downtrend 唔要
-            
-        ma50 = close.rolling(50).mean().iloc[-1]
-        
+            return None
+
         if ma20 < ma50:
-            return None  # 中期 downtrend
+            return None
 
         # ==========================
         # RSI
@@ -178,39 +184,36 @@ def analyze_stock(ticker, market_bull, spy_return):
             return None
 
         # ==========================
-        # Bollinger
+        # BOLLINGER
         # ==========================
 
         bb = BollingerBands(close)
 
-        middle_band = float(
-            bb.bollinger_mavg().iloc[-1]
-        )
+        middle_band = float(bb.bollinger_mavg().iloc[-1])
+        upper_band = float(bb.bollinger_hband().iloc[-1])   # FIXED
 
         # ==========================
-        # Layer 3: Momentum Confirmation（入場訊號）
+        # MOMENTUM FILTER
         # ==========================
 
         if rsi < 40:
-            return None  # 無 momentum
+            return None
 
         if rsi > 80:
-            return None  # 太 overbought（避免追高）
+            return None
 
         if volume_ratio < 0.8:
-            return None  # 無資金流入唔要
+            return None
 
-        if macd_line < signal_line-0.1:
+        if macd_line < signal_line - 0.1:
             return None
 
         # ==========================
-        # Relative Strength
+        # RELATIVE STRENGTH
         # ==========================
 
         stock_return = (
-            close.iloc[-1]
-            / close.iloc[-63]
-            - 1
+            close.iloc[-1] / close.iloc[-63] - 1
         ) * 100
 
         relative_strength = stock_return - spy_return
@@ -221,196 +224,184 @@ def analyze_stock(ticker, market_bull, spy_return):
         # ==========================
         # ADX
         # ==========================
-        
-        from ta.trend import ADXIndicator
-        
+
         adx_indicator = ADXIndicator(
             high=high,
             low=low,
             close=close,
             window=14
         )
-        
+
         adx = adx_indicator.adx().iloc[-1]
+        plus_di = adx_indicator.adx_pos().iloc[-1]   # FIXED
+        minus_di = adx_indicator.adx_neg().iloc[-1]  # FIXED
+
+        if pd.isna(adx):
+            adx = 0
+
         # ==========================
         # SCORE ENGINE V2.1
         # ==========================
-        
+
         score = 0
-        
-        # ==========================
-        # 1. TREND (30)
-        # ==========================
-        
+
+        # --------------------------
+        # 1. TREND
+        # --------------------------
+
         trend_score = 0
-        
+
         if current_price > ma20:
             trend_score += 10
-        
+
         if ma20 > ma50:
             trend_score += 10
-        
+
         if ma50 > ma200:
             trend_score += 10
-        
+
         score += trend_score
-        
-        # ==========================
-        # 2. MOMENTUM (20)
-        # ==========================
-        
+
+        # --------------------------
+        # 2. MOMENTUM
+        # --------------------------
+
         momentum_score = 0
-        
-        # RSI
-        
+
         if 55 <= rsi <= 65:
             momentum_score += 10
-        
+
         elif 50 <= rsi < 55:
             momentum_score += 7
-        
+
         elif 65 < rsi <= 70:
             momentum_score += 5
-        
-        # MACD
-        
+
         if macd_line > signal_line:
-        
             if macd_line > 0:
                 momentum_score += 10
             else:
                 momentum_score += 7
-        
+
         score += momentum_score
-        
-        # ==========================
-        # 3. RELATIVE STRENGTH (15)
-        # ==========================
-        
-        strength_score = 0
-        
+
+        # --------------------------
+        # 3. STRENGTH
+        # --------------------------
+
+        strength_score = 0   # FIXED
+
         if relative_strength > 30:
             strength_score = 15
-        
+
         elif relative_strength > 20:
             strength_score = 12
-        
+
         elif relative_strength > 10:
             strength_score = 8
-        
+
         elif relative_strength > 5:
             strength_score = 5
-        
-        score += rs_score
-        
-        # ==========================
-        # 4. VOLUME (20)
-        # ==========================
-        
+
+        score += strength_score   # FIXED
+
+        # --------------------------
+        # 4. VOLUME
+        # --------------------------
+
         volume_score = 0
-        
+
         if volume_ratio > 2.5:
             volume_score = 20
-        
+
         elif volume_ratio > 2.0:
             volume_score = 18
-        
+
         elif volume_ratio > 1.5:
             volume_score = 15
-        
+
         elif volume_ratio > 1.2:
             volume_score = 10
-        
+
         elif volume_ratio > 1.0:
             volume_score = 5
-        
+
         score += volume_score
-        
-        # ==========================
-        # 5. MARKET (15)
-        # ==========================
-        
+
+        # --------------------------
+        # 5. MARKET
+        # --------------------------
+
         market_score = 0
-        
+
         if market_bull:
             market_score = 15
-        
+
         score += market_score
-        
-        # ==========================
-        # RISK PENALTY
-        # ==========================
-        
+
+        # --------------------------
+        # RISK
+        # --------------------------
+
         risk_penalty = 0
-        
-        # Avoid chasing
-        
+
         if rsi > 75:
             risk_penalty += 5
-        
-        try:
-            if current_price > upper_band:
-                risk_penalty += 5
-        except:
-            pass
-        
+
+        if current_price > upper_band:
+            risk_penalty += 5
+
         score -= risk_penalty
 
-        # ==========================
-        # Institutional 1. ADX SCORE
-        # ==========================
-        
+        # --------------------------
+        # ADX SCORE
+        # --------------------------
+
         adx_score = 0
-        
+
         if adx > 25 and plus_di > minus_di:
             adx_score = 6
+
         elif adx > 20 and plus_di > minus_di:
             adx_score = 4
-        else:
-            adx_score = 0
-        
+
         score += adx_score
 
         # ==========================
-        # LIMIT SCORE
+        # FINAL SCORE LIMIT
         # ==========================
-        
+
         score = max(0, min(score, 100))
 
         # ==========================
         # SIGNAL
         # ==========================
-        
+
         if score >= 90:
             signal = "🔥 STRONG BUY"
-        
+
         elif score >= 80:
             signal = "🟢 BUY"
-        
+
         elif score >= 70:
             signal = "🟡 WATCH"
-        
+
         elif score >= 60:
             signal = "⚪ MONITOR"
-        
+
         else:
             signal = "NO TRADE"
-        
-        # Optional quality filter
-        
-        if score < 60:
-            return None
-        
+
+        # ⚠️ 建議：暫時保留所有結果（方便 ranking）
+        # if score < 60:
+        #     return None
+
         return {
 
             "Ticker": ticker,
-        
             "Score": score,
-        
             "Signal": signal,
-        
-            # Core Scores
-        
+
             "TrendScore": trend_score,
             "MomentumScore": momentum_score,
             "StrengthScore": strength_score,
@@ -418,35 +409,28 @@ def analyze_stock(ticker, market_bull, spy_return):
             "MarketScore": market_score,
             "ADXScore": adx_score,
             "RiskPenalty": risk_penalty,
-        
-            # Indicators
-        
+
             "RelativeStrength": round(relative_strength, 2),
-            "ADX": round(adx,2),
-        
-            "Price": round(current_price,2),
-        
-            "RSI": round(rsi,2),
-        
-            "VolumeRatio": round(volume_ratio,2),
-        
-            "MA20": round(float(ma20),2),
-            "MA50": round(float(ma50),2),
-            "MA200": round(float(ma200),2),
-        
-            "MACD": round(macd_line,2),
-            "SignalLine": round(signal_line,2),
-        
-            "MiddleBB": round(middle_band,2)
-        
+            "ADX": round(adx, 2),
+
+            "Price": round(current_price, 2),
+            "RSI": round(rsi, 2),
+            "VolumeRatio": round(volume_ratio, 2),
+
+            "MA20": round(ma20, 2),
+            "MA50": round(ma50, 2),
+            "MA200": round(ma200, 2),
+
+            "MACD": round(macd_line, 2),
+            "SignalLine": round(signal_line, 2),
+
+            "MiddleBB": round(middle_band, 2)
+
         }
 
     except Exception as e:
-
         print(f"Error processing {ticker}: {e}")
-
         return None
-
 
 # =====================================
 # Excel
