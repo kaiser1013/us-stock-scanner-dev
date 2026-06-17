@@ -10,6 +10,7 @@
 | v3.0        | TradingView + Python 全自動交易決策平台 | ⭐⭐⭐⭐⭐ |
 
 Stable
+
 Version 2.0
 2026-06-10
 Features:
@@ -23,10 +24,20 @@ Market Filter
 --------------
 
 Dev
-Version 2.1
-Score Engine
+
+Version 2.1 Score Engine
+
 v2.1.1：加入 ADX（Trend Strength）+DI > -DI 代表強勢上升趨勢
+
 v2.1.2：Top Picks Ranking System
+
+  ✅ 修正 ma200
+  ✅ 修正 strength_score / rs_score bug
+  ✅ 修正 plus_di / minus_di
+  ✅ 加 upper_band
+  ✅ 移除 ADX import 位置問題（假設已在檔案最上面import）
+  ✅ 保留你原本 scoring 架構
+  ✅ 不破壞你現有 dev workflow
   保留現有 Hard Filters；
   修正 high/low 未定義嘅 ADX bug；
   所有通過 Hard Filter 嘅股票都計 Score（唔再 score < 60: return None）；
