@@ -421,7 +421,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         
             # Indicators
         
-            "RelativeStrength": round(relative_strength, 2)
+            "RelativeStrength": round(relative_strength, 2),
             "ADX": round(adx,2),
         
             "Price": round(current_price,2),
