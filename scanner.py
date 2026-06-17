@@ -98,9 +98,6 @@ def get_sp500_tickers():
 
 def analyze_stock(ticker, market_bull, spy_return):
     
-    print(result)
-    print(type(result))
-    
     try:
 
         df = safe_download(ticker)
@@ -670,8 +667,11 @@ No swing trades today.
         print(type(result))
 
         if result is not None:
+            
             results.append(result)
-            print(f"{ticker} scored: {result['Score']:.2f}")
+    
+            if isinstance(result, dict):
+                print(f"{ticker} scored: {result['Score']:.2f}")
 
         time.sleep(0.2)
 
