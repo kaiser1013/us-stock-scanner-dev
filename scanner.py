@@ -27,7 +27,18 @@ def safe_download(ticker):
             if df is None or df.empty:
                 continue
 
+            # Debug
+            print(f"{ticker} columns: {df.columns}")
+
+            print(f"{ticker} original columns: {df.columns}")
+            
+            if isinstance(df.columns, pd.MultiIndex):
+                df.columns = df.columns.get_level_values(0)
+
+            print(f"{ticker} flattened columns: {df.columns}")
+
             if "Close" not in df.columns:
+                print(f"{ticker}: Missing Close")
                 continue
 
             if df["Close"].isna().all():
@@ -123,16 +134,18 @@ def analyze_stock(ticker, market_bull, spy_return):
             print(f"{ticker}: No data")
             return None
 
-        if "Close" not in df.columns:
-            print(f"{ticker}: Missing Close")
-            return None
-
-        if df["Close"].isna().all():
-            print(f"{ticker}: Close all NaN")
-            return None
-
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
+
+        if "Close" not in df.columns:
+            print(f"{ticker}: Missing Close")
+            continue
+
+        close = df["close"]
+
+        if Close.isna().all():
+            print(f"{ticker}: Close all NaN")
+            continue
 
         if len(df) < 210:
             print(f"{ticker}: insufficient data {len(df)}")
