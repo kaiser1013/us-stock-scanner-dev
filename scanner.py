@@ -700,7 +700,11 @@ No swing trades today.
 
         result = analyze_stock(ticker, market_bull, spy_return)
         
-        print(type(result))
+        if result:
+            print(f"{ticker} scored: {result['Score']:.2f}")
+            results.append(result)
+        else:
+            print(f"{ticker} filtered out")
 
         if result is not None:
             
