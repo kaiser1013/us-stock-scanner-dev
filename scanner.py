@@ -26,16 +26,9 @@ def safe_download(ticker):
 
             if df is None or df.empty:
                 continue
-
-            # Debug
-            print(f"{ticker} columns: {df.columns}")
-
-            print(f"{ticker} original columns: {df.columns}")
-            
+           
             if isinstance(df.columns, pd.MultiIndex):
                 df.columns = df.columns.get_level_values(0)
-
-            print(f"{ticker} flattened columns: {df.columns}")
 
             if "Close" not in df.columns:
                 print(f"{ticker}: Missing Close")
