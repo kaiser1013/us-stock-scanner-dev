@@ -434,9 +434,7 @@ def analyze_stock(ticker, market_bull, spy_return):
 
         # ⚠️ 建議：暫時保留所有結果（方便 ranking）
         # if score < 60:
-        #     return None
-        
-        print(f"[EXIT] {ticker} score={score}")
+        #     return None  
         
         return {
 
