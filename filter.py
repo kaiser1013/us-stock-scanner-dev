@@ -1,3 +1,7 @@
+# ==========================
+# LIQUIDITY FILTER
+# ==========================
+
 def liquidity_filter(metrics):
     if metrics["Price"] < 20:
         return False, "Price filter"
@@ -5,12 +9,20 @@ def liquidity_filter(metrics):
         return False, "Volume filter"
     return True, "OK"
 
+# ==========================
+# TREND FILTER
+# ==========================
+
 def trend_filter(metrics):
     if metrics["Price"] < metrics["MA20"]:
         return False, "Price below MA20"
     if metrics["MA20"] < metrics["MA50"]:
         return False, "MA20 below MA50"
         return True, "OK"
+        
+# ==========================
+# MOMENTUM FILTER
+# ==========================
 
 def momentum_filter(metrics):
     if metrics["RSI"] < 40:
@@ -22,6 +34,10 @@ def momentum_filter(metrics):
     if metrics["MACD"] < metrics["SignalLine"] - 0.1:
         return False, "MACD below signal"
     return True, "OK"
+
+# ==========================
+# RELATIVE STRENGTH FILTER
+# ==========================
 
 def relative_strength_filter(metrics):
     if metric["RelativeStrength"] < -5:
