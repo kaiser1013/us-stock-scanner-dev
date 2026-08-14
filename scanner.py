@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 
 import pandas as pd
 
-from download import USE_SP500, TICKERS, GET_market_context, get_sp500_tickers, safe_download
+from download import USE_SP500, TICKERS, get_market_context, get_sp500_tickers, safe_download
 from indicator import calculate_indicators
 from filter import run_filters
 from score import calculate_score
