@@ -44,7 +44,7 @@ def safe_download(ticker, period="1y", interval="1d", retries=3, sleep_seconds=1
         try:
             print(f"{ticker}: attempt {attempt + 1}")
             df = yf.download(
-                tickers, 
+                ticker,
                 period=period, 
                 interval=interval, 
                 auto_adjust=True, 
