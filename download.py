@@ -4,6 +4,10 @@ import yfinance as yf
 
 USE_SP500 = True
 
+# =====================================
+# 測試股票池
+# =====================================
+
 TICKERS = [
     "AAPL",
     "GOOGL",
@@ -63,8 +67,12 @@ def safe_download(ticker, period="1y", interval="1d", retries=3, sleep_seconds=1
             print(f"{ticker} download error: {error}")
         time.sleep(sleep_seconds)
     return None
-    
-def get_sp500 tickers():
+
+# =====================================
+# S&P500 股票池
+# =====================================
+
+def get_sp500_tickers():
     """Load S&P500 tickers. Fall back to test list if external list fails."""
     try:
         df = pd.read_csv(SP500_URL)
