@@ -252,4 +252,5 @@ def main():
     email_body = build_email_body(top20, market_bull, spy_price, spy_ma200)
     send_email(f"📈 US Scanner {VERSION} Daily Top 20", email_body, excel_file)
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()
