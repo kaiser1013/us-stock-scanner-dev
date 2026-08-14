@@ -1,9 +1,58 @@
 import os
-import smtplib
-import pandas as pd
-import yfinance as yf
-
 import time
+import smtplib
+from datetime import datetime
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+import pandas as pd
+
+from download import USE_SP500, TICKERS, GET_market_context, get_sp500_tickers, safe_download
+from indicator import calculate_indicators
+from filter import run_filters
+from score import calculate_score
+
+VERSION = "v2.3"
+
+def analyze_stock(ticker, market_bull, spy_return):   
+    try:
+        df = safe_download(ticker)
+        metrics = calculate_indicators(ticker, df, spy_return)
+        if metrics is None:
+            return None
+
+        Passed, reason = run_filters(ticker, metrics)
+        if not passed:
+            return None
+
+        score_result = calculate_score(metrics, market_bull)
+       
+        result = {
+            "Ticker": ticker,
+            **score_result,
+            "RelativeStrength": round(metrics["RelativeStrength"], 2),
+            "ADX": round(metrics["ADX"], 2),
+            "Price": round(metrics["Price"], 2),
+            "RSI": round(metrics["RSI"], 2),
+            "VolumeRatio": round(metrics["VolumeRatio"], 2),
+            "MA20": round(metrics["MA20"], 2),
+            "MA50": round(metrics["MA50"], 2),
+            "MA200": round(metrics["MA200"], 2),
+            "MACD": round(metrics["MACD"], 2),
+            "SignalLine": round(metrics["SignalLine"], 2),
+            "MiddleBB": round(metrics["MiddleBB"], 2)
+        }
+
+        return result
+    except Exception as error:
+        print(f"Error processing {ticker}: {error}")
+        return None
+
+
+---------------------------------------------------------------------------
+
 
 def safe_last(series):
     if series is None or len(series) == 0:
@@ -47,17 +96,11 @@ def safe_download(ticker):
 
     return None
 
-from datetime import datetime
-
 from ta.momentum import RSIIndicator
 from ta.trend import MACD
 from ta.volatility import BollingerBands
 from ta.trend import ADXIndicator
 
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
 
 # =====================================
 
@@ -117,25 +160,7 @@ def get_sp500_tickers():
 # 分析股票
 # =====================================
 
-def analyze_stock(ticker, market_bull, spy_return):
-    
-    try:
 
-        df = safe_download(ticker)
-
-        if df is None or df.empty:
-            print(f"{ticker}: No data")
-            return None
-
-        close = df["Close"]
-
-        if close.isna().all():
-            print(f"{ticker}: Close all NaN")
-            return None
-
-        if len(df) < 210:
-            print(f"{ticker}: insufficient data {len(df)}")
-            return None
 
         # ==========================
         # DATA
