@@ -77,7 +77,7 @@ def calculate_indicators(ticker, df, spy_return):
     # ==========================
     
     stock_return = (close.iloc[-1] / close.iloc[-63] - 1) * 100
-    relative_strength = stock return - spy_return
+    relative_strength = stock_return - spy_return
 
     # ==========================
     # ADX
