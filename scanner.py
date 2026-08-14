@@ -191,7 +191,7 @@ def main():
     else:
         print("TEST MODE ENABLED")
         tickers = TICKERS
-        spu_price = 0
+        spy_price = 0
         spy_ma200 = 0
         spy_return = 0
         market_bull = True
