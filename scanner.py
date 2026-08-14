@@ -50,6 +50,15 @@ def analyze_stock(ticker, market_bull, spy_return):
         print(f"Error processing {ticker}: {error}")
         return None
 
+# =====================================
+# Excel
+# =====================================
+
+def export_excel(df):
+    today = datetime.today().strftime("%Y-%m-%d")
+    filename = f"stock_scan_{today}_{VERSION}.xlsx"
+    df.to_excel(filename, index=False)
+    return filename
 
 ---------------------------------------------------------------------------
 
@@ -496,23 +505,6 @@ def get_sp500_tickers():
     except Exception as e:
         print(f"Error processing {ticker}: {e}")
         return None
-
-# =====================================
-# Excel
-# =====================================
-
-def export_excel(df):
-
-    today = datetime.today().strftime("%Y%m%d")
-
-    filename = f"stock_scan_{today}.xlsx"
-
-    df.to_excel(
-        filename,
-        index=False
-    )
-
-    return filename
 
 
 # =====================================
