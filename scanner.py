@@ -27,7 +27,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         if metrics is None:
             return None
 
-        Passed, reason = run_filters(ticker, metrics)
+        passed, reason = run_filters(ticker, metrics)
         if not passed:
             return None
 
