@@ -167,8 +167,6 @@ No stocks passed analysis. Filters or scoring may be too strict.
 """
         send_email(f"No Candidates US Scanner {Version} Top20", body, None)
 
-=================================================================================================================
-
 # =====================================
 # Main
 # =====================================
