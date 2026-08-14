@@ -7,7 +7,7 @@ def classify_signal(score):
         return "🟡 WATCH"
     if score >= 60:
         return "⚪️ MONITOR"
-    return "NO TRADE"
+    return "❌ NO TRADE"
 
 def calculate_score(metrics, market_bull):
     """Score Engine v2.3. Final score is capped between 0 and 100."""
