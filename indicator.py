@@ -50,7 +50,7 @@ def calculate_indicators(ticker, df, spy_return):
     # MACD
     # ==========================
     
-    macd = MACD(cLose)
+    macd = MACD(close)
     macd_line = macd.macd().iloc[-1]
     signal_line = macd.macd_signal().iloc[-1]
     if pd.isna(macd_line) or pd.isna(signal_line):
