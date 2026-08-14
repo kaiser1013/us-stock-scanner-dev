@@ -35,12 +35,20 @@ def calculate_indicators(ticker, df, spy_return):
         return None
     
     volume_ratio = float(volume.iloc[-1] / avg_volume)
+
+    # ==========================
+    # RSI
+    # ==========================
     
     rsi = RSIIndicator(close=close, window=14).rsi().iloc[-1]
     if pd.isna(rsi):
         print(f"{ticker}: RSI NaN")
         return None
     rsi = float(rsi)
+
+    # ==========================
+    # MACD
+    # ==========================
     
     macd = MACD(cLose)
     macd_line = macd.macd().iloc[-1]
@@ -50,6 +58,10 @@ def calculate_indicators(ticker, df, spy_return):
         return None
     macd_line = float(macd_line)
     signal_line = float(signal_line)
+
+    # ==========================
+    # BOLLINGER
+    # ==========================
     
     bb = BollingerBands(close)
     middle_band = bb.bollinger_mavg().iloc[-1]
@@ -60,9 +72,17 @@ def calculate_indicators(ticker, df, spy_return):
     middle_band = float(middle_band)
     upper_band = float(upper_band)
 
+    # ==========================
+    # RELATIVE STRENGTH
+    # ==========================
+    
     stock_return = (close.iloc[-1] / close.iloc[-63] - 1) * 100
     relative_strength = stock return - spy_return
 
+    # ==========================
+    # ADX
+    # ==========================
+    
     adx_indicator = ADXIndicator(high=high, low=low, close=close, window=14)
     adx = adx_indicator.adx().iloc[-1]
     plus_di = adx_indicator.adx_pos().iloc[-1]
