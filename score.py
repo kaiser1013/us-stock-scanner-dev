@@ -87,7 +87,7 @@ def calculate_score(metrics, market_bull):
         "MomentumScore": momentum_score,
         "StrengthScore": strength_score,
         "VolumeScore": volume_score,
-        "MarketScore": market_score，
+        "MarketScore": market_score,
         "ADXScore": adx_score,
         "RiskPenalty": risk_penalty,
     }
