@@ -2,7 +2,7 @@ import pandas as pd
 from ta.momentum import RSIIndicator
 from ta.trend import MACD, ADXIndicator
 from ta.volatility import BollingerBands
-from download import safe_Last
+from download import safe_last
 
 def calculate_indicators(ticker, df, spy_return):
     """Calculate all scanner indicators and return a single metrics dictionary."""
