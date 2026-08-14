@@ -65,7 +65,7 @@ def calculate_indicators(ticker, df, spy_return):
     
     bb = BollingerBands(close)
     middle_band = bb.bollinger_mavg().iloc[-1]
-    upper_band = bb. bollinger_hband().11oc[-1]
+    upper_band = bb. bollinger_hband().iloc[-1]
     if pd.isna(middle_band) or pd.isna(upper_band):
         print(f"{ticker}: Bollinger NaN")
         return None
