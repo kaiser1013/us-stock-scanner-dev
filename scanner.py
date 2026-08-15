@@ -87,7 +87,7 @@ SPY MA200:
 Top Candidates:
 """
 
-    for _. row in df.iterrows():
+    for _, row in df.iterrows():
         body += f"""
 Rank: {row.get('R', '')}
 Ticker: {row['Ticker']}
