@@ -18,7 +18,7 @@ def trend_filter(metrics):
         return False, "Price below MA20"
     if metrics["MA20"] < metrics["MA50"]:
         return False, "MA20 below MA50"
-        return True, "OK"
+    return True, "OK"
         
 # ==========================
 # MOMENTUM FILTER
