@@ -40,7 +40,7 @@ def momentum_filter(metrics):
 # ==========================
 
 def relative_strength_filter(metrics):
-    if metric["RelativeStrength"] < -5:
+    if metrics["RelativeStrength"] < -5:
         return False, "Weak Relative Strength"
     return True, "OK"
 
