@@ -97,3 +97,53 @@ def calculate_risk(
     # =======================
     
     risk_per_share = (
+        current_price - 
+        stop_loss
+    )
+    
+    reward_per_share = (
+        tp1 -
+        current_price
+    )
+    
+    rr_ratio = (
+        reward_per_share /
+        risk_per_share
+    )
+
+    # =======================
+    # Position Size
+    # =======================
+    
+    shares, capital_required = (
+        calculate_position_size(
+            ACCOUNT_SIZE,
+            RISK_PER_TRADE,
+            risk_per_share
+        )
+    )
+    
+    trade_plan = create_trade_plan(
+        score,
+        ro_ratio
+    )
+    
+    return {
+        
+        "ATR14":
+        round(atr, 2),
+        
+        "StopLoss":
+        round(stop_loss, 2),
+        
+        "TakeProfit1":
+        round(tp1, 2),
+        
+        "TakeProfit2":
+        round(tp2,2),
+
+        "RiskPerShare":
+        round(risk_per_share, 2),
+        
+        "RewardPerShare"
+        round(reward_per_share, 2),
