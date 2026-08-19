@@ -13,8 +13,9 @@ from download import USE_SP500, TICKERS, get_market_context, get_sp500_tickers, 
 from indicator import calculate_indicators
 from filter import run_filters
 from score import calculate_score
+from risk import calculate_risk
 
-VERSION = "v2.3"
+VERSION = "v2.4"
 
 # =====================================
 # 掃描模式
@@ -32,6 +33,8 @@ def analyze_stock(ticker, market_bull, spy_return):
             return None
 
         score_result = calculate_score(metrics, market_bull)
+        
+        risk_result = calculate_risk(df, metrics, score_result["Score"])
        
         result = {
             "Ticker": ticker,
