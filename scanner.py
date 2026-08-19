@@ -35,10 +35,11 @@ def analyze_stock(ticker, market_bull, spy_return):
         score_result = calculate_score(metrics, market_bull)
         
         risk_result = calculate_risk(df, metrics, score_result["Score"])
-       
+            
         result = {
             "Ticker": ticker,
             **score_result,
+            **risk_result,
             "RelativeStrength": round(metrics["RelativeStrength"], 2),
             "ADX": round(metrics["ADX"], 2),
             "Price": round(metrics["Price"], 2),
@@ -234,7 +235,32 @@ def main():
     # DATAFRAME
     # ==========================
 
-    df = pd.DataFrame(results).sort_values(by="Score", ascending=False)
+    df = pd.DataFrame(results)
+    
+    trade_order = {
+        "✅ ACTIONABLE": 3,
+        "👀 WATCH": 2,
+        "❌ SKIP": 1
+    }
+    
+    df["TradeRank"] = (
+        df["TradePlan"]
+        .map(trade_order)
+    )
+    
+    df = df.sort_values(
+        by=[
+            "TradeRank",
+            "Score"
+            "RiskReward"
+        ],
+        
+        ascending=[
+            False,
+            False,
+            False
+        ]
+    )
 
     # ==========================
     # TOP 20 FIX (IMPORTANT)
@@ -244,7 +270,7 @@ def main():
     top20.insert(0, "Rank", range(1, len(top20) + 1))
 
     print("\nTOP 20 RESULTS:")
-    print(top20[["Rank", "Ticker", "Score", "Signal"]])
+    print(top20[["Rank", "Ticker", "TradePlan", "Singnal", "Score", "RiskReward"]])
     print(f"\nPassed stocks: {len(df)}")
 
     # ==========================
