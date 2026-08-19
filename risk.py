@@ -31,7 +31,8 @@ def create_trade_plan(score, rr_ratio):
 def calculate_position_size(
     account_size,
     risk_percent,
-    risk_per_share
+    risk_per_share,
+    current_price
 ):
 
     risk_amount = account_size * risk_percent
@@ -45,7 +46,7 @@ def calculate_position_size(
     )
     
     capital_required = (
-        shares * risk_per_share
+        shares * current_price
     )
     
     return shares, capital_required
