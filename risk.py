@@ -65,3 +65,35 @@ def calculate_risk(
     
     atr = float(
         atr_indicator.average_true_range().iloc[-1]
+    )
+    
+    current_price = metrics["Price"]
+    
+    # =======================
+    # Stop Loss
+    # =======================
+    
+    stop_loss = (
+        current_price -
+        atr * ATR_STOP_MULTIPLIER
+    )
+    
+    # =======================
+    # Take Profit
+    # =======================
+    
+    tp1 = (
+        current_price + 
+        atr * TP1_MULTIPLIER
+    )
+    
+    tp2 = (
+        current_price +
+        atr * TP2_MULTIPLIER
+    )
+    
+    # =======================
+    # Risk Reward
+    # =======================
+    
+    risk_per_share = (
