@@ -145,5 +145,20 @@ def calculate_risk(
         "RiskPerShare":
         round(risk_per_share, 2),
         
-        "RewardPerShare"
+        "RewardPerShare":
         round(reward_per_share, 2),
+        
+        "RiskReward":
+        round(rr_ratio, 2),
+        
+        "PositionShares":
+        shares,
+        
+        "CapitalRequired":
+        round(capital_required, 2),
+        
+        "TradePlan":
+        trade_plan
+        
+    }
+        
