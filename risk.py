@@ -37,7 +37,7 @@ def calculate_position_size(
 
     risk_amount = account_size * risk_percent
     
-    if risk per_share <= 0:
+    if risk_per_share <= 0:
         
         return 0, 0
         
