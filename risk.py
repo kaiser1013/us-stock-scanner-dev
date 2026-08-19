@@ -28,3 +28,40 @@ def create_trade_plan(score, rr_ratio):
 
         return "❌ SKIP"
         
+def calculate_position_size(
+    account_size,
+    risk_percent,
+    risk_per_share
+):
+
+    risk_amount = account_size * risk_percent
+    
+    if risk per_share <= 0:
+        
+        return 0, 0
+        
+    shares = int(
+        risk_amount / risk_per_share
+    )
+    
+    capital_required = (
+        shares * risk_per_share
+    )
+    
+    return shares, capital_required
+
+def calculate_risk(
+    df,
+    metrics,
+    score
+):
+
+    atr_indicator = AverageTrueRange(
+        high=df["High"],
+        low=df["Low"],
+        close=df["Close"],
+        window=14
+    )
+    
+    atr = float(
+        atr_indicator.average_true_range().iloc[-1]
