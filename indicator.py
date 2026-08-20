@@ -1,8 +1,23 @@
+from datetime import datetime, time
+from zoneinfo import ZoneInfo
+
 import pandas as pd
 from ta.momentum import RSIIndicator
 from ta.trend import MACD, ADXIndicator
 from ta.volatility import BollingerBands
+
 from download import safe_last
+
+MARKET_TIMEZONE = ZoneInfo("America/New_York")
+MARKET_DATA_READY_TIME = time(16, 15)
+VOLUME_LOOKBACK = 20
+
+def _normalise_index_date(index_value):
+    """Return a New York calendar date from a pandas index value."""
+    timestamp = pd.Timestamp(index_value)
+    if timestamp.tzinfo is not None:
+        timestamp = timestamp.tz_convert(MARKET_TIMEZONE)
+    return timestamp.date()
 
 def calculate_indicators(ticker, df, spy_return, dev_mode=False):
     """Calculate all scanner indicators and return a single metrics dictionary."""
