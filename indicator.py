@@ -34,7 +34,7 @@ def calculate_indicators(ticker, df, spy_return):
         print(f"{ticker}: Avg volume invalid")
         return None
     
-    last_volume = int(volume.iloc[-1])
+    last_volume = int(volume.iloc[-2])
     
     volume_ratio = float(last_volume / avg_volume)
 
