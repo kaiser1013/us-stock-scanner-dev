@@ -37,7 +37,7 @@ print(f"DEV_MODE = {DEV_MODE}")
 def analyze_stock(ticker, market_bull, spy_return):   
     try:
         df = safe_download(ticker)
-        metrics = calculate_indicators(ticker, df, spy_return)
+        metrics = calculate_indicators(ticker, df, spy_return, DEV_MODE)
         if metrics is None:
             return None
 
