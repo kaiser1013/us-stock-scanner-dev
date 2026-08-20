@@ -30,7 +30,7 @@ def momentum_filter(metrics):
     if metrics["RSI"] > 80:
         return False, "RSI over-extended"
     if metrics["VolumeRatio"] < 0.8:
-        return False, "Low volume ratio"
+        return False, "Low completed-session volume ratio"
     if metrics["MACD"] < metrics["SignalLine"] - 0.1:
         return False, "MACD below signal"
     return True, "OK"
