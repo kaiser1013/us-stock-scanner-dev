@@ -18,6 +18,19 @@ from risk import calculate_risk
 VERSION = "v2.4"
 
 # =====================================
+# Environment 
+# =====================================
+
+DEV_MODE = (
+    os.getenv(
+        "DEV_MODE",
+        "False"
+    ).lower() == "true"
+)
+
+print(f"DEV_MODE = {DEV_MODE}")
+
+# =====================================
 # 掃描模式
 # =====================================
 
