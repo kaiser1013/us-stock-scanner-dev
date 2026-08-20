@@ -37,9 +37,17 @@ def calculate_indicators(ticker, df, spy_return, dev_mode=False):
     if dev_mode:
         
         last_volume = int(volume.iloc[-2])
+        print(
+            f"{ticker}: DEV_MODE "
+            f"using previous day's volume"
+        )
         
     else:
         last_volume = int(volume.iloc[-1])
+        print(
+            f"{ticker}: PROD MODE "
+            f"using latest volume"
+        )
     
     volume_ratio = float(last_volume / avg_volume)
 
