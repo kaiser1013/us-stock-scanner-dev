@@ -43,6 +43,8 @@ def analyze_stock(ticker, market_bull, spy_return):
             "RelativeStrength": round(metrics["RelativeStrength"], 2),
             "ADX": round(metrics["ADX"], 2),
             "Price": round(metrics["Price"], 2),
+            "LastVolume": metrics["LastVolume"],
+            "AvgVolume": metrics["AvgVolume"],
             "RSI": round(metrics["RSI"], 2),
             "VolumeRatio": round(metrics["VolumeRatio"], 2),
             "MA20": round(metrics["MA20"], 2),
@@ -270,7 +272,18 @@ def main():
     top20.insert(0, "Rank", range(1, len(top20) + 1))
 
     print("\nTOP 20 RESULTS:")
-    print(top20[["Rank", "Ticker", "TradePlan", "Signal", "Score", "RiskReward"]])
+    print(top20[
+        [
+            "Rank", 
+            "Ticker", 
+            "TradePlan", 
+            "Signal", "Score", 
+            "LastVolume", 
+            "AvgVolume", 
+            "VolumeRatio", 
+            "RiskReward"
+        ]
+    ])
     print(f"\nPassed stocks: {len(df)}")
 
     # ==========================
