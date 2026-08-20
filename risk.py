@@ -130,7 +130,7 @@ def calculate_risk(
     
     trade_plan = create_trade_plan(
         score,
-        ro_ratio
+        rr_ratio
     )
     
     return {
