@@ -49,6 +49,32 @@ def select_completed_volume_index(df, now=None):
         return -2, "Previous completed session"
     
     return -1, "Latest completed session"
+    
+def calculate_volume_metrics(df, now=None):
+    """Calculate v3-ready completed-session relative-volume metrics."""
+    volume = df["Volume"].astype(float)
+    selected_position, volume_source = select_completed_volume_index(df, now=now)
+    
+    selected_absolute_position = len(volume) + selected_position
+    if selected_absolute_position < VOLUME_LOOKBACK:
+        raise ValueError("Insufficient history for 20-session average volume")
+    
+    historical_volume = volume.iloc[
+        selected_absolute_position - VOLUME_LOOKBACK: selected_absolute_position
+    ］
+    avg_volume = float(historical_volume.mean())
+    selected_volume = float(volume.iloc[selected_absolute_position])
+    latest_raw_volume = float(volume.iloc[-1])
+    previous_volume = float(volume.iloc[-2]) if pd.isna(avg_volume) or avg volume <= e:
+    raise ValueError( "Average volume is invalid")
+    volume_ratio = selected_volume / avg_volume
+    relative_volume_latest - latest_raw_volume / avg_volume relative_volume_previous - previous_volume / avg_voLume
+    return f
+    "LastVolume": int (selected_volume),
+    "AvgVolume": int (avg_volume),
+    "VoLumeSource: volume_source, oLumeRati round(volume_ratio, 2),
+    "RelativeVolumeLatest": round(relative_volume_latest, 2),
+    "RelativeVolumePrevious": round (relative_volume_previous, 2),
 
 def calculate_indicators(ticker, df, spy_return, dev_mode=False):
     """Calculate all scanner indicators and return a single metrics dictionary."""
