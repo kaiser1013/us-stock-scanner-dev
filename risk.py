@@ -120,7 +120,8 @@ def calculate_risk(
         calculate_position_size(
             ACCOUNT_SIZE,
             RISK_PER_TRADE,
-            risk_per_share
+            risk_per_share,
+            current_price
         )
     )
     
