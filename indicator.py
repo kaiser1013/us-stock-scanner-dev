@@ -18,6 +18,37 @@ def _normalise_index_date(index_value):
     if timestamp.tzinfo is not None:
         timestamp = timestamp.tz_convert(MARKET_TIMEZONE)
     return timestamp.date()
+    
+def select_completed_volume_index(df, now=None):
+    """
+    Select the latest completed daily volume bar automatically.
+    
+    If today's daily bar exists before 16:15 New York time, it is'treated as
+    intraday and the previous session is used. Otherwise the latest bar is used.
+    """
+    
+    if len(df) < VOLUME_LOOKBACK + 2:
+        raise ValueError("Insufficient data for completed-volume selection")
+    
+    now_ny = now or datetime.now(MARKET_TIMEZONE)
+    if now_ny.tzinfo is None:
+        now_ny = now_ny.replace(tzinfo=MARKET_TIMEZONE)
+    else:
+        now_ny = now_ny.astimezone(MARKET_TIMEZONE)
+    
+    latest_date = _normalise_index_date(df.index[-1])
+    current_date = now_ny.date()
+    
+    has_intraday_daily_bar = (
+        latest_date == current_date
+        and now_ny.weekday() < 5
+        and now_ny.time() < MARKET_DATA_READY_TIME
+    )
+    
+    if has_intraday_daily_bar:
+        return -2, "Previous completed session"
+    
+    return -1, "Latest completed session"
 
 def calculate_indicators(ticker, df, spy_return, dev_mode=False):
     """Calculate all scanner indicators and return a single metrics dictionary."""
