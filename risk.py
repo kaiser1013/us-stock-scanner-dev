@@ -49,7 +49,10 @@ def calculate_position_size(
         shares * current_price
     )
     
-    return shares, capital_required
+    return (
+        shares,
+        round(capital_required, 2)
+    )
 
 def calculate_risk(
     df,
