@@ -30,20 +30,20 @@ def calculate_indicators(ticker, df, spy_return):
     if ma20 is None or ma50 is None or ma200 is None or avg_volume is None:
         print(f"{ticker}: Indicator NaN")
         return None
-    if avg_volume <- 0:
+    if avg_volume <= 0:
         print(f"{ticker}: Avg volume invalid")
         return None
     
+    last_volume = int(volume.iloc[-1])
+    
+    volume_ratio = float(last_volume / avg_volume)
+
     print(
         f"{ticker}"
         f" LastVol={volume.iloc[-1]:,.0f}"
         f" AvgVol={avg_volume:,.0f}"
         f" VolRatio={volume_ratio:.2f}"
     )
-    
-    last_volume = int(volume.iloc[-1])
-    
-    volume_ratio = float(last_volume / avg_volume)
 
     # ==========================
     # RSI
