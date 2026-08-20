@@ -38,6 +38,7 @@ def calculate_indicators(ticker, df, spy_return):
         f"{ticker}"
         f" LastVol={volume.iloc[-1]:,.0f}"
         f" AvgVol={avg_volume:,.0f}"
+        f" VolRatio={volume_ratio:.2f}"
     )
     
     volume_ratio = float(volume.iloc[-1] / avg_volume)
