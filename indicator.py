@@ -41,7 +41,9 @@ def calculate_indicators(ticker, df, spy_return):
         f" VolRatio={volume_ratio:.2f}"
     )
     
-    volume_ratio = float(volume.iloc[-1] / avg_volume)
+    last_volume = int(volume.iloc[-1])
+    
+    volume_ratio = float(last_volume / avg_volume)
 
     # ==========================
     # RSI
@@ -108,7 +110,7 @@ def calculate_indicators(ticker, df, spy_return):
         "Ticker": ticker,
         "Price": current_price,
         "RSI": rsi,
-        "LastVolume": int(volume.iloc[-1]),
+        "LastVolume": last_volume,
         "AvgVolume": int(avg_volume),
         "VolumeRatio": round(volume_ratio, 2),
         "MA20": ma20,
