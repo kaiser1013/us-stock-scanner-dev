@@ -4,7 +4,7 @@ from ta.trend import MACD, ADXIndicator
 from ta.volatility import BollingerBands
 from download import safe_last
 
-def calculate_indicators(ticker, df, spy_return):
+def calculate_indicators(ticker, df, spy_return, dev_mode=False):
     """Calculate all scanner indicators and return a single metrics dictionary."""
     if df is None or df.empty:
         print(f"{ticker}: No data")
@@ -34,7 +34,12 @@ def calculate_indicators(ticker, df, spy_return):
         print(f"{ticker}: Avg volume invalid")
         return None
     
-    last_volume = int(volume.iloc[-2])
+    if dev_mode:
+        
+        last_volume = int(volume.iloc[-2])
+        
+    else:
+        last_volume = int(volume.iloc[-1])
     
     volume_ratio = float(last_volume / avg_volume)
 
