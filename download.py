@@ -50,6 +50,7 @@ def safe_download(ticker, period="1y", interval="1d", retries=3, sleep_seconds=1
                 auto_adjust=True, 
                 progress=False,
             )
+            print(df.tail())
             df = _normalise_yfinance_columns(df)
             
             if df is None or df.empty:
