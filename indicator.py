@@ -107,11 +107,12 @@ def calculate_indicators(ticker, df, spy_return):
         "Ticker": ticker,
         "Price": current_price,
         "RSI": rsi,
-        "VolumeRatio": volume_ratio,
+        "LastVolume": int(volume.iloc[-1]),
+        "AvgVolume": int(avg_volume),
+        "VolumeRatio": round(volume_ratio, 2),
         "MA20": ma20,
         "MA50": ma50,
         "MA200": ma200,
-        "AvgVolume": avg_volume,
         "MACD": macd_line,
         "SignalLine": signal_line,
         "MiddleBB": middle_band,
@@ -119,7 +120,6 @@ def calculate_indicators(ticker, df, spy_return):
         "RelativeStrength": float(relative_strength),
         "ADX": adx,
         "PlusDI": plus_di,
-        "MinusDI": minus_di,
-        "LastVolume": int(volume.iloc[-1])
+        "MinusDI": minus_di
     }
     
