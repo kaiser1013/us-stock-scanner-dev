@@ -251,7 +251,7 @@ def main():
     df = df.sort_values(
         by=[
             "TradeRank",
-            "Score"
+            "Score",
             "RiskReward"
         ],
         
