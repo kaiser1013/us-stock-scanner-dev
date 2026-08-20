@@ -272,18 +272,20 @@ def main():
     top20.insert(0, "Rank", range(1, len(top20) + 1))
 
     print("\nTOP 20 RESULTS:")
-    print(top20[
-        [
-            "Rank", 
-            "Ticker", 
-            "TradePlan", 
-            "Signal", "Score", 
-            "LastVolume", 
-            "AvgVolume", 
-            "VolumeRatio", 
-            "RiskReward"
+    print(
+        top20[
+            [
+                "Rank", 
+                "Ticker", 
+                "Score",
+                "TradePlan", 
+                "LastVolume", 
+                "AvgVolume", 
+                "VolumeRatio", 
+                "RiskReward"
+            ]
         ]
-    ])
+    )
     print(f"\nPassed stocks: {len(df)}")
 
     # ==========================
