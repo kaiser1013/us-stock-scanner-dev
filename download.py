@@ -95,7 +95,7 @@ def get_market_context():
     if spy is None or spy.empty:
         raise ValueError("Unable to download market context for ^GSPC")
 
-    spy_close = spy["Close"].astypr(float)
+    spy_close = spy["Close"].astype(float)
     if len(spy_close) < 200:
         raise ValueError("Insufficient ^GSPC history for MA200")
 
