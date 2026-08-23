@@ -9,26 +9,13 @@ from email.mime.text import MIMEText
 
 import pandas as pd
 
-from download import USE_SP500, TICKERS, get_market_context, get_sp500_tickers, safe_download
-from indicator import calculate_indicators
+from download import (TICKERS, USE_SP500, get_market_context, get_sp500_tickers, safe_download,)
 from filter import run_filters
-from score import calculate_score
+from indicator import calculate_indicators
 from risk import calculate_risk
+from score import calculate_score
 
 VERSION = "v2.4"
-
-# =====================================
-# Environment 
-# =====================================
-
-DEV_MODE = (
-    os.getenv(
-        "DEV_MODE",
-        "False"
-    ).lower() == "true"
-)
-
-print(f"DEV_MODE = {DEV_MODE}")
 
 # =====================================
 # 掃描模式
@@ -37,38 +24,56 @@ print(f"DEV_MODE = {DEV_MODE}")
 def analyze_stock(ticker, market_bull, spy_return):   
     try:
         df = safe_download(ticker)
-        metrics = calculate_indicators(ticker, df, spy_return, DEV_MODE)
+        metrics = calculate_indicators(ticker, df, spy_return)
         if metrics is None:
             return None
 
-        passed, reason = run_filters(ticker, metrics)
+        passed, _ = run_filters(ticker, metrics)
         if not passed:
             return None
 
         score_result = calculate_score(metrics, market_bull)
-        
         risk_result = calculate_risk(df, metrics, score_result["Score"])
             
         result = {
             "Ticker": ticker,
-            **score_result,
-            **risk_result,
-            "RelativeStrength": round(metrics["RelativeStrength"], 2),
-            "ADX": round(metrics["ADX"], 2),
+            "TradePlan": risk_result["TradePlan"],
+            "Signal": score_result["Signal"],
+            "Score": score_result["Score"],
             "Price": round(metrics["Price"], 2),
+            "ATR14": risk_result["ATR14"],
+            "StopLoss": risk_result["StopLoss"],
+            "TakeProfit1": risk_result["TakeProfit1"],
+            "TakeProfit2": risk_result["TakeProfit2"],
+            "RiskPerShare": risk_result["RiskPerShare"],
+            "RewardPerShare": risk_result["RewardPerShare"],
+            "RiskReward": risk_result["RiskReward"],
+            "PositionShare": risk_result["PositionShare"],
+            "CapitalRequired": risk_result["CapitalRequired"],
+            "PlannedRiskAmount": risk_result["PlannedRiskAmount"],
             "LastVolume": metrics["LastVolume"],
             "AvgVolume": metrics["AvgVolume"],
+            "VolumeSource": metrics["VolumeSource"],
+            "VolumeRatio": metrics["VolumeRatio"],
+            "RelativeVolumeLatest": metrics["RelativeVolumeLatest"],
+            "RelativeVolumePrevious": metrics["RelativeVolumePrevious"],
             "RSI": round(metrics["RSI"], 2),
-            "VolumeRatio": round(metrics["VolumeRatio"], 2),
+            "RelativeStrength": round(metrics["RelativeStrength"], 2),
+            "ADX": round(metrics["ADX"], 2),
             "MA20": round(metrics["MA20"], 2),
             "MA50": round(metrics["MA50"], 2),
             "MA200": round(metrics["MA200"], 2),
             "MACD": round(metrics["MACD"], 2),
             "SignalLine": round(metrics["SignalLine"], 2),
-            "MiddleBB": round(metrics["MiddleBB"], 2)
+            "TrendScore": score_result["TrendScore"],
+            "MomentumScore": score_result["MomentumScore"],
+            "StrengthScore": score_result["StrengthScore"],
+            "VolumeScore": score_result["VolumeScore"],
+            "MarketScore": score_result["MarketScore"],
+            "ADXScore": score_result["ADXScore"],
+            "RiskPenalty": score_result["RiskPenalty"],
         }
 
-        return result
     except Exception as error:
         print(f"Error processing {ticker}: {error}")
         return None
@@ -92,31 +97,28 @@ def build_email_body(df, market_bull, spy_price, spy_ma200):
     body = f"""
 ================================
 US STOCK SCANNER {VERSION}
-
-Market:
-{market_status}
-
-SPY:
-{spy_price:.2f}
-
-SPY MA200:
-{spy_ma200:.2f}
+Market: {market_status}
+SPY: {spy_price:.2f}
+SPY MA200: {spy_ma200:.2f}
 ================================
-
 Top Candidates:
 """
-
     for _, row in df.iterrows():
         body += f"""
-Rank: {row.get('R', '')}
+Rank: {row['Rank']}
 Ticker: {row['Ticker']}
+Trade Plan: {row['TradePlan']}
 Signal: {row['Signal']}
 Score: {row['Score']}
 Price: {row['Price']}
-RSI: {row['RSI']}
+Stop Loss: {row['StopLoss']}
+Take Profit 1: {row['TakeProfit1']}
+Take Profit 2: {row['TakeProfit1']}
+Risk/Reward: {row['RiskReward']}
+Position: {row['RiskReward']}
+Capital Required: {row['CapitalRequired']}
+Volume Source: {row['VolumeSource']}
 Volume Ratio: {row['VolumeRatio']}
-Relative Strength: {row['RelativeStrength']}
-ADX: {row['ADX']}
 -------------------
 """
 
@@ -143,12 +145,12 @@ def send_email(subject, body, attachment=None):
             part = MIMEBase("application", "octet-stream")
             part.set_payload(file.read())
         encoders.encode_base64(part)
-        part.add_header("Content-Disposition", f"attachment; filename={attachment}")
-        msg.attach(part)
+        part.add_header("Content-Disposition", f"attachment; filename={os.path.basename(attachment)}",)
+        message.attach(part)
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(email_user, email_password)
-        server.send_message(msg)
+        server.send_message(message)
 
     print("Email sent successfully")
 
@@ -157,34 +159,39 @@ def send_email(subject, body, attachment=None):
 # ==========================
 
 def send_bear_market_email(spy_price, spy_ma200):
-        body = f"""
+    body = f"""
 MARKET STATUS
 🔴 BEAR
-
-SPY:
-{spy_price:.2f}
-
-SPY MA200:
-{spy_ma200:.2f}
-
+SPY: {spy_price:.2f}
+SPY MA200: {spy_ma200:.2f}
 No swing trades today.
 """
-        send_email(f"🔴 Bear Market Alert US Scanner {VERSION}", body, None)
+    send_email(f"🔴 Bear Market Alert US Scanner {VERSION}", body)
 
 def send_no_candidates_email(market_bull, spy_price, spy_ma200):
-        body = f"""
+    market_status = "🟢 BULL" if market_bull else "🔴 BEAR"
+    body = f"""
 MARKET STATUS
-{"BULL" if market_bull else "🔴 BEAR"}
-
-SPY:
-{spy_price}
-
-SPY MA200:
-{spy_ma200}
-
-No stocks passed analysis. Filters or scoring may be too strict.
+{market_status}
+SPY: {spy_price:.2f}
+SPY MA200: {spy_ma200:.2f}
+No stocks passed the technical filters.
 """
-        send_email(f"No Candidates US Scanner {VERSION} Top20", body, None)
+    send_email(f"No Candidates US Scanner {VERSION}", body)
+
+def rank_results(results):
+    df = pd.DataFrame(results)
+    trade_order = {
+        "✅ ACTIONABLE": 3,
+        "👀 WATCH": 2,
+        "❌ SKIP": 1,
+    }
+    df["TradeRank"] = df["TradePlan"].map(trade_order).fillna(0)
+    df = df.sort_values(
+        by=["tradeRank", "Score", "RiskReward"],
+        ascending=[False, False, False],
+    )
+    return df.drop(columns=["TradeRank"])
 
 # =====================================
 # Main
@@ -210,16 +217,16 @@ def main():
     else:
         print("TEST MODE ENABLED")
         tickers = TICKERS
-        spy_price = 0
-        spy_ma200 = 0
-        spy_return = 0
+        spy_price = 0.0
+        spy_ma200 = 0.0
+        spy_return = 0.0
         market_bull = True
 
     # ==========================
     # BEAR MARKET
     # ==========================
     
-    if spy_price is not None and spy_ma200 is not None and spy_price < spy_ma200:
+    if spy_price < spy_ma200:
         print("Bear market detected")
         send_bear_market_email(spy_price, spy_ma200)
         return
@@ -242,45 +249,15 @@ def main():
     # NO CANDIDATES
     # ==========================
 
-    if len(results) == 0:
+    if not results:
         send_no_candidates_email(market_bull, spy_price, spy_ma200)
         return
 
     # ==========================
-    # DATAFRAME
-    # ==========================
-
-    df = pd.DataFrame(results)
-    
-    trade_order = {
-        "✅ ACTIONABLE": 3,
-        "👀 WATCH": 2,
-        "❌ SKIP": 1
-    }
-    
-    df["TradeRank"] = (
-        df["TradePlan"]
-        .map(trade_order)
-    )
-    
-    df = df.sort_values(
-        by=[
-            "TradeRank",
-            "Score",
-            "RiskReward"
-        ],
-        
-        ascending=[
-            False,
-            False,
-            False
-        ]
-    )
-
-    # ==========================
-    # TOP 20 FIX (IMPORTANT)
+    # TOP 20
     # ==========================
     
+    ranked = rank_results(results)
     top20 = df.head(20).copy()
     top20.insert(0, "Rank", range(1, len(top20) + 1))
 
@@ -290,16 +267,16 @@ def main():
             [
                 "Rank", 
                 "Ticker", 
+                "TradePlan",
+                "Signal",
                 "Score",
-                "TradePlan", 
-                "LastVolume", 
-                "AvgVolume", 
+                "RiskReward",
+                "VolumeSource",
                 "VolumeRatio", 
-                "RiskReward"
             ]
         ]
     )
-    print(f"\nPassed stocks: {len(df)}")
+    print(f"\nPassed stocks: {len(ranked)}")
 
     # ==========================
     # EXPORT
