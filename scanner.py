@@ -134,11 +134,11 @@ def send_email(subject, body, attachment=None):
     email_password = os.environ["EMAIL_PASSWORD"]
     email_to = os.environ["EMAIL_TO"]
 
-    msg = MIMEMultipart()
-    msg["From"] = email_user
-    msg["To"] = email_to
-    msg["Subject"] = subject
-    msg.attach(MIMEText(body, "plain"))
+    message = MIMEMultipart()
+    message["From"] = email_user
+    message["To"] = email_to
+    message["Subject"] = subject
+    message.attach(MIMEText(body, "plain"))
     
     if attachment:
         with open(attachment, "rb") as file:
