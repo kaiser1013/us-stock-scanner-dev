@@ -1,7 +1,16 @@
 # CHANGELOG
 
-## v2.3 Modular Stable
+## v2.4 Final
 
+### Added
+- Added 'risk.py' as the ATR-based risk management module.
+- Added stop loss, two take-profit targets, risk per share and reward per share.
+- Added risk-based position sizing targets, risk per share and reqard per share.
+- Added 'CapitalRequired' and 'PlannedRiskAmount' outputs.
+- Added TradePlan classification: ACTIONABLE, WATCH and SKIP.
+- Added automatic completed-session Volume Engine in 'indicator.py'.
+- Added 'VolumeSource',
+- 
 ### Added
 - Split original scanner into 5 files:
     - "scanner py"
