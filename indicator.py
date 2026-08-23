@@ -184,7 +184,7 @@ def calculate_indicators(ticker, df, spy_return):
         "Price": current_price,
         "RSI": rsi,
         "LastVolume": volume_metrics["LastVolume"],
-        "AvgVolume": volume_metrics["AvgVolume'],
+        "AvgVolume": volume_metrics["AvgVolume"],
         "VolumeSource": volume_metrics["VolumeSource"],
         "VolumeRatio": volume_metrics["VolumeRatio"],
         "RelativeVolumeLatest": volume_metrics["RelativeVolumeLatest"],
