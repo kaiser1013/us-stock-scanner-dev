@@ -72,7 +72,7 @@ def calculate_volume_metrics(df, now=None):
     
     volume_ratio = selected_volume / avg_volume
     relative_volume_latest = latest_raw_volume / avg_volume
-    relative_volume_previous = previous_volume / avg_voLume
+    relative_volume_previous = previous_volume / avg_volume
     
     return {
         "LastVolume": int(selected_volume),
