@@ -67,7 +67,7 @@ def calculate_volume_metrics(df, now=None):
     latest_raw_volume = float(volume.iloc[-1])
     previous_volume = float(volume.iloc[-2])
     
-    if pd.isna(avg_volume) or avg_volume <= e:
+    if pd.isna(avg_volume) or avg_volume <= 0:
         raise ValueError( "Average volume is invalid")
     
     volume_ratio = selected_volume / avg_volume
