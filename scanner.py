@@ -48,7 +48,7 @@ def analyze_stock(ticker, market_bull, spy_return):
             "RiskPerShare": risk_result["RiskPerShare"],
             "RewardPerShare": risk_result["RewardPerShare"],
             "RiskReward": risk_result["RiskReward"],
-            "PositionShare": risk_result["PositionShare"],
+            "PositionShares": risk_result["PositionShares"],
             "CapitalRequired": risk_result["CapitalRequired"],
             "PlannedRiskAmount": risk_result["PlannedRiskAmount"],
             "LastVolume": metrics["LastVolume"],
