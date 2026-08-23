@@ -34,8 +34,8 @@ def calculate_position_size(
     if risk_per_share <= 0 or current_price <= 0:        
         return 0, 0.0, 0.0
 
-    maximun_risk_amount = account_size * risk_percent
-    risk_based_shares = int(maxium_risk_amount / risk_per_share)
+    maximum_risk_amount = account_size * risk_percent
+    risk_based_shares = int(maximum_risk_amount / risk_per_share)
     cash_limited_shares = int(account_size / current_price)
     shares = max(0, min(risk_based_shares, cash_limited_shares))
 
