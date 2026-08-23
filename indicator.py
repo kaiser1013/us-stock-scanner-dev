@@ -65,19 +65,26 @@ def calculate_volume_metrics(df, now=None):
     avg_volume = float(historical_volume.mean())
     selected_volume = float(volume.iloc[selected_absolute_position])
     latest_raw_volume = float(volume.iloc[-1])
-    previous_volume = float(volume.iloc[-2]) if pd.isna(avg_volume) or avg volume <= e:
-    raise ValueError( "Average volume is invalid")
+    previous_volume = float(volume.iloc[-2])
+    
+    if pd.isna(avg_volume) or avg volume <= e:
+        raise ValueError( "Average volume is invalid")
+    
     volume_ratio = selected_volume / avg_volume
-    relative_volume_latest - latest_raw_volume / avg_volume relative_volume_previous - previous_volume / avg_voLume
-    return f
-    "LastVolume": int (selected_volume),
-    "AvgVolume": int (avg_volume),
-    "VoLumeSource: volume_source, oLumeRati round(volume_ratio, 2),
-    "RelativeVolumeLatest": round(relative_volume_latest, 2),
-    "RelativeVolumePrevious": round (relative_volume_previous, 2),
+    relative_volume_latest = latest_raw_volume / avg_volume
+    relative_volume_previous = previous_volume / avg_voLume
+    
+    return {
+        "LastVolume": int(selected_volume),
+        "AvgVolume": int(avg_volume),
+        "VoLumeSource": volume_source,
+        "VoLumeRatio": round(volume_ratio, 2),
+        "RelativeVolumeLatest": round(relative_volume_latest, 2),
+        "RelativeVolumePrevious": round(relative_volume_previous, 2),
+    }
 
-def calculate_indicators(ticker, df, spy_return, dev_mode=False):
-    """Calculate all scanner indicators and return a single metrics dictionary."""
+def calculate_indicators(ticker, df, spy_return):
+    """Calculate the technical and volume metrics used by the scanner."""
     if df is None or df.empty:
         print(f"{ticker}: No data")
         return None
@@ -88,46 +95,30 @@ def calculate_indicators(ticker, df, spy_return, dev_mode=False):
         print(f"{ticker}: insufficient data {len(df)}")
         return None
 
-    close = df["Close"]
-    high = df["High"]
-    low = df["Low"]
-    volume = df["Volume"]
+    close = df["Close"].astype(float)
+    high = df["High"].astype(float)
+    low = df["Low"].astype(float)
     
     current_price = float(close.iloc[-1])
     ma20 = safe_last(close.rolling(20).mean())
     ma50 = safe_last(close.rolling(50).mean())
     ma200 = safe_last(close.rolling(200).mean())
-    avg_volume = safe_last(volume.rolling(20).mean())
     
-    if ma20 is None or ma50 is None or ma200 is None or avg_volume is None:
-        print(f"{ticker}: Indicator NaN")
+    if ma20 is None or ma50 is None or ma200 is None:
+        print(f"{ticker}: moving average NaN")
         return None
-    if avg_volume <= 0:
-        print(f"{ticker}: Avg volume invalid")
+
+    try:
+        volume_metrics = calculate_volume_metrics(DF)
+    except ValueError as error:
+        print(f"{ticker}: {error}")
         return None
-    
-    if dev_mode:
-        
-        last_volume = int(volume.iloc[-2])
-        print(
-            f"{ticker}: DEV_MODE "
-            f"using previous day's volume"
-        )
-        
-    else:
-        last_volume = int(volume.iloc[-1])
-        print(
-            f"{ticker}: PROD MODE "
-            f"using latest volume"
-        )
-    
-    volume_ratio = float(last_volume / avg_volume)
 
     print(
-        f"{ticker}"
-        f" LastVol={volume.iloc[-1]:,.0f}"
-        f" AvgVol={avg_volume:,.0f}"
-        f" VolRatio={volume_ratio:.2f}"
+        f"{ticker}" | VolumeSource={Volume_Metrics['VolumeSource']} | "
+        f" LastVol={volume_metrics['LastVolume']:,.0f} | "
+        f" AvgVol={volume_metrics['AvgVolume']:,.0f} | "
+        f" VolRatio={Volume_metrics['VolumeRatio']:.2f}"
     )
 
     # ==========================
@@ -150,8 +141,6 @@ def calculate_indicators(ticker, df, spy_return, dev_mode=False):
     if pd.isna(macd_line) or pd.isna(signal_line):
         print (f"{ticker}: MACD NaN")
         return None
-    macd_line = float(macd_line)
-    signal_line = float(signal_line)
 
     # ==========================
     # BOLLINGER
@@ -163,8 +152,6 @@ def calculate_indicators(ticker, df, spy_return, dev_mode=False):
     if pd.isna(middle_band) or pd.isna(upper_band):
         print(f"{ticker}: Bollinger NaN")
         return None
-    middle_band = float(middle_band)
-    upper_band = float(upper_band)
 
     # ==========================
     # RELATIVE STRENGTH
@@ -182,29 +169,33 @@ def calculate_indicators(ticker, df, spy_return, dev_mode=False):
     plus_di = adx_indicator.adx_pos().iloc[-1]
     minus_di = adx_indicator.adx_neg().iloc[-1]
 
-    adx = 0 if pd.isna(adx) else float(adx)
-    plus_di = 0 if pd.isna(plus_di) else float(plus_di)
-    minus_di = 0 if pd.isna(minus_di) else float(minus_di)
+    adx = 0.0 if pd.isna(adx) else float(adx)
+    plus_di = 0.0 if pd.isna(plus_di) else float(plus_di)
+    minus_di = 0.0 if pd.isna(minus_di) else float(minus_di)
 
     print(
         f"{ticker} | Price={current_price:.2f} | MA20={ma20:.2f} | "
-        f"AvgVol={avg_volume:,.0f} | VolRatio={volume_ratio:.2f}"
+        f"AvgVol={volume_metrics['AvgVolume']:,.0f} | "
+        f"VolRatio={volume_metrics['VolumeRatio']:.2f}"
     )
         
     return {
         "Ticker": ticker,
         "Price": current_price,
         "RSI": rsi,
-        "LastVolume": last_volume,
-        "AvgVolume": int(avg_volume),
-        "VolumeRatio": round(volume_ratio, 2),
+        "LastVolume": volume_metrics["LastVolume"],
+        "AvgVolume": volume_metrics["AvgVolume'],
+        "VolumeSource": volume_metrics["VolumeSource"],
+        "VolumeRatio": volume_metrics["VolumeRatio"],
+        "RelativeVolumeLatest": volume_metrics["RelativeVolumeLatest"],
+        "RelativeVolumePrevious": volume_metrics["RelativeVolumePrevious"],
         "MA20": ma20,
         "MA50": ma50,
         "MA200": ma200,
-        "MACD": macd_line,
-        "SignalLine": signal_line,
-        "MiddleBB": middle_band,
-        "UpperBB": upper_band,
+        "MACD": float(macd_line),
+        "SignalLine": float(signal_line),
+        "MiddleBB": float(middle_band),
+        "UpperBB": float(upper_band),
         "RelativeStrength": float(relative_strength),
         "ADX": adx,
         "PlusDI": plus_di,
