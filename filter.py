@@ -45,7 +45,7 @@ def relative_strength_filter(metrics):
     return True, "OK"
 
 def run_filters(ticker, metrics):
-    """Run scanner filters in clear production order."""
+    """Run v2.4 filters in production order."""
     filters = [
         liquidity_filter,
         trend_filter,
