@@ -115,10 +115,10 @@ def calculate_indicators(ticker, df, spy_return):
         return None
 
     print(
-        f"{ticker}" | VolumeSource={Volume_Metrics['VolumeSource']} | "
-        f" LastVol={volume_metrics['LastVolume']:,.0f} | "
-        f" AvgVol={volume_metrics['AvgVolume']:,.0f} | "
-        f" VolRatio={Volume_metrics['VolumeRatio']:.2f}"
+        f"{ticker} | VolumeSource={volume_metrics['VolumeSource']} | "
+        f"LastVol={volume_metrics['LastVolume']:,.0f} | "
+        f"AvgVol={volume_metrics['AvgVolume']:,.0f} | "
+        f"VolRatio={volume_metrics['VolumeRatio']:.2f}"
     )
 
     # ==========================
