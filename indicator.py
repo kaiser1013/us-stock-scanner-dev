@@ -109,7 +109,7 @@ def calculate_indicators(ticker, df, spy_return):
         return None
 
     try:
-        volume_metrics = calculate_volume_metrics(DF)
+        volume_metrics = calculate_volume_metrics(df)
     except ValueError as error:
         print(f"{ticker}: {error}")
         return None
