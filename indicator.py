@@ -77,8 +77,8 @@ def calculate_volume_metrics(df, now=None):
     return {
         "LastVolume": int(selected_volume),
         "AvgVolume": int(avg_volume),
-        "VoLumeSource": volume_source,
-        "VoLumeRatio": round(volume_ratio, 2),
+        "VolumeSource": volume_source,
+        "VolumeRatio": round(volume_ratio, 2),
         "RelativeVolumeLatest": round(relative_volume_latest, 2),
         "RelativeVolumePrevious": round(relative_volume_previous, 2),
     }
