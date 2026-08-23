@@ -61,7 +61,7 @@ def calculate_volume_metrics(df, now=None):
     
     historical_volume = volume.iloc[
         selected_absolute_position - VOLUME_LOOKBACK: selected_absolute_position
-    ］
+    ]
     avg_volume = float(historical_volume.mean())
     selected_volume = float(volume.iloc[selected_absolute_position])
     latest_raw_volume = float(volume.iloc[-1])
