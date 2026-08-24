@@ -1,6 +1,7 @@
 import os
-import time
 import smtplib
+import time
+from collections import Counter
 from datetime import datetime
 from email import encoders
 from email.mime.base import MIMEBase
@@ -9,23 +10,43 @@ from email.mime.text import MIMEText
 
 import pandas as pd
 
-from download import (TICKERS, USE_SP500, get_market_context, get_sp500_tickers, safe_download,)
-from filter import run_filters
+from download import (
+    TICKERS,
+    USE_SP500,
+    get_market_context,
+    get_sp500_tickers,
+    safe_download
+)
+from filter import evaluate_filters, run_filters
 from indicator import calculate_indicators
 from risk import calculate_risk
 from score import calculate_score
 
-VERSION = "v2.4"
+VERSION = "v2.4.1"
 
 # =====================================
 # 掃描模式
 # =====================================
 
 def analyze_stock(ticker, market_bull, spy_return):   
+    """Return a structured scan outcome for candidates and diagnostics."""
     try:
         df = safe_download(ticker)
+        if df is None or df.empty:
+            return {
+                "Ticker": ticker,
+                "Status": "Data Failure",
+                "Reason": "Download returned no usable data",
+                "Metrics": None,
+                "FilterEvaluations": [],
+                "Result": None,
+            }
+                
         metrics = calculate_indicators(ticker, df, spy_return)
         if metrics is None:
+            return {
+                "Ticker": ticker,
+                
             return None
 
         passed, _ = run_filters(ticker, metrics)
