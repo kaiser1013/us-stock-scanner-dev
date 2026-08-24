@@ -46,12 +46,12 @@ def analyze_stock(ticker, market_bull, spy_return):
         if metrics is None:
             return {
                 "Ticker": ticker,
-                
-            return None
-
-        passed, _ = run_filters(ticker, metrics)
-        if not passed:
-            return None
+                "Status": "Indicator Failure",
+                "Reason": "Indicators unavailable or insufficient history",
+                "Metrics": None,
+                "FilterEvaluations": [],
+                "Result": None,
+            }
 
         score_result = calculate_score(metrics, market_bull)
         risk_result = calculate_risk(df, metrics, score_result["Score"])
@@ -94,10 +94,45 @@ def analyze_stock(ticker, market_bull, spy_return):
             "ADXScore": score_result["ADXScore"],
             "RiskPenalty": score_result["RiskPenalty"],
         }
+        
+        return {
+            "Ticker": ticker,
+            "Status": "Passed",
+            "Reason": "PASS",
+            "Metrics": metrics,
+            "FilterEvaluations": filter_evaluations,
+            "RiskPenalty": score_result[RiskPenalty"],
+        }
 
     except Exception as error:
         print(f"Error processing {ticker}: {error}")
-        return None
+        return {
+            "Ticker": ticker,
+            "Status": "Processing Error",
+            "Reason": str(error),
+            "Metrics": None,
+            "FilterEvaluations": [],
+            "Result": None,
+        }
+        
+def update_breadth_stats(breadth, metrics):
+    breadth["Indicator-rrady stocks"] += 1
+    if metrics["Price"] > metrics["MA20"]:
+        breadth["Price above MA20"] += 1
+    if metrics["Price"] > metrics["MA50"]:
+        breadth["Price above MA50"] += 1
+    if metrics["Price"] > metrics["MA200"]:
+        breadth["Price above MA200"] += 1
+    if metrics["MA20"] > metrics["MA50"]:
+        breadth["MA20 above MA50"] += 1
+    if metrics["RSI"] > 50:
+        breadth["RSI above 50"] += 1
+    if metrics["VolumeRatio"] >= 0.8:
+        breadth["VolumeRatio at least 0.8"] += 1
+    if metrics["VolumeRatio"] >= 1.0:
+        breadth["VolumeRatio at least 1.0"] += 1
+    if metrics["RelativeStrength"] >= 0:
+        breadth["Non-negative relative strength"] += 1
 
 # =====================================
 # Excel
