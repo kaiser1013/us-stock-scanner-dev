@@ -166,6 +166,9 @@ def build_report_frames(
     passed_count = int(status_counts.get("Passed",0))
     pass_rate = passed_count / total_scanned if total_scanned else 0
 
+    summary_rows = [
+        ("Version", VERSION),
+        ("Generated At", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 # =====================================
 # Excel
