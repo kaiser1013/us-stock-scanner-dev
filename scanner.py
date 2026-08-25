@@ -149,8 +149,22 @@ def rank_results(results):
         by=["TradeRank", "Score", "RiskReward"],
         ascending=[False, False, False],
     )
-    return df.drop(columns=["TradeRsnk])
+    return df.drop(columns=["TradeRank])
     
+def build_report_frames(
+    top20,
+    total_scanned,
+    status_counts,
+    rejection_counts,
+    all_failure_counts,
+    breadth_counts,
+    market_bull,
+    spy_price,
+    spy_ma200,
+):
+    market_status = "BULL" if market_bull else "BEAR"
+    passed_count = int(status_counts.get("Passed",0))
+    pass_rate = passed_count / total_scanned if total_scanned else 0
 
 
 # =====================================
