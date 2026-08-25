@@ -101,7 +101,7 @@ def analyze_stock(ticker, market_bull, spy_return):
             "Reason": "PASS",
             "Metrics": metrics,
             "FilterEvaluations": filter_evaluations,
-            "RiskPenalty": score_result[RiskPenalty"],
+            "Result": result,
         }
 
     except Exception as error:
@@ -116,7 +116,7 @@ def analyze_stock(ticker, market_bull, spy_return):
         }
         
 def update_breadth_stats(breadth, metrics):
-    breadth["Indicator-rrady stocks"] += 1
+    breadth["Indicator-ready stocks"] += 1
     if metrics["Price"] > metrics["MA20"]:
         breadth["Price above MA20"] += 1
     if metrics["Price"] > metrics["MA50"]:
@@ -133,6 +133,25 @@ def update_breadth_stats(breadth, metrics):
         breadth["VolumeRatio at least 1.0"] += 1
     if metrics["RelativeStrength"] >= 0:
         breadth["Non-negative relative strength"] += 1
+        
+def rank_results(results):
+    if not results:
+        return pd.DataFrame()
+        
+    df = pd.DataFrame(results)
+    trade_order = {
+        "✅ ACTIONABLE": 3,
+        "👀 WATCH": 2,
+        "❌ SKIP": 1,
+    }
+    df["TradeRank"] = df["TradePlan"].map(trade_order).fillna(0)
+    df = df.sort_value(
+        by=["TradeRank", "Score", "RiskReward"],
+        ascending=[False, False, False],
+    )
+    return df.drop(columns=["TradeRsnk])
+    
+
 
 # =====================================
 # Excel
