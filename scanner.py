@@ -191,17 +191,54 @@ def build_report_frames(
         columns=["All Failed Conditions", "Count"],
     )
     
+    indicator_ready = breadth_counts.get("Indicator-ready stocks", 0)
+    breadth_rows = []
+    for metric, count in breadth_counts.item():
+        percentage = count / indicator_ready if indicator_ready else 0
+        breadth_rows.append((metric, count, round(percentage, 4)))
+    breadth_df = pd.DataFrame(
+        breadth_rows,
+        columns=["Breadth Metric", "Count", "Percent of Indicator-ready"],
+    )
     
+    if top20.empty:
+        top = pd.DataFrame(
+            columns=[
+                "Rank",
+                "Ticker",
+                "TradePlan",
+                "Signal",
+                "Score",
+                "RiskReward",
+            ]
+        )
     
+    return top20, summary_df, rejection_df, all_failures_df, breadth_df
 
 # =====================================
 # Excel
 # =====================================
 
-def export_excel(df):
+def export_excel(
+    top0,
+    summary_df,
+    rejection_df,
+    all_failures_df,
+    breadth_df,
+):
     today = datetime.today().strftime("%Y-%m-%d")
     filename = f"stock_scan_{today}_{VERSION}.xlsx"
-    df.to_excel(filename, index=False)
+    
+    with pd.ExcelWriter(filename, engine="openpyxl") as writer:
+        top20.to_excel(writer, sheet_name="Top20", index=False)
+        summary_df.to_excel(writer, sheet_name="Scan Summary", index=False)
+        rejection_df.to_excel(writer, sheet_name="First Rejections", index=False)
+        all_failures_df.to_excel(writer, sheet_name="All Failed Conditions", index=False)
+        breadth_df.to_excel(writer, sheet_name="Market Breadth", index=False)
+        
+        for
+    
+    
     return filename
 
 # =====================================
