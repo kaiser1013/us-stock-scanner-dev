@@ -168,7 +168,31 @@ def build_report_frames(
 
     summary_rows = [
         ("Version", VERSION),
-        ("Generated At", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        ("Generated At", datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
+        ("Market Status", market_status),
+        ("SPY", round(spy_price, 2)),
+        ("SPY MA200", round(spy_ma200, 2)),
+        ("Stocks Scanned", total_scanned),
+        ("Stocks Passed", passed_count),
+        ("Pass Rate", round(pass_rate, 4)),
+        ("Stocks Filtered", int(status_counts.get("Filtered", 0))),
+        ("Data Failures", int(status_counts.get("Data Failure", 0))),
+        ("Indicator Failures", int(status_counts.get("Indicator Failure", 0))),
+        ("Processing Errors", int(status_counts.get("Processing Error", 0))),
+    ]
+    summary_df = pd.DataFrame(summary_rows, columns=["Metric", "Value"])
+    
+    rejection_df = pd.DataFrame(
+        rejection_counts.most_common(),
+        columns=["First Rejection Reason", "Count"],
+    )
+    all_failure_df = pd.DataFrame(
+        all_failure_counts.most_common(),
+        columns=["All Failed Conditions", "Count"],
+    )
+    
+    
+    
 
 # =====================================
 # Excel
