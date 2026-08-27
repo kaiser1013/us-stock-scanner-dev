@@ -282,10 +282,35 @@ Market: {market_status}
 SPY: {spy_price:.2f}
 SPY MA200: {spy_ma200:.2f}
 ================================
-Top Candidates:
+
+SCAN SUMMARY
+Stocks Scanned: {total_scanned}
+Indicator-ready: {indicator_ready}
+Stocks Passed: {passed_count}
+Stocks Filtered: {filtered_count}
+Data Failures: {status_counts.get('Data Failure', 0)}
+Indicator Failures: {status_counts.get('Indicator Failure', 0)}
+Processing Errors: {status_counts.get('Processing Error', 0)}
+
+TOP FIRST-FAIL REASONS
+{format_counter(rejection_counts)}
+
+MARKET BREADTH
+- Price above MA20: {breadth_counts.get('Price above MA20', 0)}
+- Price above MA50: {breadth_counts.get('Price above MA50', 0)}
+- Price above MA200: {breadth_counts.get('Price above MA200', 0)}
+- MA20 above MA50: {breadth_counts.get('MA20 above MA50', 0)}
+- RSI above 50: {breadth_counts.get('RSI above 50', 0)}
+- VolumeRatio at least 0.8: {breadth_counts.get('VolumeRatio at least 0.8', 0)}
+- VolumeRatio at least 1.0: {breadth_counts.get('VolumeRatio at least 1.0', 0)}
 """
-    for _, row in df.iterrows():
-        body += f"""
+
+    if top20. empty:
+        body += "\nNo stocks passed the technical filters. See the attached diagnostics report. \n"
+    else:
+        body += "\nTOP CANDIDATES\n"
+        for _, row in top20.iterrows():
+            body += f"""
 Rank: {row['Rank']}
 Ticker: {row['Ticker']}
 Trade Plan: {row['TradePlan']}
@@ -297,7 +322,6 @@ Take Profit 1: {row['TakeProfit1']}
 Take Profit 2: {row['TakeProfit1']}
 Risk/Reward: {row['RiskReward']}
 Position: {row['RiskReward']}
-Capital Required: {row['CapitalRequired']}
 Volume Source: {row['VolumeSource']}
 Volume Ratio: {row['VolumeRatio']}
 -------------------
@@ -349,38 +373,12 @@ No swing trades today.
 """
     send_email(f"🔴 Bear Market Alert US Scanner {VERSION}", body)
 
-def send_no_candidates_email(market_bull, spy_price, spy_ma200):
-    market_status = "🟢 BULL" if market_bull else "🔴 BEAR"
-    body = f"""
-MARKET STATUS
-{market_status}
-SPY: {spy_price:.2f}
-SPY MA200: {spy_ma200:.2f}
-No stocks passed the technical filters.
-"""
-    send_email(f"No Candidates US Scanner {VERSION}", body)
-
-def rank_results(results):
-    df = pd.DataFrame(results)
-    trade_order = {
-        "✅ ACTIONABLE": 3,
-        "👀 WATCH": 2,
-        "❌ SKIP": 1,
-    }
-    df["TradeRank"] = df["TradePlan"].map(trade_order).fillna(0)
-    df = df.sort_values(
-        by=["tradeRank", "Score", "RiskReward"],
-        ascending=[False, False, False],
-    )
-    return df.drop(columns=["TradeRank"])
-
 # =====================================
 # Main
 # =====================================
 
 def main():
     print(f"Scanning stocks with US Stock Scanner {VERSION}...")
-    results = []
 
     # ==========================
     # LOAD DATA
@@ -411,6 +409,12 @@ def main():
         print("Bear market detected")
         send_bear_market_email(spy_price, spy_ma200)
         return
+        
+    results = []
+    status_counts = Counter()
+    rejection_counts = Counter()
+    all_failure_counts = Counter()
+    breadth_counts = Counter()
     
     # ==========================
     # SCAN LOOP
@@ -418,27 +422,37 @@ def main():
 
     for ticker in tickers:
         print(f"Processing {ticker}")
-        result = analyze_stock(ticker, market_bull, spy_return)
-        if result:
-            print(f"{ticker} scored: {result['Score']:.2f}")
+        outcome = analyse_stock(ticker, market_bull, spy_return)
+        status_counts[outcome["Status"]] += 1
+        
+        metrics = outcome["Metrics"]
+        if metrics is not None:
+            update_breadth_stats(breadth_counts, metrics)
+            
+        for evaluation in outcome["FilterEvaluations"]:
+            if not evaluation["Passed"]:
+                all_failure_counts[evaluation["Reason"]] += 1
+
+        if outcome["Status"] == "Passed":
+            result = outcome["Result"]
+            print (f"{ticker} scored: {result['Score']:2f}")
             results.append(result)
+            
         else:
-            print(f"{ticker} filtered out")
+            rejection_counts[outcome["Reason"]] += 1
+            print(f"{ticker} excluded: {outcome['Reason']}")
+            
         time.sleep(0.2)
-
-    # ==========================
-    # NO CANDIDATES
-    # ==========================
-
-    if not results:
-        send_no_candidates_email(market_bull, spy_price, spy_ma200)
-        return
 
     # ==========================
     # TOP 20
     # ==========================
     
     ranked = rank_results(results)
+    
+    
+    
+    
     top20 = df.head(20).copy()
     top20.insert(0, "Rank", range(1, len(top20) + 1))
 
