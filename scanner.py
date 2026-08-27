@@ -220,7 +220,7 @@ def build_report_frames(
 # =====================================
 
 def export_excel(
-    top0,
+    top20,
     summary_df,
     rejection_df,
     all_failures_df,
@@ -250,6 +250,11 @@ def export_excel(
                 )
     
     return filename
+    
+def format_counter(counter, empty_text="None"):
+    if not counter:
+        return empty_text
+    return "\n".join(f"- {reason}: {count}" for reason, count in counter.most_common())
 
 # =====================================
 # Email內容
