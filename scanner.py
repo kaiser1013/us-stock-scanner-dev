@@ -236,8 +236,18 @@ def export_excel(
         all_failures_df.to_excel(writer, sheet_name="All Failed Conditions", index=False)
         breadth_df.to_excel(writer, sheet_name="Market Breadth", index=False)
         
-        for
-    
+        for sheet_name, worksheet in writer.sheets.items():
+            worksheet.freeze_panes = "A2"
+            worksheet.auto_filter.ref = worksheet.dimensions
+            for column_cells in worksheet.columns：
+                max_length = max(
+                    len(str(cell.value)) if cell.value is not None else 0
+                    for cell in column_cells
+                ）
+                worksheet.column_dimensions[column_cells[0].column_letter].width = min(
+                    max(max_length + 2, 12),
+                    40,
+                )
     
     return filename
 
