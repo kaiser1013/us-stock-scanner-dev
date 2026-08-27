@@ -260,8 +260,21 @@ def format_counter(counter, empty_text="None"):
 # Email內容
 # =====================================
 
-def build_email_body(df, market_bull, spy_price, spy_ma200):
+def build_email_body(
+    top20,
+    total_scanned,
+    status_counts,
+    rejection_counts,
+    breadth_counts,
+    market_bull,
+    spy_price,
+    spy_ma200,
+):
     market_status = "🟢 BULL" if market_bull else "🔴 BEAR"
+    passed_count = int(status_counts.get("Passed", 0))
+    filtered_count = int(status_counts.get("Filtered", 0))
+    indicator_ready = int(breadth_counts.get("Indicator-ready stocks", 0))
+    
     body = f"""
 ================================
 US STOCK SCANNER {VERSION}
