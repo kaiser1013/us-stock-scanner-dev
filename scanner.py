@@ -243,7 +243,7 @@ def export_excel(
                 max_length = max(
                     len(str(cell.value)) if cell.value is not None else 0
                     for cell in column_cells
-                ）
+                )
                 worksheet.column_dimensions[column_cells[0].column_letter].width = min(
                     max(max_length + 2, 12),
                     40,
