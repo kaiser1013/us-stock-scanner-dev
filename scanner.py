@@ -157,7 +157,7 @@ def rank_results(results):
         "❌ SKIP": 1,
     }
     df["TradeRank"] = df["TradePlan"].map(trade_order).fillna(0)
-    df = df.sort_value(
+    df = df.sort_values(
         by=["TradeRank", "Score", "RiskReward"],
         ascending=[False, False, False],
     )
