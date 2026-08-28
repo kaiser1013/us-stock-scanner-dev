@@ -28,7 +28,7 @@ VERSION = "v2.4.1"
 # 掃描模式
 # =====================================
 
-def analyze_stock(ticker, market_bull, spy_return):   
+def analyse_stock(ticker, market_bull, spy_return):   
     """Return a structured scan outcome for candidates and diagnostics."""
     try:
         df = safe_download(ticker)
