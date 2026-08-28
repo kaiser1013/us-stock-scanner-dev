@@ -68,7 +68,7 @@ def evaluate_filters(metrics):
 def run_filters(ticker, metrics):
     """Stop at the first failed production rule and return its reason."""
     for evaluation in evaluate_filters(metrics):
-        if not evaluation["Passed"]
+        if not evaluation["Passed"]:
             reason = evaluation["Reason"]
             print(f"{ticker}: {reason}")
     return True, "PASS"
