@@ -198,7 +198,7 @@ def build_report_frames(
         rejection_counts.most_common(),
         columns=["First Rejection Reason", "Count"],
     )
-    all_failure_df = pd.DataFrame(
+    all_failures_df = pd.DataFrame(
         all_failure_counts.most_common(),
         columns=["All Failed Conditions", "Count"],
     )
