@@ -60,7 +60,7 @@ def analyse_stock(ticker, market_bull, spy_return):
                 "Ticker": ticker,
                 "Status": "Filtered",
                 "Reason": reason,
-                "Metrics": metrics`,
+                "Metrics": metrics,
                 "FilterEvaluations": filter_evaluations,
                 "Result": None,
             }
