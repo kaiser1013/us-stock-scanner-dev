@@ -205,7 +205,7 @@ def build_report_frames(
     
     indicator_ready = breadth_counts.get("Indicator-ready stocks", 0)
     breadth_rows = []
-    for metric, count in breadth_counts.item():
+    for metric, count in breadth_counts.items():
         percentage = count / indicator_ready if indicator_ready else 0
         breadth_rows.append((metric, count, round(percentage, 4)))
     breadth_df = pd.DataFrame(
