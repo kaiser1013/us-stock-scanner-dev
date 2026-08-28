@@ -149,7 +149,7 @@ def rank_results(results):
         by=["TradeRank", "Score", "RiskReward"],
         ascending=[False, False, False],
     )
-    return df.drop(columns=["TradeRank])
+    return df.drop(columns=["TradeRank"])
     
 def build_report_frames(
     top20,
@@ -449,37 +449,70 @@ def main():
     # ==========================
     
     ranked = rank_results(results)
-    
-    
-    
-    
-    top20 = df.head(20).copy()
-    top20.insert(0, "Rank", range(1, len(top20) + 1))
+    top20 = ranked.head(20).copy() if not ranked.empty else pd.DataFrame()
+    if not top20.empty:
+        top20.insert(0, "Rank", range(1, len(top20) + 1))
 
-    print("\nTOP 20 RESULTS:")
-    print(
-        top20[
-            [
-                "Rank", 
-                "Ticker", 
-                "TradePlan",
-                "Signal",
-                "Score",
-                "RiskReward",
-                "VolumeSource",
-                "VolumeRatio", 
-            ]
-        ]
+    report_frames = build_report_frames(
+        top20,
+        len(tickers),
+        status_counts,
+        rejection_counts,
+        all_failure_counts,
+        breadth_counts,
+        market_bull,
+        spy_price,
+        spy_ma200,
     )
-    print(f"\nPassed stocks: {len(ranked)}")
+    top20, summay_df, rejection_df, all_failures_df, breadth_df = report_frames
+
+    print("\nSCAN SUMMARY:")
+    print(summary_df.to_string(index=False))
+    print("\nTOP FIRST-FAIL REASONS:")
+    print(rejection_df.head(10).to_string(index=False))
+
+    if not top20.empty:
+        print("\nTOP 20 RESULTS:")
+        print(
+            top20[
+                [
+                    "Rank", 
+                    "Ticker", 
+                    "TradePlan",
+                    "Signal",
+                    "Score",
+                    "RiskReward",
+                    "VolumeSource",
+                    "VolumeRatio", 
+                ]
+            ]
+        )
+    else:
+        print(f"\nNo stocks passed the technical filters.")
 
     # ==========================
     # EXPORT
     # ==========================
 
-    excel_file = export_excel(top20)
-    email_body = build_email_body(top20, market_bull, spy_price, spy_ma200)
-    send_email(f"📈 US Scanner {VERSION} Daily Top 20", email_body, excel_file)
+    excel_file = export_excel(
+        top20,
+        summary_df,
+        rejection_df,
+        all_failures_df,
+        breadth_df,
+    )
+    email_body = build_email_body(
+        top20,
+        len(tickers),
+        status_counts,
+        rejection_counts,
+        breadth_counts,
+        market_bull,
+        spy_price,
+        spy_ma200,
+    )
+    subject_prefix = "📈" if not top20.empty else "--"
+    send_email(f"{subject_prefix} US Scanner {VERSION} Daily Diagnostic Report", email_body, excel_file)
 
 if __name__ == "__main__":
     main()
