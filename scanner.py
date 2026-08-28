@@ -239,7 +239,7 @@ def export_excel(
         for sheet_name, worksheet in writer.sheets.items():
             worksheet.freeze_panes = "A2"
             worksheet.auto_filter.ref = worksheet.dimensions
-            for column_cells in worksheet.columns：
+            for column_cells in worksheet.columns:
                 max_length = max(
                     len(str(cell.value)) if cell.value is not None else 0
                     for cell in column_cells
