@@ -44,19 +44,31 @@ def relative_strength_filter(metrics):
         return False, "Weak Relative Strength"
     return True, "OK"
 
-def run_filters(ticker, metrics):
-    """Run v2.4 filters in production order."""
-    filters = [
-        liquidity_filter,
-        trend_filter,
-        momentum_filter,
-        relative_strength_filter,
-    ]
-    
-    for rule in filters:
+FILTER_RULES = [
+    liquidity_filter,
+    trend_filter,
+    momentum_filter,
+    relative_strength_filter,
+]
+
+def evaluate_filters(metrics):
+    """Return every rule result while presserving production filter order."""
+    evaluations = []
+    for rule in FILTER_RULES:
         passed, reason = rule(metrics)
-        if not passed:
+        evaluations.append(
+            {
+                "Rule": rule.__name__,
+                "Passed": passed,
+                "Reason": reason,
+            }
+        )
+    return evaluations
+
+def run_filters(ticker, metrics):
+    """Stop at the first failed production rule and return its reason."""
+    for evaluation in evaluate_filters(metrics):
+        if not evaluation["Passed"]
+            reason = evaluation["Reason"]
             print(f"{ticker}: {reason}")
-            return False, reason
-            
     return True, "PASS"
