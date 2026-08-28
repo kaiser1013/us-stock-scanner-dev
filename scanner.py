@@ -52,6 +52,18 @@ def analyse_stock(ticker, market_bull, spy_return):
                 "FilterEvaluations": [],
                 "Result": None,
             }
+            
+        filter_evaluations = evaluate_filters(metrics)
+        passed, reason = run_filters(ticker, metrics)
+        if not passed:
+            return {
+                "Ticker": ticker,
+                "Status": "Filtered",
+                "Reason": reason,
+                "Metrics": metrics`,
+                "FilterEvaluations": filter_evaluations,
+                "Result": None,
+            }
 
         score_result = calculate_score(metrics, market_bull)
         risk_result = calculate_risk(df, metrics, score_result["Score"])
