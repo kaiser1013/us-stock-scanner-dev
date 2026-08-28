@@ -511,7 +511,7 @@ def main():
         spy_price,
         spy_ma200,
     )
-    subject_prefix = "📈" if not top20.empty else "--"
+    subject_prefix = "📈" if not top20.empty else "📊"
     send_email(f"{subject_prefix} US Scanner {VERSION} Daily Diagnostic Report", email_body, excel_file)
 
 if __name__ == "__main__":
