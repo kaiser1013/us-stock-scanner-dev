@@ -476,7 +476,7 @@ def main():
         spy_price,
         spy_ma200,
     )
-    top20, summay_df, rejection_df, all_failures_df, breadth_df = report_frames
+    top20, summary_df, rejection_df, all_failures_df, breadth_df = report_frames
 
     print("\nSCAN SUMMARY:")
     print(summary_df.to_string(index=False))
