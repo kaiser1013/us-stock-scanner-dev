@@ -97,39 +97,46 @@ def calculate_period_return(close, sessions):
     return float((close.iloc[-1] / close.iloc[-(sessions + 1)] - 1) * 100)
     
 def calculate_relative_strength_metrics(close, spy_returns):
-    ***Calculate v2.5 multi-horizon relative strength versus the benchmark.** missing - [lookback for lookback in RS_LOOKBACKS if lookback not in spy_returns]
-    if missing：
-    raise ValueErrorf'Missing benchmark returns for lookbacks: {missing}")
-    relative_strength = (
+    """Calculate v2.5 multi-horizon relative strength versus the benchmark."""
+    missing = [lookback for lookback in RS_LOOKBACKS if lookback not in spy_returns]
+    if missing:
+        raise ValueError(f"Missing benchmark returns for lookbacks: {missing}")
+        
+    relative_strength = {}
     for lookback in RS_LOOKBACKS:
-    stock_return = calculate_period_return(close, lookback)
-    relative_strength[lookback] = stock_return - float(spy_returns[Lookback])
-    omposite = sum
-    relative_strength[lookback] * RS_COMPOSITE_WEIGHTS[Lookback] for lookback in RS_LOOKBACKS
-    return (
-    "RS21": float(relative_strength[21]),
-    "RS63": float(relative_strength [63]),
-    "RS126"; float(relative_strength[126]),
-    "RS252"; float(relative strength[2521),
-    "RSComposite"; float(composite),
+        stock_return = calculate_period_return(close, lookback)
+        relative_strength[lookback] = stock_return - float(spy_returns[Lookback])
+    
+    composite = sum(
+        relative_strength[lookback] * RS_COMPOSITE_WEIGHTS[Lookback]
+        for lookback in RS_LOOKBACKS
+    )
+    
+    return {
+        "RS21": float(relative_strength[21]),
+        "RS63": float(relative_strength[63]),
+        "RS126": float(relative_strength[126]),
+        "RS252": float(relative strength[252]),
+        "RSComposite": float(composite),
+    }
 
-def calculate_indicators(ticker, df, spy_return):
-    """Calculate the technical and volume metrics used by the scanner."""
+def calculate_indicators(ticker, df, spy_returns):
+    """Calculate the technical, volume and v2.5 relative-strength metrics."""
     if df is None or df.empty:
         print(f"{ticker}: No data")
         return None
     if "Close" not in df.columns or df["Close"].isna().all():
         print(f"{ticker}: Close all NaN")
         return None
-    if len(df) < 210:
+    if len(df) < 253:
         print(f"{ticker}: insufficient data {len(df)}")
         return None
 
     close = df["Close"].astype(float)
     high = df["High"].astype(float)
     low = df["Low"].astype(float)
-    
     current_price = float(close.iloc[-1])
+    
     ma20 = safe_last(close.rolling(20).mean())
     ma50 = safe_last(close.rolling(50).mean())
     ma200 = safe_last(close.rolling(200).mean())
@@ -140,6 +147,10 @@ def calculate_indicators(ticker, df, spy_return):
 
     try:
         volume_metrics = calculate_volume_metrics(df)
+        relative_strength_metrics = calculate_relative_strength_metrics(
+            close,
+            spy_returns,
+        )
     except ValueError as error:
         print(f"{ticker}: {error}")
         return None
@@ -184,13 +195,6 @@ def calculate_indicators(ticker, df, spy_return):
         return None
 
     # ==========================
-    # RELATIVE STRENGTH
-    # ==========================
-    
-    stock_return = (close.iloc[-1] / close.iloc[-63] - 1) * 100
-    relative_strength = stock_return - spy_return
-
-    # ==========================
     # ADX
     # ==========================
     
@@ -205,6 +209,10 @@ def calculate_indicators(ticker, df, spy_return):
 
     print(
         f"{ticker} | Price={current_price:.2f} | MA20={ma20:.2f} | "
+        
+        
+        
+        
         f"AvgVol={volume_metrics['AvgVolume']:,.0f} | "
         f"VolRatio={volume_metrics['VolumeRatio']:.2f}"
     )
