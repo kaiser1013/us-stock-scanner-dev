@@ -210,14 +210,10 @@ def calculate_indicators(ticker, df, spy_returns):
     print(
         f"{ticker} | Price={current_price:.2f} | MA20={ma20:.2f} | "
         f"RS21={relative_strength_metrics['RS21']:.2f} | "
-        f"RS63-frelative_strength_metrics["RS63"]:-2f} |
-*RS126-(relative_strength metrics['R$126 ]:.2f) | "
-R5252-(relative_strength_metrics["R$252 ]: 2f) | " 
-f*RSComposite-(relative_strength_metrics["RSComposite']:.2f)"
-        
-        
-        f"AvgVol={volume_metrics['AvgVolume']:,.0f} | "
-        f"VolRatio={volume_metrics['VolumeRatio']:.2f}"
+        f"RS63={relative_strength_metrics['RS63']:.2f} | "
+        f"RS126={relative_strength_metrics['RS126']:.2f} | "
+        f"RS252={relative_strength_metrics['RS252']:.2f} | " 
+        f"RSComposite={relative_strength_metrics['RSComposite']:.2f}"
     )
         
     return {
@@ -237,7 +233,12 @@ f*RSComposite-(relative_strength_metrics["RSComposite']:.2f)"
         "SignalLine": float(signal_line),
         "MiddleBB": float(middle_band),
         "UpperBB": float(upper_band),
-        "RelativeStrength": float(relative_strength),
+        "RelativeStrength": relative_strength_metrics["RS63"],
+        "RS21": relative_strength_metrics["RS21"],
+        "RS63": relative_strength_metrics["RS63"],
+        "RS126": relative_strength_metrics["RS126"],
+        "RS252": relative_strength_metrics["RS252"],
+        "RSComposite": relative_strength_metrics["RSComposite"],
         "ADX": adx,
         "PlusDI": plus_di,
         "MinusDI": minus_di
