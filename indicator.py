@@ -209,8 +209,11 @@ def calculate_indicators(ticker, df, spy_returns):
 
     print(
         f"{ticker} | Price={current_price:.2f} | MA20={ma20:.2f} | "
-        
-        
+        f"RS21={relative_strength_metrics['RS21']:.2f} | "
+        f"RS63-frelative_strength_metrics["RS63"]:-2f} |
+*RS126-(relative_strength metrics['R$126 ]:.2f) | "
+R5252-(relative_strength_metrics["R$252 ]: 2f) | " 
+f*RSComposite-(relative_strength_metrics["RSComposite']:.2f)"
         
         
         f"AvgVol={volume_metrics['AvgVolume']:,.0f} | "
