@@ -11,6 +11,13 @@ from download import safe_last
 MARKET_TIMEZONE = ZoneInfo("America/New_York")
 MARKET_DATA_READY_TIME = time(16, 15)
 VOLUME_LOOKBACK = 20
+RS_LOOKBACKS = (21, 63, 126, 252)
+RS_COMPOSITE_WEIGHTS = {
+    21: 0.15,
+    63: 0.50,
+    126: 0.25,
+    252: 0.10,
+}
 
 def _normalise_index_date(index_value):
     """Return a New York calendar date from a pandas index value."""
@@ -23,7 +30,7 @@ def select_completed_volume_index(df, now=None):
     """
     Select the latest completed daily volume bar automatically.
     
-    If today's daily bar exists before 16:15 New York time, it is'treated as
+    If today's daily bar exists before 16:15 New York time, it is treated as
     intraday and the previous session is used. Otherwise the latest bar is used.
     """
     
@@ -51,11 +58,11 @@ def select_completed_volume_index(df, now=None):
     return -1, "Latest completed session"
     
 def calculate_volume_metrics(df, now=None):
-    """Calculate v3-ready completed-session relative-volume metrics."""
+    """Calculate completed-session relative-volume metrics."""
     volume = df["Volume"].astype(float)
     selected_position, volume_source = select_completed_volume_index(df, now=now)
-    
     selected_absolute_position = len(volume) + selected_position
+    
     if selected_absolute_position < VOLUME_LOOKBACK:
         raise ValueError("Insufficient history for 20-session average volume")
     
@@ -82,6 +89,29 @@ def calculate_volume_metrics(df, now=None):
         "RelativeVolumeLatest": round(relative_volume_latest, 2),
         "RelativeVolumePrevious": round(relative_volume_previous, 2),
     }
+
+def calculate_period_return(close, sessions):
+    """Calculate percentage return over a lookback without using future data."""
+    if len(close) < sessions + 1:
+        raise ValueError(f"Insufficient history for {sessions}-session return")
+    return float((close.iloc[-1] / close.iloc[-(sessions + 1)] - 1) * 100)
+    
+def calculate_relative_strength_metrics(close, spy_returns):
+    ***Calculate v2.5 multi-horizon relative strength versus the benchmark.** missing - [lookback for lookback in RS_LOOKBACKS if lookback not in spy_returns]
+    if missing：
+    raise ValueErrorf'Missing benchmark returns for lookbacks: {missing}")
+    relative_strength = (
+    for lookback in RS_LOOKBACKS:
+    stock_return = calculate_period_return(close, lookback)
+    relative_strength[lookback] = stock_return - float(spy_returns[Lookback])
+    omposite = sum
+    relative_strength[lookback] * RS_COMPOSITE_WEIGHTS[Lookback] for lookback in RS_LOOKBACKS
+    return (
+    "RS21": float(relative_strength[21]),
+    "RS63": float(relative_strength [63]),
+    "RS126"; float(relative_strength[126]),
+    "RS252"; float(relative strength[2521),
+    "RSComposite"; float(composite),
 
 def calculate_indicators(ticker, df, spy_return):
     """Calculate the technical and volume metrics used by the scanner."""
