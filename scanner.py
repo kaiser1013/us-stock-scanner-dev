@@ -42,7 +42,7 @@ def analyse_stock(ticker, market_bull, spy_returns):
                 "Result": None,
             }
                 
-        metrics = calculate_indicators(ticker, df, spy_return)
+        metrics = calculate_indicators(ticker, df, spy_returns)
         if metrics is None:
             return {
                 "Ticker": ticker,
@@ -92,6 +92,11 @@ def analyse_stock(ticker, market_bull, spy_returns):
             "RelativeVolumePrevious": metrics["RelativeVolumePrevious"],
             "RSI": round(metrics["RSI"], 2),
             "RelativeStrength": round(metrics["RelativeStrength"], 2),
+            "RS21": round(metrics["RS21"], 2),
+            "RS63": round(metrics["RS63"], 2),
+            "RS126": round(metrics["RS126"], 2),
+            "RS252": round(metrics["RS252"], 2),
+            "RSComposite": round(metrics["RSComposite"], 2),
             "ADX": round(metrics["ADX"], 2),
             "MA20": round(metrics["MA20"], 2),
             "MA50": round(metrics["MA50"], 2),
@@ -145,8 +150,11 @@ def update_breadth_stats(breadth, metrics):
         breadth["VolumeRatio at least 1.0"] += 1
     if metrics["RelativeStrength"] >= 0:
         breadth["Non-negative relative strength"] += 1
+    if metrics["RSComposite"] >= 0:
+        breadth["Non-negative RSComposite"] += 1
         
 def rank_results(results):
+    """Preserve the v2.4.1 production ranking order."""
     if not results:
         return pd.DataFrame()
         
@@ -222,6 +230,11 @@ def build_report_frames(
                 "Signal",
                 "Score",
                 "RiskReward",
+                "RS21",
+                "RS63",
+                "RS126",
+                "RS252",
+                "RSComposite",
             ]
         )
     
