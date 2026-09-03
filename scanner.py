@@ -22,13 +22,13 @@ from indicator import calculate_indicators
 from risk import calculate_risk
 from score import calculate_score
 
-VERSION = "v2.4.1"
+VERSION = "v2.5.0"
 
 # =====================================
 # 掃描模式
 # =====================================
 
-def analyse_stock(ticker, market_bull, spy_return):   
+def analyse_stock(ticker, market_bull, spy_returns):   
     """Return a structured scan outcome for candidates and diagnostics."""
     try:
         df = safe_download(ticker)
