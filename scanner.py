@@ -261,7 +261,7 @@ def export_excel(
         all_failures_df.to_excel(writer, sheet_name="All Failed Conditions", index=False)
         breadth_df.to_excel(writer, sheet_name="Market Breadth", index=False)
         
-        for sheet_name, worksheet in writer.sheets.items():
+        for worksheet in writer.sheets.values():
             worksheet.freeze_panes = "A2"
             worksheet.auto_filter.ref = worksheet.dimensions
             for column_cells in worksheet.columns:
@@ -328,6 +328,8 @@ MARKET BREADTH
 - RSI above 50: {breadth_counts.get('RSI above 50', 0)}
 - VolumeRatio at least 0.8: {breadth_counts.get('VolumeRatio at least 0.8', 0)}
 - VolumeRatio at least 1.0: {breadth_counts.get('VolumeRatio at least 1.0', 0)}
+- Non-negative RS63: {breadth_counts.get('Non-negative relative strength', 0)}
+- Non-negative RSComposite: {breadth_counts.get('Non-negative RSComposite', 0)}
 """
 
     if top20. empty:
@@ -342,6 +344,11 @@ Trade Plan: {row['TradePlan']}
 Signal: {row['Signal']}
 Score: {row['Score']}
 Price: {row['Price']}
+RS21: {row['RS21']}
+RS63: {row['RS63']}
+RS126: {row['RS126']}
+RS252: {row['RS252']}
+RSComposite: {row['RSComposite']}
 Stop Loss: {row['StopLoss']}
 Take Profit 1: {row['TakeProfit1']}
 Take Profit 2: {row['TakeProfit1']}
@@ -415,7 +422,7 @@ def main():
         market = get_market_context()
         spy_price = market["spy_price"]
         spy_ma200 = market["spy_ma200"]
-        spy_return = market["spy_return"]
+        spy_returns = market["spy_returns"]
         market_bull = market["market_bull"]
         print(f"Market Bull: {market_bull}")
     else:
@@ -423,7 +430,7 @@ def main():
         tickers = TICKERS
         spy_price = 0.0
         spy_ma200 = 0.0
-        spy_return = 0.0
+        spy_returns = {21: 0.0, 63: 0.0, 126: 0.0, 252; 0.0}
         market_bull = True
 
     # ==========================
@@ -447,7 +454,7 @@ def main():
 
     for ticker in tickers:
         print(f"Processing {ticker}")
-        outcome = analyse_stock(ticker, market_bull, spy_return)
+        outcome = analyse_stock(ticker, market_bull, spy_returns)
         status_counts[outcome["Status"]] += 1
         
         metrics = outcome["Metrics"]
@@ -507,6 +514,11 @@ def main():
                     "Signal",
                     "Score",
                     "RiskReward",
+                    "RS21"
+                    "RS63"
+                    "RS126"
+                    "RS252"
+                    "RSComposite"
                     "VolumeSource",
                     "VolumeRatio", 
                 ]
