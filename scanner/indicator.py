@@ -6,7 +6,7 @@ from ta.momentum import RSIIndicator
 from ta.trend import MACD, ADXIndicator
 from ta.volatility import BollingerBands
 
-from download import safe_last
+from scanner.download import safe_last
 
 MARKET_TIMEZONE = ZoneInfo("America/New_York")
 MARKET_DATA_READY_TIME = time(16, 15)
