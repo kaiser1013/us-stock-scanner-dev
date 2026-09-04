@@ -10,17 +10,17 @@ from email.mime.text import MIMEText
 
 import pandas as pd
 
-from download import (
+from scanner.download import (
     TICKERS,
     USE_SP500,
     get_market_context,
     get_sp500_tickers,
     safe_download
 )
-from filter import evaluate_filters, run_filters
-from indicator import calculate_indicators
-from risk import calculate_risk
-from score import calculate_score
+from scanner.filter import evaluate_filters, run_filters
+from scanner.indicator import calculate_indicators
+from scanner.risk import calculate_risk
+from scanner.score import calculate_score
 
 VERSION = "v2.5.0"
 
