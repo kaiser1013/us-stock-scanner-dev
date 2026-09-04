@@ -96,9 +96,30 @@ def test_rs_composite_is_float():
     )
     
 def test_positive_trend_creates_positive_rs():
-    Strong stock trend versus flat benchmark should produce positive RS.
-    close - pd. Series
-    [100 + i for i in range(300)], dtype=fLoat,
+    """
+    Strong stock trend versus flat benchmark
+    should produce positive RS.
+    """
+    
+    close = pd.Series(
+        [100 + i for i in range(300)],
+        dtype=float,
+    )
+    
+    spy_returns = {
+        21: 0,
+        63: 0,
+        126: 0,
+        252: 0,
+    }
+    
+    result = calculate_relative_strength_metrics(
+        close,
+        spy_returns,
+    )
+    
+    assert result["RS63"] > 0
+''
     
     
     
