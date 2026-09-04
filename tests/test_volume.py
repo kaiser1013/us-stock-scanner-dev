@@ -105,6 +105,52 @@ def test_after_market_close_uses_latest():
     
     latest_day = df.index[-1]
     
-    now = 
+    now = datetime(
+        latest_day.year,
+        latest_day.month,
+        latest_day.day,
+        20,
+        0,
+        tzinfo=ZoneInfo(
+            "America/New_York"
+        ),
+    )
+    position, source = (
+        select_completed_volume_index(
+            df,
+            now=now,
+        )
+    )
     
+    assert position == -1
+    assert source == "Latest completed session"
     
+def test_return_types():
+    """
+    Ensure output types remain stable.
+    """
+    
+    df = create_sample_volume_df()
+    
+    latest_day = df.index[-1]
+    
+    now = datetime(
+        latest_day.year,
+        latest_day.month,
+        latest_day.day,
+        16,
+        30,
+        tzingo=ZoneInfo(
+            "America/New_York"
+        ),
+    )
+    
+    position, source = (
+        select_completed_volume_index(
+            df,
+            now=now,
+        )
+    )
+    
+    assert isinstance(position, int)
+    assert isinstance(source, str)
