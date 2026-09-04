@@ -3,7 +3,7 @@ from datetime import datetime
 import pandas as pd
 from zoneinfo import ZoneInfo
 
-from indicator import (
+from scanner.indicator import (
     select_completed_volume_index,
 )
 
