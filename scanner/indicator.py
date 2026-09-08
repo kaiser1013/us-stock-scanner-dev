@@ -105,10 +105,10 @@ def calculate_relative_strength_metrics(close, spy_returns):
     relative_strength = {}
     for lookback in RS_LOOKBACKS:
         stock_return = calculate_period_return(close, lookback)
-        relative_strength[lookback] = stock_return - float(spy_returns[Lookback])
+        relative_strength[lookback] = stock_return - float(spy_returns[lookback])
     
     composite = sum(
-        relative_strength[lookback] * RS_COMPOSITE_WEIGHTS[Lookback]
+        relative_strength[lookback] * RS_COMPOSITE_WEIGHTS[lookback]
         for lookback in RS_LOOKBACKS
     )
     
