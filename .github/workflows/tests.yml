@@ -31,5 +31,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          pytest test/
+          pytest tests/
             
