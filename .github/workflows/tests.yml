@@ -14,6 +14,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      PYTHONPATH: .
+
     steps:
 
       - name: Checkout
@@ -37,5 +40,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          python -m pytest tests/
+          python -m pytest tests/ -v
             
