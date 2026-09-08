@@ -55,7 +55,7 @@ def test_rs_fields_exist():
         63: 0.0,
         126: 0.0,
         252: 0.0,
-    ｝
+    }
     
     result = calculate_relative_strength_metrics(
         close,
