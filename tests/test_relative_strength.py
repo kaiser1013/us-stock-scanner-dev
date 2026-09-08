@@ -92,7 +92,7 @@ def test_rs_composite_is_float():
     
     assert isinstance(
         result["RSComposite"],
-        fLoat,
+        float,
     )
     
 def test_positive_trend_creates_positive_rs():
