@@ -140,7 +140,7 @@ def test_return_types():
         latest_day.day,
         16,
         30,
-        tzingo=ZoneInfo(
+        tzinfo=ZoneInfo(
             "America/New_York"
         ),
     )
