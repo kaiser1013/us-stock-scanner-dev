@@ -38,7 +38,7 @@ def test_rs_composite_calculation():
     
     assert abs(
         result["RSComposite"] - expected
-    ）< 0.000001
+    ) < 0.000001
     
 def test_rs_fields_exist():
     """
