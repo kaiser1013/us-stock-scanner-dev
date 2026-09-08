@@ -116,7 +116,7 @@ def calculate_relative_strength_metrics(close, spy_returns):
         "RS21": float(relative_strength[21]),
         "RS63": float(relative_strength[63]),
         "RS126": float(relative_strength[126]),
-        "RS252": float(relative strength[252]),
+        "RS252": float(relative_strength[252]),
         "RSComposite": float(composite),
     }
 
