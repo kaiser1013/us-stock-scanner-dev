@@ -122,7 +122,7 @@ def test_adx_bonus():
         create_metrics(
             ADX=30,
             PlusDI=35,
-            MinusDI=35,
+            MinusDI=15,
         ),
         market_bull=True,
     )
