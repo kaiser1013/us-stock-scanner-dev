@@ -61,6 +61,50 @@ def test_bull_market_bonus():
     
     assert bullish["Score"] > bearish["Score"]
     
+def test_score_capped_between_0_and_100():
+
+    result = calculate_score(
+        create_metrics(),
+        market_bull=True,
+    )
     
+    assert result["Score"] >= 0
+    
+    assert result["Score"] <= 100
+    
+def test_high_relative_strength_scores_higher():
+
+    high_rs = calculate_score(
+        create_metrics(
+            RelativeStrength=35
+        ),
+        market_bull=True,
+    )
+    
+    low_rs = calculate_score(
+        create_metrics(
+            RelativeStrength=5
+        ),
+        market_bull=True,
+    )
+    
+    assert (
+        high_rs["StrengthScore"]
+        >
+        low_rs["StrengthScore"]
+    )
+    
+def test_risk_penalty_high_rsi():
+    
+    result = calculate_score(
+        create_metrics(
+            RSI=80
+        ),
+        market_bull=True,
+    )
+    
+    assert result["RiskPenalty"] >= 5
+    
+
     
     
