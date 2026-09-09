@@ -105,6 +105,39 @@ def test_risk_penalty_high_rsi():
     
     assert result["RiskPenalty"] >= 5
     
+def test_risk_penalty_price_above_upper_bb():
 
-    
-    
+    result = calculate_score(
+        create_metrics(
+            Price=120,
+            UpperBB=100,
+        ),
+        market_bull=True,
+    )
+
+    assert result["RiskPenalty"] >= 5
+
+def test_adx_bonus():
+
+    result = calculate_score(
+        create_metrics(
+            ADX=30,
+            PlusDI=35,
+            MinusDI=35,
+        ),
+        market_bull=True,
+    )
+
+    assert result["ADXScore"] > 0
+
+def test_signal_is_string():
+
+    result = calculate_score(
+        create_metrics(),
+        market_bull=True,
+    )
+
+    assert isinstance(
+        result["Signal"],
+        str,
+    )
