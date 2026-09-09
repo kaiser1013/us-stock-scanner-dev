@@ -63,7 +63,7 @@ def test_average_volume_filter():
     
     assert passed is False
     
-    assert reason == "Average volume filter"
+    assert reason == "Volume filter"
     
 def test_trend_filter_price_below_ma20():
     
