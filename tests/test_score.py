@@ -25,18 +25,42 @@ def create_metrics(**overrides):
     return metrics
     
 def
-    test
-    res
-    les
-    required_fields) :
-    ore
-    rea
-    "Score"
-    "ADXScore"
-    "RiskPenalty",
-    ］
+    test_score_returns_required_fields():
+    
+    result = calculate_score(
+        create_metrics(),
+        market_bull=True,
+    )
+    
+    required = [
+        "Score",
+        "Signal",
+        "TrendScore",
+        "MomentumScore",
+        "StrengthScore",
+        "VolumeScore",
+        "MarketScore",
+        "ADXScore",
+        "RiskPenalty",
+    ]
+    
     for field in required:
-    assert field in result
-    def test_bull market_bonus():
-    bullish - calculate_score( create metrics(), market_bull-True,
-    bearish - calculate score(
+        assert field in result
+    
+def test_bull_market_bonus():
+
+    bullish = calculate_score(
+        create_metrics(),
+        market_bull=True,
+    )
+    
+    bearish = calculate_score(
+        create_metrics(),
+        market_bull=False,
+    )
+    
+    assert bullish["Score"] > bearish["Score"]
+    
+    
+    
+    
