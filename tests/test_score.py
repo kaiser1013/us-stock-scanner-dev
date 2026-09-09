@@ -24,8 +24,7 @@ def create_metrics(**overrides):
     
     return metrics
     
-def
-    test_score_returns_required_fields():
+def test_score_returns_required_fields():
     
     result = calculate_score(
         create_metrics(),
