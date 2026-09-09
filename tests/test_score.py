@@ -14,11 +14,17 @@ def create_metrics(**overrides):
         "SignalLine": 1,
         "RelativeStrength": 15,
         "VolumeRatio": 1.5,
-        "
-        15，
-        met
-        ret
-    def
+        "UpperBB": 110,
+        "ADX": 28,
+        "PlusDI": 30,
+        "MinusDI": 20,
+    }
+        
+    metrics.update(overrides)
+    
+    return metrics
+    
+def
     test
     res
     les
