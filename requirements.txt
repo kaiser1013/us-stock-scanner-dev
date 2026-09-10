@@ -5,4 +5,8 @@ numpy
 yfinance
 openpyxl
 ta
+
 pytest
+pytest-cov
+mypy
+ruff
