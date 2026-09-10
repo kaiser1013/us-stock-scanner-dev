@@ -134,7 +134,7 @@ def test_capital_required_non_negative():
 def test_planned_risk_non_negative():
     result = calculate_risk(
         create_price_df(),
-        create metrics(),
+        create_metrics(),
         score=80,
     )
     
