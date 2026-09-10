@@ -57,6 +57,88 @@ def test_stop_loss_below_entry():
         150
     )
     
+def test_take_profit_above_entry():
+    
+    result = calculate_risk(
+        create_price_df(),
+        create_metrics(),
+        score=80,
+    )
+    
+    assert (
+        result["TakeProfit1"]
+        >
+        150
+    )
+    
+    assert (
+        result["TakeProfit2"]
+        >
+        150
+    )
 
+def test_risk_reward_positive():
+    
+    result = calculate_risk(
+        create_price_df(),
+        create_metrics(),
+        score=80,
+    )
+    
+    assert (
+        result["RiskReward"]
+        >
+        0
+    )
+    
+def test_position_size_non_negative():
+    
+    result = calculate_risk(
+        create_price_df(),
+        create_metrics(),
+        score=80,
+    )
+    
+    assert (
+        result["PositionShares"]
+        >= 0
+    )
+    
+def test_high_score_actionable_or_watch():
+    
+    result = calculate_risk(
+        create_price_df(),
+        create_metrics(),
+        score=90,
+    )
+    
+    assert result["TradePlan"] in (
+        "✅ ACTIONABLE",
+        "👀 WATCH",
+        "❌ SKIP",
+    )
+    
+def test_capital_required_non_negative():
         
+    result = calculate_risk(
+        create_price_df(),
+        create_metrics(),
+        score=80,
+    )
         
+    assert (
+        result["CapitalRequired"]
+        >= 0
+    )
+        
+def test_planned_risk_non_negative():
+    result = calculate_risk(
+        create_price_df(),
+        create metrics(),
+        score=80,
+    )
+    
+    assert (
+        result["PlannedRiskAmount"]
+        >= 0
+    ) 
