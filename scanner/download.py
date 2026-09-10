@@ -126,7 +126,7 @@ def get_market_context():
 
     spy_price = float(spy_close.iloc[-1])
     spy_ma200 = float(spy_close.rolling(200).mean().iloc[-1])
-    spy_return = {
+    spy_returns = {
         21: calculate_period_return(spy_close, 21),
         63: calculate_period_return(spy_close, 63),
         126: calculate_period_return(spy_close, 126),
