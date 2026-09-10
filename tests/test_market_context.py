@@ -49,7 +49,23 @@ def test_market_context_return_structure():
         "market_bull": True,
     }
     
-    assert "spy price" in market
+    assert "spy_price" in market
     assert "spy_ma200" in market
-    assert
-    "spy_return" in market
+    assert "spy_return" in market
+    assert "spy_returns" in market
+    assert "market_bull" in market
+    
+def test_spy_returns_structure():
+    
+    spy_returns = {
+        21: 2,
+        63: 5,
+        126: 8,
+        252: 12,
+    }
+    
+    assert 21 in spy_returns
+    assert 63 in spy_returns
+    assert 126 in spy_returns
+    assert 252 in spy_returns
+    
