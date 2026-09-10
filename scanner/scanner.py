@@ -22,7 +22,7 @@ from scanner.indicator import calculate_indicators
 from scanner.risk import calculate_risk
 from scanner.score import calculate_score
 
-VERSION = "v2.5.0"
+VERSION = "v2.5.1"
 
 # =====================================
 # 掃描模式
@@ -514,11 +514,11 @@ def main():
                     "Signal",
                     "Score",
                     "RiskReward",
-                    "RS21"
-                    "RS63"
-                    "RS126"
-                    "RS252"
-                    "RSComposite"
+                    "RS21",
+                    "RS63",
+                    "RS126",
+                    "RS252",
+                    "RSComposite",
                     "VolumeSource",
                     "VolumeRatio", 
                 ]
