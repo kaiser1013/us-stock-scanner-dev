@@ -15,12 +15,21 @@ from scanner.download import (
     USE_SP500,
     get_market_context,
     get_sp500_tickers,
-    safe_download
+    safe_download,
 )
-from scanner.filter import evaluate_filters, run_filters
-from scanner.indicator import calculate_indicators
-from scanner.risk import calculate_risk
-from scanner.score import calculate_score
+from scanner.filter import (
+    evaluate_filters,
+    run_filters,
+)
+from scanner.indicator import (
+    calculate_indicators,
+)
+from scanner.risk import (
+    calculate_risk,
+)
+from scanner.score import (
+    calculate_score,
+)
 
 VERSION = "v2.5.1"
 
@@ -539,7 +548,7 @@ def main():
             ]
         )
     else:
-        print(f"\nNo stocks passed the technical filters.")
+        print("\nNo stocks passed the technical filters.")
 
     # ==========================
     # EXPORT
