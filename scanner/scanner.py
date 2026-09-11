@@ -222,23 +222,27 @@ def build_report_frames(
     )
     
     if top20.empty:
-        top = pd.DataFrame(
-            columns=[
-                "Rank",
-                "Ticker",
-                "TradePlan",
-                "Signal",
-                "Score",
-                "RiskReward",
-                "RS21",
-                "RS63",
-                "RS126",
-                "RS252",
-                "RSComposite",
-            ]
+        reture (
+            pd.DataFrame(
+                columns=[
+                    "Rank",
+                    "Ticker",
+                    "TradePlan",
+                    "Signal",
+                    "Score",
+                    "RiskReward",
+                    "RS21",
+                    "RS63",
+                    "RS126",
+                    "RS252",
+                    "RSComposite",
+                ]
+            ),
+            summary_df,
+            rejection_df,
+            all_failures_df,
+            breadth_df,
         )
-    
-    return top20, summary_df, rejection_df, all_failures_df, breadth_df
 
 # =====================================
 # Excel
