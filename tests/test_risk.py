@@ -2,6 +2,7 @@ import pandas as pd
 
 from scanner.risk import calculate_risk
 
+
 def create_price_df():
     
     data = {
