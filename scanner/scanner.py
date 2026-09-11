@@ -430,7 +430,7 @@ def main():
         tickers = TICKERS
         spy_price = 0.0
         spy_ma200 = 0.0
-        spy_returns = {21: 0.0, 63: 0.0, 126: 0.0, 252; 0.0,}
+        spy_returns = {21: 0.0, 63: 0.0, 126: 0.0, 252: 0.0,}
         market_bull = True
 
     # ==========================
