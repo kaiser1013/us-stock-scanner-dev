@@ -5,8 +5,8 @@ line-length = 88
 [tool.ruff.lint]
 
 select = [
-    “E”,
-    “F”,
+    "E",
+    "F",
     "I"
 ]
 
