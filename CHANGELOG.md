@@ -54,7 +54,7 @@
 
 ### Added
 
-- Added GitHub CI pipleline.
+- Added GitHub CI pipeline.
 - Added Ruff lint validation.
 - Added MyPy type checking.
 - Added pytest coverage reporting.
@@ -63,8 +63,8 @@
 
 ### Changed
 
-- Introduced initial coverage gate (30%)
-- Update scanner version to v2.5.1.
+- Introduced an initial 30% coverage gate.
+- Updated scanner version to v2.5.1.
 - Standardized automated quality validation for every pull request.
 
 ### Preserved
@@ -72,7 +72,7 @@
 - Preserved all v2.5.0 Relative Strength functionality.
 - Preserved Volume Engine behaviour.
 - Preserved Risk Engine calculations.
-- Preserved dignostic reporting.
+- Preserved diagnostic reporting.
 - Preserved ranking logic.
 
 ### Purpose
