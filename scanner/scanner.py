@@ -31,7 +31,7 @@ from scanner.score import (
     calculate_score,
 )
 
-VERSION = "v2.5.1"
+VERSION = "v2.5.2"
 
 # =====================================
 # 掃描模式
