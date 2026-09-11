@@ -7,6 +7,7 @@ from scanner.indicator import (
     select_completed_volume_index,
 )
 
+
 def create_sample_volume_df():
     """
     Create 40 business-day sample volume history.
