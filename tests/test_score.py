@@ -2,6 +2,7 @@ from scanner.score import (
     calculate_score,
 )
 
+
 def create_metrics(**overrides):
     
     metrics = {
