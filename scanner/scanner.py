@@ -231,7 +231,7 @@ def build_report_frames(
     )
     
     if top20.empty:
-        reture (
+        return (
             pd.DataFrame(
                 columns=[
                     "Rank",
