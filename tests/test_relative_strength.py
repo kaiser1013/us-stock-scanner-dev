@@ -2,6 +2,7 @@ import pandas as pd
 
 from scanner.indicator import calculate_relative_strength_metrics
 
+
 def test_rs_composite_calculation():
     """
     Verify RSComposite weighting.
