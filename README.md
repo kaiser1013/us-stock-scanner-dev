@@ -1,4 +1,20 @@
-# US Stock Scanner v2.5.0
+# US Stock Scanner v2.5.1
+
+### Continuous Integration
+
+Every Pull Request automatically executes:
+
+- Ruff lint validation
+- MyPy type checking
+- Pytest unit tests
+- Coverage validation
+
+Quality gates:
+
+- Lint must pass
+- Type checking must pass
+- Test suite must pass
+- Coverage must remain at least 30%
 
 ## Overview
 
