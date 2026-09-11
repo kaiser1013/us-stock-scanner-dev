@@ -45,13 +45,9 @@ jobs:
         run: |
           mypy scanner
 
-      - name: Unit Tests
+      - name: Unit Tests and Coverage
         run: |
-          pytest tests -v
-
-      - name: Coverage
-        run: |
-          pytest tests \
+          pytest tests -v \
             --cov=scanner \
             --cov-report=term-missing \
-            --cov-fail-under=30
+            --cov-fail-under=50
