@@ -49,6 +49,18 @@ jobs:
         run: |
           pytest tests -v
 
+      - name: Ruff
+        run: |
+          ruff check .
+
+      - name: MyPy
+        run: |
+          mypy scanner
+
+      - name: Tests
+        run: |
+          pytest -v
+
       - name: Coverage
         run: |
           pytest tests \
