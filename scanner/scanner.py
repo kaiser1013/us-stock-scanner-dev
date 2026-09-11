@@ -258,7 +258,11 @@ def export_excel(
         top20.to_excel(writer, sheet_name="Top20", index=False)
         summary_df.to_excel(writer, sheet_name="Scan Summary", index=False)
         rejection_df.to_excel(writer, sheet_name="First Rejections", index=False)
-        all_failures_df.to_excel(writer, sheet_name="All Failed Conditions", index=False)
+        all_failures_df.to_excel(
+            writer,
+            sheet_name="All Failed Conditions",
+            index=False,
+        )
         breadth_df.to_excel(writer, sheet_name="Market Breadth", index=False)
         
         for worksheet in writer.sheets.values():
@@ -333,7 +337,10 @@ MARKET BREADTH
 """
 
     if top20. empty:
-        body += "\nNo stocks passed the technical filters. See the attached diagnostics report. \n"
+        body += (
+            "\nNo stocks passed the technical filters. "
+            "See the attached diagnostics report. \n"
+        )
     else:
         body += "\nTOP CANDIDATES\n"
         for _, row in top20.iterrows():
@@ -382,7 +389,10 @@ def send_email(subject, body, attachment=None):
             part = MIMEBase("application", "octet-stream")
             part.set_payload(file.read())
         encoders.encode_base64(part)
-        part.add_header("Content-Disposition", f"attachment; filename={os.path.basename(attachment)}",)
+        part.add_header(
+            "Content-Disposition",
+            f"attachment; filename={os.path.basename(attachment)}",
+        )
         message.attach(part)
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
@@ -549,7 +559,11 @@ def main():
         spy_ma200,
     )
     subject_prefix = "📈" if not top20.empty else "📊"
-    send_email(f"{subject_prefix} US Scanner {VERSION} Daily Diagnostic Report", email_body, excel_file)
+    send_email(
+        f"{subject_prefix} US Scanner {VERSION} Daily Diagnostic Report",
+        email_body,
+        excel_file,
+    )
 
 if __name__ == "__main__":
     main()
