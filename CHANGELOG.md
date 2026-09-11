@@ -1,5 +1,34 @@
 # CHANGELOG
 
+## v2.5.1 Engineering Quality Release
+
+### Added
+
+- Added GitHub CI pipleline.
+- Added Ruff lint validation.
+- Added MyPy type checking.
+- Added pytest coverage reporting.
+- Added minimum 80% coverage gate.
+- Added pyproject.toml development configuration.
+
+### Changed
+
+- Update scanner version to v2.5.1.
+- Standardized automated quality validation for every pull request.
+
+### Preserved
+
+- Preserved all v2.5.0 Relative Strength functionality.
+- Preserved Volume Engine behaviour.
+- Preserved Risk Engine calculations.
+- Preserved dignostic reporting.
+- Preserved ranking logic.
+
+### Purpose
+
+- Improve software quality and deployment confidence.
+- Prevent regressions before production releases.
+
 ## v2.5.0 Multi-Timeframe Relative Strength
 
 ### Added
