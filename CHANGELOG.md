@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v2.5.1 Engineering Quality Release
+## v2.5.1 Stability + CI Release
 
 ### Added
 
@@ -8,11 +8,12 @@
 - Added Ruff lint validation.
 - Added MyPy type checking.
 - Added pytest coverage reporting.
-- Added minimum 80% coverage gate.
+- Added minimum 30% coverage gate.
 - Added pyproject.toml development configuration.
 
 ### Changed
 
+- Introduced initial coverage gate (30%)
 - Update scanner version to v2.5.1.
 - Standardized automated quality validation for every pull request.
 
@@ -26,6 +27,7 @@
 
 ### Purpose
 
+- Establish CI baseline before increasing test coverage in future releases.
 - Improve software quality and deployment confidence.
 - Prevent regressions before production releases.
 
