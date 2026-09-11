@@ -220,38 +220,59 @@ def build_report_frames(
         columns=["All Failed Conditions", "Count"],
     )
     
-    indicator_ready = breadth_counts.get("Indicator-ready stocks", 0)
+    indicator_ready = breadth_counts.get(
+        "Indicator-ready stocks",
+        0,
+    )
     breadth_rows = []
+    
     for metric, count in breadth_counts.items():
-        percentage = count / indicator_ready if indicator_ready else 0
-        breadth_rows.append((metric, count, round(percentage, 4)))
+        percentage = (
+            count / indicator_ready
+            if indicator_ready
+            else 0
+        )
+        breadth_rows.append(
+            (
+                metric,
+                count,
+                round(percentage, 4),
+            )
+        )
+        
     breadth_df = pd.DataFrame(
         breadth_rows,
-        columns=["Breadth Metric", "Count", "Percent of Indicator-ready"],
+        columns=[
+            "Breadth Metric",
+            "Count",
+            "Percent of Indicator-ready",
+        ],
     )
     
     if top20.empty:
-        return (
-            pd.DataFrame(
-                columns=[
-                    "Rank",
-                    "Ticker",
-                    "TradePlan",
-                    "Signal",
-                    "Score",
-                    "RiskReward",
-                    "RS21",
-                    "RS63",
-                    "RS126",
-                    "RS252",
-                    "RSComposite",
-                ]
-            ),
-            summary_df,
-            rejection_df,
-            all_failures_df,
-            breadth_df,
+        top20 = pd.DataFrame(
+            columns=[
+                "Rank",
+                "Ticker",
+                "TradePlan",
+                "Signal",
+                "Score",
+                "RiskReward",
+                "RS21",
+                "RS63",
+                "RS126",
+                "RS252",
+                "RSComposite",
+            ]
         )
+
+    return (
+        top20,
+        summary_df,
+        rejection_df,
+        all_failures_df,
+        breadth_df,
+    )
 
 # =====================================
 # Excel
