@@ -15,7 +15,7 @@
 - Added tests for five-sheet Excel export.
 - Added tests for diagnostic email-body generation.
 - Added mocked SMTP and bear-market email tests.
-- Increased the minimum CI coverage gate from 30% to 50%.
+- Increased the minimum CI coverage gate from 30% to 70%.
 
 #### Changed
 - Updated scanner version, report filename and email subject to v2.5.2.
@@ -26,6 +26,7 @@
 #### Fixed
 - Corrected spelling and wording issues in the v2.5.1 changelog.
 - Prevented external downloads and email delivery during unit testing through dependency mocking.
+- Fixed report-frame generation so both empty and non-empty Top20 results return all five report DataFrames.
 
 #### Preserved
 - Preserved all v2.5.0 multi-timeframe Relative Strength calculations.
