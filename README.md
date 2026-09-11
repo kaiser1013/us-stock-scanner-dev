@@ -14,7 +14,7 @@ Quality gates:
 - Lint must pass.
 - Type checking must pass.
 - All tests must pass.
-- Total scanner-package coverage must remain at least 50%.
+- Total scanner-package coverage must remain at least 70%.
 
 The unit tests use mocks for Yahoo Finance downloads, SMTP email delivery and scanner dependencies. CI therefore does not require live market data or email credentials.
 
