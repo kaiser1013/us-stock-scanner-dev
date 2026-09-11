@@ -1,52 +1,102 @@
-# US Stock Scanner v2.5.1
+## US Stock Scanner v2.5.2
 
 ### Continuous Integration
 
-Every Pull Request automatically executes:
+Every push and pull request automatically executes:
 
 - Ruff lint validation
 - MyPy type checking
 - Pytest unit tests
-- Coverage validation
+- Scanner-package coverage validation
 
 Quality gates:
 
-- Lint must pass
-- Type checking must pass
-- Test suite must pass
-- Coverage must remain at least 30%
+- Lint must pass.
+- Type checking must pass.
+- All tests must pass.
+- Total scanner-package coverage must remain at least 50%.
 
-## Overview
+The unit tests use mocks for Yahoo Finance downloads, SMTP email delivery and scanner dependencies. CI therefore does not require live market data or email credentials.
 
-v2.5.0 is an additive multi-timeframe Relative Strength upgrade built directly on the stable v2.4.1 diagnostics release.
+### Overview
 
-The release deliberately preserves:
+v2.5.2 is a test-coverage and regression-protection release built on the v2.5.0 multi-timeframe Relative Strength upgrade and the v2.5.1 CI baseline.
 
-- The modular scanner structure
-- The completed-session Volume Engine
-- The v2.4.1 production filters
-- The v2.4.1 Score Engine and score thresholds
-- ATR stops, targets and position sizing
-- Structured scan outcomes and rejection diagnostics
-- Five-sheet Excel reporting
-- Diagnostic email reporting
-- Bear-market early-exit behaviour
+This maintenance release adds automated validation for:
 
-The only production-facing enhancement is additional Relative Strength information for research, diagnostics and future ranking validation.
+- Market-data downloads and validation.
+- S&P 500 universe loading and fallback behaviour.
+- Multi-horizon benchmark returns.
+- Structured scanner outcomes.
+- Candidate ranking.
+- Market-breadth statistics.
+- Diagnostic report generation.
+- Five-sheet Excel export.
+- Diagnostic email generation.
+- SMTP attachment handling.
+- Bear-market email alerts.
 
-## File Structure
+v2.5.2 does not change production filter, score, ranking, volume, risk or Relative Strength logic.
 
-```text
-scanner.py       Scan flow, diagnostics, reporting, ranking and email
-download.py      yfinance download, S&P500 universe and market context
-indicator.py     Technical indicators, Volume Engine and multi-timeframe RS
-filter.py        Existing v2.4.1 production filter rules
-score.py         Existing v2.4.1 scoring formula, version-labelled for v2.5
-risk.py          Existing ATR stops, targets and position sizing
-requirements.txt Runtime dependencies
-CHANGELOG.md      Full project history through v2.5.0
-UPGRADE_PLAN_V3.md Incremental roadmap from v2.5 to v3.0
-```
+The release preserves:
+
+- The modular scanner structure.
+- The completed-session Volume Engine.
+- The v2.4.1 production filters.
+- The v2.4.1 Score Engine and score thresholds.
+- ATR stops, targets and position sizing.
+- Multi-timeframe Relative Strength fields.
+- Structured scan outcomes and rejection diagnostics.
+- Five-sheet Excel reporting.
+- Diagnostic email reporting.
+- Bear-market early-exit behaviour.
+
+### File Structure
+
+scanner/scanner.py
+: Scan flow, diagnostics, reporting, ranking and email.
+
+scanner/download.py
+: yfinance download, S&P 500 universe and market context.
+
+scanner/indicator.py
+: Technical indicators, completed-session Volume Engine and multi-timeframe Relative Strength.
+
+scanner/filter.py
+: Existing v2.4.1 production filter rules.
+
+scanner/score.py
+: Existing v2.4.1 scoring formula.
+
+scanner/risk.py
+: ATR stops, targets and position sizing.
+
+tests/test_download.py
+: Download validation, retry outcomes, universe loading and market-context tests.
+
+tests/test_scanner.py
+: Scanner outcomes, ranking, reporting, Excel and email tests.
+
+tests/
+: Existing filter, score, risk, volume, Relative Strength and market-context tests.
+
+.github/workflows/ci.yml
+: Ruff, MyPy, pytest and coverage validation.
+
+.github/workflows/stock_scan.yml
+: Production stock-scan workflow.
+
+pyproject.toml
+: Ruff and MyPy configuration.
+
+requirements.txt
+: Runtime and test dependencies.
+
+CHANGELOG.md
+: Full project history through v2.5.2.
+
+UPGRADE_PLAN_V3.md
+: Incremental roadmap from v2.5 to v3.0.
 
 ## v2.5 Relative Strength Expansion
 
@@ -212,9 +262,32 @@ Before treating v2.5.0 as the new production baseline, compare it with a recent 
 - `RelativeStrength` and `RS63` must be equal.
 - Email must include the multi-timeframe RS fields.
 
-## Next Planned Release
+### v2.5.2 CI Validation Checklist
 
-v2.6.0 is planned to add a three-state market regime and RegimeScore, but only after v2.5 multi-timeframe RS output has been observed and validated. Production filters and stable diagnostics should continue to be changed only through additive, testable releases.
+Before releasing v2.5.2:
+
+- Ruff must report `All checks passed`.
+- MyPy must complete without errors.
+- All existing and new unit tests must pass.
+- Total scanner-package coverage must remain at least 50%.
+- Download tests must not perform live network requests.
+- Scanner tests must not send real email.
+- Excel export tests must create all five expected worksheets.
+- Structured outcome tests must cover Passed, Filtered, Data Failure, Indicator Failure and Processing Error.
+- Candidate ranking must remain TradePlan, Score and RiskReward.
+- RelativeStrength must remain equal to RS63.
+- Production filter and Score Engine behaviour must remain unchanged.
+
+### Next Planned Release
+
+v2.6.0 is planned to add a three-state Market Regime Engine:
+
+- Bull
+- Neutral
+- Bear
+- RegimeScore
+
+The Market Regime Engine should initially remain additive and observable. Existing production filters, diagnostics, Relative Strength calculations, ranking logic, Volume Engine and Risk Engine should remain stable until the new regime outputs have been validated.
 
 ## Disclaimer
 
