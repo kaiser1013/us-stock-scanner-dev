@@ -1,5 +1,3 @@
-import pandas as pd
-
 def classify_market(price, ma200):
     """
     Same logic as get_market_context().
