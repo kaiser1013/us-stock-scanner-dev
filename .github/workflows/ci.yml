@@ -50,4 +50,4 @@ jobs:
           pytest tests -v \
             --cov=scanner \
             --cov-report=term-missing \
-            --cov-fail-under=50
+            --cov-fail-under=70
