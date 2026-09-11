@@ -1,5 +1,55 @@
 # CHANGELOG
 
+### v2.5.2 Test Coverage Expansion
+
+#### Added
+- Added comprehensive unit tests for the download module.
+- Added tests for safe download validation, retry outcomes and invalid market data.
+- Added tests for S&P 500 symbol loading and fallback behaviour.
+- Added tests for multi-horizon market-context calculation.
+- Added comprehensive unit tests for scanner orchestration and structured outcomes.
+- Added tests for Passed, Filtered, Data Failure, Indicator Failure and Processing Error outcomes.
+- Added tests for market-breadth statistics.
+- Added tests for candidate ranking.
+- Added tests for diagnostic report-frame generation.
+- Added tests for five-sheet Excel export.
+- Added tests for diagnostic email-body generation.
+- Added mocked SMTP and bear-market email tests.
+- Increased the minimum CI coverage gate from 30% to 50%.
+
+#### Changed
+- Updated scanner version, report filename and email subject to v2.5.2.
+- Combined unit-test and coverage execution into one CI step.
+- Expanded automated regression validation around download and scanner orchestration.
+- Corrected documentation references from v2.5.0 to the current maintenance release where appropriate.
+
+#### Fixed
+- Corrected spelling and wording issues in the v2.5.1 changelog.
+- Prevented external downloads and email delivery during unit testing through dependency mocking.
+
+#### Preserved
+- Preserved all v2.5.0 multi-timeframe Relative Strength calculations.
+- Preserved RelativeStrength as an alias of RS63.
+- Preserved the v2.4.1 production filters and filter order.
+- Preserved the v2.4.1 Score Engine formula and thresholds.
+- Preserved the completed-session Volume Engine.
+- Preserved ATR risk management and position sizing.
+- Preserved candidate ranking by TradePlan, Score and RiskReward.
+- Preserved all five diagnostic Excel worksheets.
+- Preserved production email and bear-market alert behaviour.
+
+#### Validation
+- Ruff lint validation must pass.
+- MyPy type checking must pass.
+- All unit tests must pass.
+- Total scanner-package coverage must remain at or above 50%.
+- Tests must not require live market data, network access or SMTP credentials.
+
+#### Purpose
+- Increase regression protection for data acquisition and scanner orchestration.
+- Validate diagnostic outputs without running a live market scan.
+- Establish a stronger testing baseline before the v2.6.0 Market Regime Engine.
+
 ## v2.5.1 Stability + CI Release
 
 ### Added
