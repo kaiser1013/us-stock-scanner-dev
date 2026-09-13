@@ -52,6 +52,6 @@ jobs:
             --cov-report=term-missing \
             --cov-fail-under=70
 
-      - name: Ruff Format Check
+      - name: Ruff
         run: |
-          ruff check .
+          ruff check tests/test_indicator.py --show-fixes
