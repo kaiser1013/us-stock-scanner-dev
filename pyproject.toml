@@ -6,8 +6,7 @@ line-length = 120
 
 select = [
     "E",
-    "F",
-    "I"
+    "F"
 ]
 
 ignore = [
