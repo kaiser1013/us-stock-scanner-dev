@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from scanner import indicator
+from scanner.indicator
 
 
 SPY_RETURNS = {
@@ -159,7 +159,7 @@ def call_calculate_indicators(
         else spy_returns
     )
 
-    return indicator.calculate_indicators(
+    return scanner.indicator.calculate_indicators(
         "TEST",
         dataframe,
         benchmark_returns,
@@ -800,7 +800,7 @@ def test_calculate_indicators_returns_required_fields():
 def test_calculate_indicators_preserves_ticker():
     dataframe = create_variable_dataframe()
 
-    result = indicator.calculate_indicators(
+    result = scanner.indicator.calculate_indicators(
         "AAPL",
         dataframe,
         SPY_RETURNS,
