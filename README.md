@@ -14,7 +14,7 @@ Quality gates:
 - Lint must pass.
 - Type checking must pass.
 - All tests must pass.
-- Total scanner-package coverage must remain at least 70%.
+- Total scanner-package coverage must remain at least 80%.
 
 The unit tests use mocks for Yahoo Finance downloads, SMTP email delivery and scanner dependencies. CI therefore does not require live market data or email credentials.
 
@@ -38,7 +38,7 @@ Coverage by module:
 
 ### Overview
 
-v2.5.2 is a test-coverage and regression-protection release built on the v2.5.0 multi-timeframe Relative Strength upgrade and the v2.5.1 CI baseline.
+v2.5.3 is a test-coverage and regression-protection release built on the v2.5.0 multi-timeframe Relative Strength upgrade and the v2.5.1 CI baseline.
 
 This maintenance release adds automated validation for:
 
