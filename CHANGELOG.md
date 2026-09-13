@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## v2.5.3 Indicator Hardening Release
+
+### Added
+- Added comprehensive indicator-engine unit tests.
+- Added completed-session Volume Engine validation.
+- Added RSI validation tests.
+- Added MACD validation tests.
+- Added Bollinger Band validation tests.
+- Added ADX validation tests.
+- Added Relative Strength benchmark-comparison tests.
+- Added timezone and market-session tests.
+- Added indicator failure-path regression tests.
+
+### Changed
+- Increased minimum CI coverage requirement from 70% to 80%.
+- Expanded automated regression protection around technical-indicator calculations.
+
+### Validation
+- Ruff must pass.
+- MyPy must pass.
+- All unit tests must pass.
+- Scanner package coverage must remain above 80%.
+
+### Metrics
+- Total Tests: 134
+- Coverage: 83.30%
+
 ### v2.5.2 Test Coverage Expansion
 
 #### Added
