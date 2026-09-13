@@ -51,3 +51,7 @@ jobs:
             --cov=scanner \
             --cov-report=term-missing \
             --cov-fail-under=70
+
+      - name: Ruff Format Check
+        run: |
+          ruff check .
