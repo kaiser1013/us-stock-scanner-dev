@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-import scanner.indicator as indicator
+from scanner import indicator
 
 
 SPY_RETURNS = {
