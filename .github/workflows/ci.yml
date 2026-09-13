@@ -50,7 +50,7 @@ jobs:
           pytest tests -v \
             --cov=scanner \
             --cov-report=term-missing \
-            --cov-fail-under=70
+            --cov-fail-under=80
 
       - name: Ruff
         run: |
