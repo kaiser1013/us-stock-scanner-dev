@@ -18,6 +18,24 @@ Quality gates:
 
 The unit tests use mocks for Yahoo Finance downloads, SMTP email delivery and scanner dependencies. CI therefore does not require live market data or email credentials.
 
+### Engineering Metrics
+
+Current quality metrics:
+
+- Ruff: Passing
+- MyPy: Passing
+- Unit Tests: 134
+- Coverage: 83%+
+
+Coverage by module:
+
+- download.py: 100%
+- filter.py: 100%
+- indicator.py: 94%
+- risk.py: 84%
+- score.py: 80%
+- scanner.py: 69%
+
 ### Overview
 
 v2.5.2 is a test-coverage and regression-protection release built on the v2.5.0 multi-timeframe Relative Strength upgrade and the v2.5.1 CI baseline.
