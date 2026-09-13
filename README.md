@@ -1,4 +1,4 @@
-## US Stock Scanner v2.5.2
+## US Stock Scanner v2.5.3
 
 ### Continuous Integration
 
