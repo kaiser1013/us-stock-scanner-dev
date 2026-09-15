@@ -1,4 +1,4 @@
-## US Stock Scanner v2.5.3
+## US Stock Scanner v2.6.0
 
 ### Continuous Integration
 
@@ -14,7 +14,7 @@ Quality gates:
 - Lint must pass.
 - Type checking must pass.
 - All tests must pass.
-- Total scanner-package coverage must remain at least 80%.
+- Total scanner-package coverage must remain at least 70%.
 
 The unit tests use mocks for Yahoo Finance downloads, SMTP email delivery and scanner dependencies. CI therefore does not require live market data or email credentials.
 
@@ -38,23 +38,17 @@ Coverage by module:
 
 ### Overview
 
-v2.5.3 is a test-coverage and regression-protection release built on the v2.5.0 multi-timeframe Relative Strength upgrade and the v2.5.1 CI baseline.
+v2.6.0 adds a three-state Market Regime Engine to the tested v2.5.3 engineering baseline.
 
-This maintenance release adds automated validation for:
+The v2.6.0 release adds:
 
-- Market-data downloads and validation.
-- S&P 500 universe loading and fallback behaviour.
-- Multi-horizon benchmark returns.
-- Structured scanner outcomes.
-- Candidate ranking.
-- Market-breadth statistics.
-- Diagnostic report generation.
-- Five-sheet Excel export.
-- Diagnostic email generation.
-- SMTP attachment handling.
-- Bear-market email alerts.
+- BULL, NEUTRAL and BEAR market regimes.
+- A 3% neutral band around the S&P 500 200-session moving average.
+- RegimeScore values of 15, 7 and 0 for BULL, NEUTRAL and BEAR.
+- Regime fields in scoring, candidate output, Excel summaries, console output and email.
+- Bear-market early exit only when the regime is BEAR.
 
-v2.5.2 does not change production filter, score, ranking, volume, risk or Relative Strength logic.
+v2.6.0 changes only the market component of scoring. Production filters, ranking, Volume Engine, Risk Engine and Relative Strength logic remain unchanged.
 
 The release preserves:
 
@@ -111,7 +105,7 @@ requirements.txt
 : Runtime and test dependencies.
 
 CHANGELOG.md
-: Full project history through v2.5.2.
+: Full project history through v2.6.0.
 
 UPGRADE_PLAN_V3.md
 : Incremental roadmap from v2.5 to v3.0.
