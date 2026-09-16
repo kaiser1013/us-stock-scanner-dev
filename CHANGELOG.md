@@ -44,8 +44,15 @@
 - Tests must not perform external network requests.
 
 #### Metrics
-- Total Tests: 142+
-- Coverage: 85%+
+- Total Tests: 153
+- Coverage: 83.12%
+
+#### Validation Results
+
+- Ruff: PASS
+- MyPy: PASS
+- Unit Tests: 153 PASS
+- Coverage: 83.12%
 
 #### Release Status
 
