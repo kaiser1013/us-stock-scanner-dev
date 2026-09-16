@@ -75,7 +75,7 @@ def calculate_score(metrics, market_bull, market_regime=None):
         "BEAR": 0,
     }
     normalised_regime = str(market_regime).upper()
-    if normlised_regime not in regime_scores:
+    if normalised_regime not in regime_scores:
         raise ValueError(f"Unsupported market regime: {market_regime}")
 
     regime_score = regime_scores[normalised_regime]
