@@ -1,4 +1,23 @@
-## US Stock Scanner v2.6.0
+## US Stock Scanner v2.6.1
+
+v2.6.1 is an engineering-quality release focused on expanding
+automated validation for the v2.6.0 Market Regime Engine.
+
+The release adds:
+
+- Dedicated Bull regime tests.
+- Dedicated Neutral regime tests.
+- Dedicated Bear regime tests.
+- RegimeScore validation tests.
+- MarketRegime reporting validation.
+- Email reporting validation.
+- Summary-report validation.
+
+No trading logic has changed.
+
+Coverage Goals:
+- scanner.py > 80%
+- project coverage > 85%
 
 ### Continuous Integration
 
