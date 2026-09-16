@@ -348,6 +348,11 @@ def build_email_body(
     spy_ma200,
     market_regime=None,
 ):
+    regime_score = {
+        "BULL": 15,
+        "NEUTRAL": 7,
+        "BEAR": 0,
+    }[market_regime or ("BULL" if market_bull else "BEAR")]
     market_status = {
         "BULL": "🟢 BULL",
         "NEUTRAL": "🟡 NEUTRAL",
@@ -361,7 +366,7 @@ def build_email_body(
 ================================
 US STOCK SCANNER {VERSION}
 Market Regime: {market_status}
-Regime Score: {"🟢 BULL": 15, "🟡 NEUTRAL": 7, "🔴 BEAR": 0}[market_status]
+Regime Score: {regime_score}
 SPY: {spy_price:.2f}
 SPY MA200: {spy_ma200:.2f}
 ================================
