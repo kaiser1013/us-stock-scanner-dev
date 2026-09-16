@@ -14,7 +14,7 @@ Quality gates:
 - Lint must pass.
 - Type checking must pass.
 - All tests must pass.
-- Total scanner-package coverage must remain at least 70%.
+- Total scanner-package coverage must remain at least 80%.
 
 The unit tests use mocks for Yahoo Finance downloads, SMTP email delivery and scanner dependencies. CI therefore does not require live market data or email credentials.
 
@@ -25,16 +25,16 @@ Current quality metrics:
 - Ruff: Passing
 - MyPy: Passing
 - Unit Tests: 134
-- Coverage: 83%+
+- Coverage: 82%
 
 Coverage by module:
 
-- download.py: 100%
+- download.py: 88%
 - filter.py: 100%
 - indicator.py: 94%
 - risk.py: 84%
-- score.py: 80%
-- scanner.py: 69%
+- score.py: 81%
+- scanner.py: 68%
 
 ### Overview
 
@@ -167,13 +167,20 @@ The v2.4.1 rules are unchanged:
 
 ## Score Engine
 
+v2.6.0 replace the binary Bull/Bear market bonus with a three-state RegimeScore:
+
+- BULL = 15
+- NEUTRAL = 7
+- BEAR = 0
+
 The v2.4.1 categories and thresholds are unchanged:
 
 - TrendScore
 - MomentumScore
 - StrengthScore based on 63-session RelativeStrength
 - VolumeScore
-- MarketScore
+- RegimeScore
+- MarketScore (backwards-compatible alias)
 - ADXScore
 - RiskPenalty
 
@@ -292,14 +299,22 @@ Before releasing v2.5.2:
 
 ### Next Planned Release
 
-v2.6.0 is planned to add a three-state Market Regime Engine:
+v2.6.1 Market Regime Test Expansion
 
-- Bull
-- Neutral
-- Bear
-- RegimeScore
+Planned additions:
 
-The Market Regime Engine should initially remain additive and observable. Existing production filters, diagnostics, Relative Strength calculations, ranking logic, Volume Engine and Risk Engine should remain stable until the new regime outputs have been validated.
+- test_bull_regime()
+- test_neutral_regime()
+- test_bear_regime()
+- test_regime_score_bull()
+- test_regime_score_neutral()
+- test_regime_score_bear()
+- test_email_contains_market_regime()
+- test_summary_contains_market_regime()
+
+Goal:
+- Increase scanner.py coverage above 80%
+- Increase overall project coverage above 85%
 
 ## Disclaimer
 
