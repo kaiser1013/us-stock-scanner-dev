@@ -39,7 +39,7 @@ VERSION = "v2.6.0"
 # 掃描模式
 # =====================================
 
-def analyse_stock(ticker, market_bull, spy_returns):   
+def analyse_stock(ticker, market_bull, spy_returns, market_regime=None):   
     """Return a structured scan outcome for candidates and diagnostics."""
     try:
         df = safe_download(ticker)
@@ -461,7 +461,7 @@ def send_email(subject, body, attachment=None):
 # BEAR MARKET PROTECTION
 # ==========================
 
-def send_bear_market_email(spy_price, spy_ma200):
+def send_bear_market_email(spy_price, spy_ma200, market_regime="BEAR"):
     body = f"""
 MARKET REGIME
 🔴 {market_regime}
