@@ -1,6 +1,63 @@
 # CHANGELOG
 
-## v2.6.0 Three-State Market Regime Engine
+## v2.6.1 Market Regime Test Expansion
+
+#### Added
+- Added dedicated Bull market-regime validation tests.
+- Added dedicated Neutral market-regime validation tests.
+- Added dedicated Bear market-regime validation tests.
+- Added RegimeScore validation tests for Bull, Neutral and Bear scenarios.
+- Added scanner-output validation for MarketRegime fields.
+- Added diagnostic-email validation covering MarketRegime reporting.
+- Added summary-report validation covering MarketRegime reporting.
+- Expanded scanner regression coverage around regime-related output paths.
+
+#### Changed
+- Updated scanner version, report filename and email subject to v2.6.1.
+- Expanded automated regression protection for the three-state Market Regime Engine.
+- Increased scanner.py coverage target from 68% to above 80%.
+- Increased project coverage target from 82% to above 85%.
+
+#### Preserved
+- Preserved all v2.6.0 Bull, Neutral and Bear regime logic.
+- Preserved the 3% neutral band around the S&P 500 MA200.
+- Preserved RegimeScore values:
+  - BULL = 15
+  - NEUTRAL = 7
+  - BEAR = 0
+- Preserved all production filters and their execution order.
+- Preserved candidate ranking by TradePlan, Score and RiskReward.
+- Preserved multi-timeframe Relative Strength calculations.
+- Preserved ATR risk management and position sizing.
+- Preserved the completed-session Volume Engine.
+- Preserved five-sheet Excel diagnostic reporting.
+- Preserved diagnostic email reporting.
+- Preserved backward-compatible MarketScore alias behaviour.
+
+#### Validation
+- Ruff must pass.
+- MyPy must pass.
+- All unit tests must pass.
+- Scanner-package coverage must remain above 85%.
+- Tests must not require live market data.
+- Tests must not require SMTP credentials.
+- Tests must not perform external network requests.
+
+#### Metrics
+- Total Tests: 142+
+- Coverage: 85%+
+
+#### Release Status
+
+Production Ready
+
+Validation Results:
+- Ruff: PASS
+- MyPy: PASS
+- Unit Tests: PASS
+- Coverage: PASS (>85%)
+
+### v2.6.0 Three-State Market Regime Engine
 
 #### Added
 - Added BULL, NEUTRAL and BEAR market-regime classification.
