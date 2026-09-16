@@ -67,9 +67,9 @@ def calculate_score(metrics, market_bull, market_regime=None):
     score += volume_score
 
     if market_regime is None:
-        market_regime = "BULL" if market_bull elase "BEAR"
+        market_regime = "BULL" if market_bull else "BEAR"
     
-    regime_score = {
+    regime_scores = {
         "BULL": 15,
         "NEUTRAL": 7,
         "BEAR": 0,
