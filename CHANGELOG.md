@@ -1,8 +1,8 @@
 # CHANGELOG
 
-### v2.6.1 Market Regime Test Expansion
+## v2.6.1 Market Regime Test Expansion
 
-##### Added
+### Added
 - Added dedicated Bull market-regime tests.
 - Added dedicated Neutral market-regime tests.
 - Added dedicated Bear market-regime tests.
@@ -17,12 +17,12 @@
   - Local test-mode path
 - Added regression tests for candidate ranking, report generation and email generation.
 
-##### Changed
+### Changed
 - Expanded scanner.py regression protection from 68% coverage to 99%.
 - Expanded total project coverage from 83.12% to 94.61%.
 - Increased automated validation around MarketRegime and RegimeScore reporting.
 
-##### Preserved
+### Preserved
 - Preserved all v2.6.0 market-regime logic.
 - Preserved the 3% neutral band around SPY MA200.
 - Preserved RegimeScore values:
@@ -35,14 +35,14 @@
 - Preserved Relative Strength calculations.
 - Preserved Excel and email reporting.
 
-##### Validation Results
+### Validation Results
 - Ruff: PASS
 - MyPy: PASS
 - Unit Tests: 157 PASS
 - scanner.py Coverage: 99%
 - Total Coverage: 94.61%
 
-##### Release Status
+### Release Status
 Production Ready
 
 ### v2.6.0 Three-State Market Regime Engine
