@@ -35,6 +35,8 @@ Completed:
 
 ## phase 2.1: v2.6.1 Market Regime Test Expansion
 
+Status: completed
+
 Objective:
 - Add dedicated Bull, Neutral and Bear regime tests.
 - Validate RegimeScore Behaviour.
