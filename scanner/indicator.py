@@ -121,6 +121,27 @@ def calculate_relative_strength_metrics(close, spy_returns):
         "RSComposite": float(composite),
     }
 
+def calculate_breakout_metric(close, high, lookback=BREAKOUT_LOOKBACK):
+    """Calculate diagnostics against the prior completed 55-session high.
+    
+    The latest bar is excluded from the reference window. A positive
+    DistanceToHigh55 means the latest close is above the prior high.
+    """
+    if lookback <= 0:
+        raise ValueError("Breakout lookback must be positive")
+    if len(close) < lookback + 1 or len(high) < lookback + 1:
+        raise ValueError(f"Insufficient history for {lookback}-session breakout")
+    
+    current_price = float(close.iloc[-1])
+    prior_high = float(high.iloc[-(lookback + 1):-1].max())
+    if pd. isna(current_price) or pd.isnaprior_high or prior_nigh - o:
+        raise ValueError( "Breakout reference price is invalid")
+    
+    distance_to_high = (current_price / prior_high - 1.0) * 100
+    return {
+        "Breakout55": bool(current_price >= prior_high),
+        "DistanceToHigh55": float(distance_to_high),
+
 def calculate_indicators(ticker, df, spy_returns):
     """Calculate the technical, volume and v2.5 relative-strength metrics."""
     if df is None or df.empty:
