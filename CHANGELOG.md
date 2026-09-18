@@ -1,68 +1,49 @@
 # CHANGELOG
 
-## v2.6.1 Market Regime Test Expansion
+### v2.6.1 Market Regime Test Expansion
 
-#### Added
-- Added dedicated Bull market-regime validation tests.
-- Added dedicated Neutral market-regime validation tests.
-- Added dedicated Bear market-regime validation tests.
-- Added RegimeScore validation tests for Bull, Neutral and Bear scenarios.
-- Added scanner-output validation for MarketRegime fields.
-- Added diagnostic-email validation covering MarketRegime reporting.
-- Added summary-report validation covering MarketRegime reporting.
-- Expanded scanner regression coverage around regime-related output paths.
+##### Added
+- Added dedicated Bull market-regime tests.
+- Added dedicated Neutral market-regime tests.
+- Added dedicated Bear market-regime tests.
+- Added RegimeScore validation tests.
+- Added Market Regime summary-report validation.
+- Added Market Regime email-report validation.
+- Added boundary-condition validation around the 3% neutral band.
+- Added main() orchestration tests covering:
+  - BEAR early-exit path
+  - BULL scan path
+  - NEUTRAL scan path
+  - Local test-mode path
+- Added regression tests for candidate ranking, report generation and email generation.
 
-#### Changed
-- Updated scanner version, report filename and email subject to v2.6.1.
-- Expanded automated regression protection for the three-state Market Regime Engine.
-- Increased scanner.py coverage target from 68% to above 80%.
-- Increased project coverage target from 82% to above 85%.
+##### Changed
+- Expanded scanner.py regression protection from 68% coverage to 99%.
+- Expanded total project coverage from 83.12% to 94.61%.
+- Increased automated validation around MarketRegime and RegimeScore reporting.
 
-#### Preserved
-- Preserved all v2.6.0 Bull, Neutral and Bear regime logic.
-- Preserved the 3% neutral band around the S&P 500 MA200.
+##### Preserved
+- Preserved all v2.6.0 market-regime logic.
+- Preserved the 3% neutral band around SPY MA200.
 - Preserved RegimeScore values:
   - BULL = 15
   - NEUTRAL = 7
   - BEAR = 0
-- Preserved all production filters and their execution order.
-- Preserved candidate ranking by TradePlan, Score and RiskReward.
-- Preserved multi-timeframe Relative Strength calculations.
-- Preserved ATR risk management and position sizing.
-- Preserved the completed-session Volume Engine.
-- Preserved five-sheet Excel diagnostic reporting.
-- Preserved diagnostic email reporting.
-- Preserved backward-compatible MarketScore alias behaviour.
+- Preserved production filters.
+- Preserved ranking by TradePlan, Score and RiskReward.
+- Preserved Volume Engine behaviour.
+- Preserved Relative Strength calculations.
+- Preserved Excel and email reporting.
 
-#### Validation
-- Ruff must pass.
-- MyPy must pass.
-- All unit tests must pass.
-- Scanner-package coverage must remain above 85%.
-- Tests must not require live market data.
-- Tests must not require SMTP credentials.
-- Tests must not perform external network requests.
-
-#### Metrics
-- Total Tests: 153
-- Coverage: 83.12%
-
-#### Validation Results
-
+##### Validation Results
 - Ruff: PASS
 - MyPy: PASS
-- Unit Tests: 153 PASS
-- Coverage: 83.12%
+- Unit Tests: 157 PASS
+- scanner.py Coverage: 99%
+- Total Coverage: 94.61%
 
-#### Release Status
-
+##### Release Status
 Production Ready
-
-Validation Results:
-- Ruff: PASS
-- MyPy: PASS
-- Unit Tests: PASS
-- Coverage: PASS (>85%)
 
 ### v2.6.0 Three-State Market Regime Engine
 
