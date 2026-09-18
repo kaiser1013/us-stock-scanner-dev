@@ -45,9 +45,9 @@
 ### Release Status
 Production Ready
 
-### v2.6.0 Three-State Market Regime Engine
+## v2.6.0 Three-State Market Regime Engine
 
-#### Added
+### Added
 - Added BULL, NEUTRAL and BEAR market-regime classification.
 - Added a configurable 3% neutral band around the S&P 500 MA200.
 - Added RegimeScore values of 15 for BULL, 7 for NEUTRAL and 0 for BEAR.
@@ -55,14 +55,14 @@ Production Ready
 - Added regime information to console, Excel summary and diagnostic email output.
 - Added reusable regime classification and score constants to the market-data module.
 
-#### Changed
+### Changed
 - Updated scanner version, Excel filename and email subjects to v2.6.0.
 - Updated the Score Engine to use RegimeScore as the market component.
 - Retained MarketScore as a backwards-compatible alias of RegimeScore.
 - Changed bear protection to exit only when the three-state regime is BEAR.
 - Allowed NEUTRAL scans to continue with a reduced seven-point regime contribution.
 
-#### Preserved
+### Preserved
 - Preserved all production filters and filter order.
 - Preserved candidate ranking by TradePlan, Score and RiskReward.
 - Preserved the completed-session Volume Engine.
@@ -71,13 +71,13 @@ Production Ready
 - Preserved the five-sheet diagnostic workbook.
 - Preserved the market_bull and MarketScore compatibility fields.
 
-#### Validation Baseline
+### Validation Baseline
 - Ruff passes.
 - MyPy passes.
 - 134 unit tests pass.
 - Total coverage above 80%.
 
-#### Release Status
+### Release Status
 
 Production ready
 
