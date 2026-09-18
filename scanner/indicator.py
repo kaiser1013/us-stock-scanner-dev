@@ -11,6 +11,7 @@ from scanner.download import safe_last
 MARKET_TIMEZONE = ZoneInfo("America/New_York")
 MARKET_DATA_READY_TIME = time(16, 15)
 VOLUME_LOOKBACK = 20
+BREAKOUT_LOOKBACK = 55
 RS_LOOKBACKS = (21, 63, 126, 252)
 RS_COMPOSITE_WEIGHTS = {
     21: 0.15,
