@@ -141,6 +141,7 @@ def calculate_breakout_metric(close, high, lookback=BREAKOUT_LOOKBACK):
     return {
         "Breakout55": bool(current_price >= prior_high),
         "DistanceToHigh55": float(distance_to_high),
+    }
 
 def calculate_indicators(ticker, df, spy_returns):
     """Calculate the technical, volume and v2.5 relative-strength metrics."""
@@ -173,6 +174,7 @@ def calculate_indicators(ticker, df, spy_returns):
             close,
             spy_returns,
         )
+        breakout_metrics = calculate_breakout_metrics(close, high)
     except ValueError as error:
         print(f"{ticker}: {error}")
         return None
@@ -261,6 +263,8 @@ def calculate_indicators(ticker, df, spy_returns):
         "RS126": relative_strength_metrics["RS126"],
         "RS252": relative_strength_metrics["RS252"],
         "RSComposite": relative_strength_metrics["RSComposite"],
+        "Breakout55": breakout_metrics["Breakout55"],
+        "DistanceToHigh55": breakout_metrics["DistanceToHigh55"],
         "ADX": adx,
         "PlusDI": plus_di,
         "MinusDI": minus_di
