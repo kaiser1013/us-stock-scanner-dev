@@ -43,17 +43,16 @@ Current quality metrics:
 
 - Ruff: Passing
 - MyPy: Passing
-- Unit Tests: 134
-- Coverage: 82%
+- Unit Tests: 157
+- Coverage: 94.61%
 
 Coverage by module:
-
-- download.py: 88%
+- download.py: 100%
 - filter.py: 100%
 - indicator.py: 94%
 - risk.py: 84%
 - score.py: 81%
-- scanner.py: 68%
+- scanner.py: 99%
 
 ### Overview
 
@@ -316,24 +315,17 @@ Before releasing v2.5.2:
 - RelativeStrength must remain equal to RS63.
 - Production filter and Score Engine behaviour must remain unchanged.
 
-### Next Planned Release
+### Current Release
 
 v2.6.1 Market Regime Test Expansion
 
-Planned additions:
-
-- test_bull_regime()
-- test_neutral_regime()
-- test_bear_regime()
-- test_regime_score_bull()
-- test_regime_score_neutral()
-- test_regime_score_bear()
-- test_email_contains_market_regime()
-- test_summary_contains_market_regime()
-
-Goal:
-- Increase scanner.py coverage above 80%
-- Increase overall project coverage above 85%
+Completed:
+- Bull / Neutral / Bear regime tests
+- RegimeScore validation
+- Email reporting validation
+- Summary reporting validation
+- scanner.py coverage > 80%
+- total package coverage > 85%
 
 ## Disclaimer
 
