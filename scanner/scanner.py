@@ -33,7 +33,7 @@ from scanner.score import (
     calculate_score,
 )
 
-VERSION = "v2.6.0"
+VERSION = "v2.7.0"
 
 # =====================================
 # 掃描模式
@@ -108,6 +108,8 @@ def analyse_stock(ticker, market_bull, spy_returns, market_regime=None):
             "RS126": round(metrics["RS126"], 2),
             "RS252": round(metrics["RS252"], 2),
             "RSComposite": round(metrics["RSComposite"], 2),
+            "Breakout55": bool(metrics.get("Breakout55", False)),
+            "DistanceToHigh55": round(float(metrics.get("DistanceToHigh55", 0.0)), 2),
             "ADX": round(metrics["ADX"], 2),
             "MA20": round(metrics["MA20"], 2),
             "MA50": round(metrics["MA50"], 2),
@@ -277,6 +279,8 @@ def build_report_frames(
                 "RS126",
                 "RS252",
                 "RSComposite",
+                "Breakout55",
+                "DistanceToHigh55",
             ]
         )
 
@@ -417,6 +421,8 @@ RS63: {row['RS63']}
 RS126: {row['RS126']}
 RS252: {row['RS252']}
 RSComposite: {row['RSComposite']}
+Breakout55: {row['Breakout55']}
+DistanceToHigh55: {row['DistanceToHigh55']}%
 Stop Loss: {row['StopLoss']}
 Take Profit 1: {row['TakeProfit1']}
 Take Profit 2: {row['TakeProfit1']}
@@ -597,6 +603,8 @@ def main():
                     "RS126",
                     "RS252",
                     "RSComposite",
+                    "Breakout55",
+                    "DistanceToHigh55",
                     "VolumeSource",
                     "VolumeRatio", 
                 ]
