@@ -15,14 +15,19 @@ def make_price_series(
 ):
     """Create close and high series with a controlled prior breakout level."""
     index = pd.RangeIndex(lookback + 1)
+    
+    filler_high = prior_high - max(
+        abs(prior_high * 0.05,
+        1.0,
+    )
 
     close = pd.Series(
-        [90.0] * lookback + [latest_close],
+        [filler_high] * lookback + [latest_close],
         index=index,
         dtype=float,
     )
     high = pd.Series(
-        [95.0] * (lookback - 1) + [prior_high, latest_high],
+        [filler_high] * (lookback - 1) + [prior_high, latest_high],
         index=index,
         dtype=float,
     )
@@ -275,7 +280,7 @@ def test_breakout_fields_do_not_change_candidate_ranking():
     candidates = [
         make_rank_candidate(
             ticker="LOW_BREAKOUT",
-            trade_plan="â ACTIONABLE",
+            trade_plan="\u2705 ACTIONABLE",
             score=80,
             risk_reward=3.0,
             breakout55=True,
