@@ -17,7 +17,7 @@ def make_price_series(
     index = pd.RangeIndex(lookback + 1)
     
     filler_high = prior_high - max(
-        abs(prior_high * 0.05,
+        abs(prior_high) * 0.05,
         1.0,
     )
 
@@ -305,21 +305,22 @@ def test_breakout_fields_do_not_change_candidate_ranking():
     ]
 
 
-def test_breakout_fields_do_not_override_trade_plan_priority():
+def test_breakout_fields_do_not_change_score_order():
+
     candidates = [
         make_rank_candidate(
-            ticker="WATCH_BREAKOUT",
-            trade_plan="WATCH",
-            score=99,
-            risk_reward=5.0,
+            ticker="LOW_SCORE_BREAKOUT",
+            trade_plan="PASS",
+            score=80,
+            risk_reward=3.0,
             breakout55=True,
-            distance_to_high55=25.0,
+            distance_to_high55=20.0,
         ),
         make_rank_candidate(
-            ticker="ACTIONABLE_NON_BREAKOUT",
-            trade_plan="â ACTIONABLE",
-            score=70,
-            risk_reward=1.5,
+            ticker="HIGH_SCORE_NON_BREAKOUT",
+            trade_plan="PASS",
+            score=90,
+            risk_reward=1.0,
             breakout55=False,
             distance_to_high55=-5.0,
         ),
@@ -327,7 +328,4 @@ def test_breakout_fields_do_not_override_trade_plan_priority():
 
     ranked = rank_results(candidates)
 
-    assert ranked["Ticker"].tolist() == [
-        "ACTIONABLE_NON_BREAKOUT",
-        "WATCH_BREAKOUT",
-    ]
+    assert ranked["Ticker"].tolist() == "HIGH_SCORE_NON_BREAKOUT"
