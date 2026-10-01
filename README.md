@@ -384,15 +384,13 @@ Before releasing v2.5.2:
 
 ### Current Release
 
-v2.6.1 Market Regime Test Expansion
+v2.7.0
+Production Ready
 
-Completed:
-- Bull / Neutral / Bear regime tests
-- RegimeScore validation
-- Email reporting validation
-- Summary reporting validation
-- scanner.py coverage > 80%
-- total package coverage > 85%
+Validation:
+- Ruff PASS
+- MyPy PASS
+- 179 Tests PASS
 
 ## Disclaimer
 
