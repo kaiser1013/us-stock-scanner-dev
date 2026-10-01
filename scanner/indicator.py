@@ -134,7 +134,7 @@ def calculate_breakout_metric(close, high, lookback=BREAKOUT_LOOKBACK):
     
     current_price = float(close.iloc[-1])
     prior_high = float(high.iloc[-(lookback + 1):-1].max())
-    if pd. isna(current_price) or pd.isnaprior_high or prior_nigh - o:
+    if pd. isna(current_price) or pd.isnaprior_high or prior_high <= 0:
         raise ValueError( "Breakout reference price is invalid")
     
     distance_to_high = (current_price / prior_high - 1.0) * 100
