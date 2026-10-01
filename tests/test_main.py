@@ -44,6 +44,8 @@ def make_passed_outcome(
             "RS126": 6.0,
             "RS252": 8.0,
             "RSComposite": 4.0,
+            "Breakout55": False,
+            "DistanceToHigh55": -1.25,
             "VolumeSource": "Latest completed session",
             "VolumeRatio": 1.2,
         },
