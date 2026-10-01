@@ -276,35 +276,6 @@ def test_custom_lookback_is_supported():
     assert result["Breakout55"] is True
     assert result["DistanceToHigh55"] == pytest.approx(5.0)
 
-
-def test_breakout_fields_do_not_change_candidate_ranking():
-    candidates = [
-        make_rank_candidate(
-            ticker="LOW_BREAKOUT",
-            trade_plan="\u2705 ACTIONABLE",
-            score=80,
-            risk_reward=3.0,
-            breakout55=True,
-            distance_to_high55=20.0,
-        ),
-        make_rank_candidate(
-            ticker="HIGH_SCORE",
-            trade_plan="â ACTIONABLE",
-            score=90,
-            risk_reward=2.0,
-            breakout55=False,
-            distance_to_high55=-10.0,
-        ),
-    ]
-
-    ranked = rank_results(candidates)
-
-    assert ranked["Ticker"].tolist() == [
-        "HIGH_SCORE",
-        "LOW_BREAKOUT",
-    ]
-
-
 def test_breakout_fields_do_not_change_score_order():
 
     candidates = [
@@ -328,4 +299,26 @@ def test_breakout_fields_do_not_change_score_order():
 
     ranked = rank_results(candidates)
 
-    assert ranked["Ticker"].tolist() == "HIGH_SCORE_NON_BREAKOUT"
+    assert ranked.iloc[0]["Ticker"] == "HIGH_SCORE_NON_BREAKOUT"
+    assert ranked.iloc[1]["Ticker"] == "LOW_SCORE_BREAKOUT"
+    
+def test_breakout_columns_preserved_after_ranking():
+    
+    candidates = [
+        make_rank_candidate(
+            ticker="AAA",
+            trade_plan="PASS",
+            score=80,
+            risk_reward=3.0,
+            breakout55=True,
+            distance_to_high55=10.0,
+        ),
+    ]
+    
+    ranked = rank_results(candidates)
+    
+    assert "Breakout55" in ranked.columns
+    assert "DistanceToHigh55" in ranked.columns
+    
+    assert bool(ranked.iloc[0]["Breakout55"]) is True
+    assert ranked.iloc[0]["DistanceToHigh55"] == 10.0
