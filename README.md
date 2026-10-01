@@ -1,23 +1,90 @@
-## US Stock Scanner v2.6.1
+## US Stock Scanner v2.7.0
 
-v2.6.1 is an engineering-quality release focused on expanding
-automated validation for the v2.6.0 Market Regime Engine.
+v2.7.0 introduces the Breakout Engine.
 
 The release adds:
 
-- Dedicated Bull regime tests.
-- Dedicated Neutral regime tests.
-- Dedicated Bear regime tests.
-- RegimeScore validation tests.
-- MarketRegime reporting validation.
-- Email reporting validation.
-- Summary-report validation.
+- Breakout55
+- DistanceToHigh55
+- Breakout diagnostics in scanner output
+- Breakout diagnostics in Excel reporting
+- Breakout diagnostics in email reporting
+- Breakout diagnostics in Top20 reporting
 
-No trading logic has changed.
+Breakout diagnostics are observational only.
 
-Coverage Goals:
-- scanner.py > 80%
-- project coverage > 85%
+They do not affect:
+
+- Production filters
+- Score Engine
+- TradePlan logic
+- Candidate ranking
+
+### Continuous Integration
+
+Every push and pull request automatically executes:
+
+- Ruff lint validation
+- MyPy type checking
+- Pytest unit tests
+- Scanner-package coverage validation
+
+Quality gates:
+
+- Lint must pass
+- Type checking must pass
+- All tests must pass
+
+### Engineering Metrics
+
+Current quality metrics:
+
+- Ruff: Passing
+- MyPy: Passing
+- Unit Tests: 179
+- Breakout Validation Tests: 22+
+
+Coverage by module:
+
+- download.py: 100%
+- filter.py: 100%
+- indicator.py: 94%+
+- risk.py: 84%+
+- score.py: 81%+
+- scanner.py: 99%
+
+### Breakout Diagnostics
+
+v2.7.0 introduces:
+
+- Breakout55
+- DistanceToHigh55
+
+Definition:
+
+Breakout55:
+Latest close >= Highest high of the prior completed 55 sessions.
+
+DistanceToHigh55:
+(Current Price / Prior 55-session High - 1) * 100
+
+Latest-session highs are excluded from the reference window.
+
+Breakout diagnostics are exported to:
+
+- Console output
+- Candidate results
+- Top20
+- Excel reporting
+- Diagnostic email reporting
+
+Breakout diagnostics do not participate in:
+
+- Filters
+- Score calculation
+- Ranking
+
+This preserves the existing production engine while allowing breakout behaviour to be observed before promotion into ranking logic.
 
 ### Continuous Integration
 
