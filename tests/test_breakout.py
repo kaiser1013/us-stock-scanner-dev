@@ -26,6 +26,7 @@ def make_price_series(
         index=index,
         dtype=float,
     )
+    
     high = pd.Series(
         [filler_high] * (lookback - 1) + [prior_high, latest_high],
         index=index,
