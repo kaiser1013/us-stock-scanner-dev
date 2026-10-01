@@ -121,7 +121,7 @@ def calculate_relative_strength_metrics(close, spy_returns):
         "RSComposite": float(composite),
     }
 
-def calculate_breakout_metric(close, high, lookback=BREAKOUT_LOOKBACK):
+def calculate_breakout_metrics(close, high, lookback=BREAKOUT_LOOKBACK):
     """Calculate diagnostics against the prior completed 55-session high.
     
     The latest bar is excluded from the reference window. A positive
