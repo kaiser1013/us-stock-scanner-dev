@@ -336,7 +336,7 @@ def test_main_runs_complete_bull_market_scan(monkeypatch):
         "bull_report.xlsx",
     )
     
-    assert book(exported_top20.iloc[0]["Breakout55"]) is False
+    assert bool(exported_top20.iloc[0]["Breakout55"]) is False
     assert exported_top20.iloc[0]["DistanceToHigh55"] == -1.25
 
 
