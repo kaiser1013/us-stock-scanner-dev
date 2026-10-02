@@ -15,7 +15,7 @@ def test_trade_return_positive():
         120,
     )
 
-    assert result == pytest.app(
+    assert result == pytest.approx(
         20.0
     )
 
