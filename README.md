@@ -39,18 +39,18 @@ Quality gates:
 
 Current quality metrics:
 
-- Ruff: Passing
-- MyPy: Passing
+- Ruff: PASS
+- MyPy: PASS
 - Unit Tests: 179
-- Breakout Validation Tests: 22+
+- Breakout Tests: 22
 
 Coverage by module:
 
 - download.py: 100%
 - filter.py: 100%
-- indicator.py: 94%+
-- risk.py: 84%+
-- score.py: 81%+
+- indicator.py: 94%
+- risk.py: 84%
+- score.py: 81%
 - scanner.py: 99%
 
 ### Breakout Diagnostics
@@ -85,24 +85,6 @@ Breakout diagnostics do not participate in:
 - Ranking
 
 This preserves the existing production engine while allowing breakout behaviour to be observed before promotion into ranking logic.
-
-### Continuous Integration
-
-Every push and pull request automatically executes:
-
-- Ruff lint validation
-- MyPy type checking
-- Pytest unit tests
-- Scanner-package coverage validation
-
-Quality gates:
-
-- Lint must pass.
-- Type checking must pass.
-- All tests must pass.
-- Total scanner-package coverage must remain at least 80%.
-
-The unit tests use mocks for Yahoo Finance downloads, SMTP email delivery and scanner dependencies. CI therefore does not require live market data or email credentials.
 
 ### Engineering Metrics
 
