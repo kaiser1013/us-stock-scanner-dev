@@ -70,7 +70,7 @@ Preserved:
 - TradePlan logic
 - Candidate ranking
 
-Breakout diagnostice remain observational and do not participate in ranking.
+Breakout diagnostics remain observational and do not participate in ranking.
 
 ## Phase 4: v3.0.0 Walk-Forward Validation
 
@@ -79,12 +79,27 @@ Status: next release
 Objectives:
 
 - Add backtest.py.
-- point-in-time signal generation.
+- Point-in-time signal generation.
 - Historical signal validation.
-- Portolio simulation..
+- Portfolio simulation.
 - SPY benchmark comparison.
 - Trade log export.
 - Performance analytics.
+
+## Phase 4.1 Factor Validation
+
+Objectives:
+
+- Validate RegimeScore performance.
+- Validate RSComposite performance.
+- Validate Breakout55 performance.
+- Validate DistanceToHigh55 performance.
+- Compare factor combinations.
+- Export factor-performance reports.
+
+Purpose:
+
+Keep diagnostics separate from production ranking until statistical validation is complete.
 
 ## Required Backtest Metrics
 
