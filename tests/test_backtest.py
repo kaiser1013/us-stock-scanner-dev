@@ -15,7 +15,9 @@ def test_trade_return_positive():
         120,
     )
 
-    assert result == 20.0
+    assert result == pytest.app(
+        20.0
+    )
 
 
 def test_trade_return_negative():
@@ -24,7 +26,9 @@ def test_trade_return_negative():
         80,
     )
 
-    assert result == -20.0
+    assert result == pytest.approx(
+        -20.0
+    )
 
 
 def test_max_drawdown():
