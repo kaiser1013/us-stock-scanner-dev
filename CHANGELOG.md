@@ -24,6 +24,9 @@
 - Invalid-input validation.
 - Ranking-preservation validation.
 - Output-column preservation validation.
+- Breakout-output column vallidation.
+- Ranking-column preservation validation.
+- Breakout diagnostic reporting validation.
 
 ### Preserved
 - Preserved all v2.6.1 Market Regime logic.
