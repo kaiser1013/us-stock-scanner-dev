@@ -1,3 +1,4 @@
+import pytest
 import pandas as pd
 
 from scanner.backtest import (
