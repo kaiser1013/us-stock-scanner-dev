@@ -144,3 +144,7 @@ def test_alpha_calculation():
         trades,
         benchmark_return=10,
     )
+
+    assert metrics["Alpha"] == pytest.approx(
+        10.0
+    )
