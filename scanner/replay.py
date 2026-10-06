@@ -37,6 +37,13 @@ def point_in_time_history(
     history: pd.DataFrame,
     signal_date: pd.Timestamp,
 ) -> pd.DataFrame:
+
+    history = history.copy()
+    
+    history.index = pd.to._datetime(
+        history.index
+    )
+    
     """
     Return only data available on the signal date.
     Prevents look-ahead bias.
@@ -105,18 +112,19 @@ def replay_symbol(
     history: pd.DataFrame,
     start_date: pd.Timestamp,
     end_date: pd.Timestamp,
-) -> Listmask = (
+) -> listmask = (
         (history.index >= start_date)
         & (history.index <= end_date)
     )
 
     dates = history.loc[mask].index
 
-    signals: List[
+    signals: list[
         HistoricalSignal
     ] = []
 
     for signal_date in dates:
+    
         signal = generate_signal(
             ticker=ticker,
             history=history,
