@@ -40,7 +40,7 @@ def point_in_time_history(
 
     history = history.copy()
     
-    history.index = pd.to._datetime(
+    history.index = pd.to_datetime(
         history.index
     )
     
