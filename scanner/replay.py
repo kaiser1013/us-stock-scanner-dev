@@ -112,7 +112,8 @@ def replay_symbol(
     history: pd.DataFrame,
     start_date: pd.Timestamp,
     end_date: pd.Timestamp,
-) -> listmask = (
+) -> list[HistoricalSignal]:
+    mask = (
         (history.index >= start_date)
         & (history.index <= end_date)
     )
