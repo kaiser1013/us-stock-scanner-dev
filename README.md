@@ -63,9 +63,11 @@ The replay engine does not change:
 - Market Regime
 - Breakout diagnostics
 
-## Backtest Metrics Foundation
+## Backtest Metrics Foundation (v2.8.0)
 
-The initial performance-analytics layer supports:
+The Backtest Metrics Foundation was introduced in v2.8.0.
+
+The following capabilities remain available in v2.9.0:
 
 - Win rate
 - Average gain
@@ -135,10 +137,30 @@ Calculates expected return per trade from win rate, average gain and average los
 
 Builds the standard backtest metrics dictionary from an equity curve, trade returns and an optional benchmark return.
 
-## Backtest Metrics Foundation (v2.8.0)
+## Current Replay Scope
 
-This functionality was introduced in v2.8.0
-and remains available in v 2.9.0.
+v2.9.0 provides:
+
+- Point-in-time history selection
+- Historical signal generation
+- Benchmark replay
+- Production filter integration
+- Production score integration
+- Production risk integration
+- Deterministic replay
+- Look-ahead-bias protection
+
+The following capabilities remain planned for future releases:
+
+- Portfolio simulation
+- Portfolio cash accounting
+- Trade-log export
+- Transaction-cost modelling
+- Slippage modelling
+- Beta
+- Information ratio
+- Benchmark analytics
+- Complete walk-forward validation
 
 ## Backtest Tests
 
@@ -189,7 +211,7 @@ Intermediate release names and scope may be adjusted when implementation require
 
 ## Preserved Production Behaviour
 
-v2.8.0 preserves:
+v2.9.0 preserves:
 
 - Structured scanner outcomes
 - Production filters and filter order
