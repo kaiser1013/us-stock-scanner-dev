@@ -135,26 +135,10 @@ Calculates expected return per trade from win rate, average gain and average los
 
 Builds the standard backtest metrics dictionary from an equity curve, trade returns and an optional benchmark return.
 
-## Current Backtest Scope
+## Backtest Metrics Foundation (v2.8.0)
 
-v2.8.0 provides reusable calculations for trade returns and equity curves.
-
-It does not yet include:
-
-- Point-in-time signal generation
-- Historical scanner replay
-- Explicit look-ahead-bias protection
-- Portfolio position simulation
-- Portfolio cash accounting
-- Entry and exit execution
-- Transaction-cost modelling
-- Slippage modelling
-- Trade-log export
-- SPY return-series alignment
-- Beta
-- Information ratio
-- Factor-combination validation
-- Complete walk-forward validation
+This functionality was introduced in v2.8.0
+and remains available in v 2.9.0.
 
 ## Backtest Tests
 
