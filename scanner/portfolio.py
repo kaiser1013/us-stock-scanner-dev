@@ -190,11 +190,20 @@ def _value(source: Mapping[str, Any], *names: str, default: Any = None) -> Any:
 def _as_mapping(signal: Any) -> Mapping[str, Any]:
     if isinstance(signal, Mapping):
         return signal
+        
     if is_dataclass(signal):
+        if isinstance(signal, type):
+            raise TypeError(
+                "Dataclass class provided instead of dataclass instance"
+            )
         return asdict(signal)
+        
     if hasattr(signal, "__dict__"):
         return vars(signal)
-    raise TypeError("signal must be a mapping or object with named attributes")
+        
+    raise TypeError(
+        "signal must be a mapping or object with named attributes"
+    )
 
 
 def _as_date(value: Any) -> date:
@@ -450,12 +459,12 @@ def simulate_portfolio(
                 continue
             row = market[signal.symbol].loc[session]
             raw_entry = float(row[settings.entry_price_field])
-            position, cash = open_position(
+            new_position, cash = open_position(
                 cash, signal, current_date, raw_entry, settings
             )
-            if position is not None:
-                positions[position.symbol] = position
-                last_prices[position.symbol] = float(row["Close"])
+            if new_position is not None:
+                positions[new_position.symbol] = new_position
+                last_prices[new_position.symbol] = float(row["Close"])
 
         invested, equity = mark_to_market(cash, positions, last_prices)
         curve.append(
