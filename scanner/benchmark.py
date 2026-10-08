@@ -598,13 +598,22 @@ def build_benchmark_metrics(
 
     return BenchmarkResult(
         observations=len(returns),
+        
         start_date=pd.Timestamp(
             aligned_values.index[0]
         ),
+        
         end_date=pd.Timestamp(
             aligned_values.index[-1]
         ),
+        
         portfolio_return=portfolio_return,
         benchmark_return=benchmark_return,
+        
+        alpha=alpha,
+        beta=beta,
+        
+        tracking_error=tracking_error,
+        information_ratio=information_ratio,
     )
     
