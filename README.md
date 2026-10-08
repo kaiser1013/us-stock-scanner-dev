@@ -12,12 +12,6 @@
 - Export a structured trade log
 - Connect simulation results to `build_metrics`
 
-v2.9.0 introduces the Point-in-Time Signal Replay Engine.
-
-The replay engine generates historical signals using only information available on or before each signal date.
-
-Its primary purpose is to eliminate look-ahead bias before portfolio simulation and walk-forward validation.
-
 ### Production Pipeline
 
 ```text
@@ -148,6 +142,12 @@ Calculates expected return per trade from win rate, average gain and average los
 Builds the standard backtest metrics dictionary from an equity curve, trade returns and an optional benchmark return.
 
 ## Historical Signal Replay (v2.9.0)
+
+v2.9.0 introduced the Point-in-Time Signal Replay Engine.
+
+The replay engine generates historical signals using only information available on or before each signal date.
+
+Its primary purpose is to eliminate look-ahead bias before portfolio simulation and walk-forward validation.
 
 v2.9.0 provides:
 
