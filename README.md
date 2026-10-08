@@ -162,14 +162,11 @@ v2.9.0 provides:
 
 The following capabilities remain planned for future releases:
 
-- Portfolio simulation
-- Portfolio cash accounting
-- Trade-log export
-- Transaction-cost modelling
-- Slippage modelling
 - Beta
 - Information ratio
+- Tracking error
 - Benchmark analytics
+- Factor validation
 - Complete walk-forward validation
 
 ## Backtest Tests
@@ -219,7 +216,7 @@ Intermediate release names and scope may be adjusted when implementation require
 
 ## Preserved Production Behaviour
 
-v2.9.0 preserves:
+v2.10.0 preserves:
 
 - Structured scanner outcomes
 - Production filters and filter order
@@ -422,6 +419,8 @@ scanner/
 âââ download.py
 âââ filter.py
 âââ indicator.py
+âââ portfolio.py
+âââ replay.py
 âââ risk.py
 âââ scanner.py
 âââ score.py
@@ -435,8 +434,10 @@ tests/
 âââ test_main.py
 âââ test_market_context.py
 âââ test_market_regime.py
+âââ test_portfolio.py
 âââ test_regime_reporting.py
 âââ test_relative_strength.py
+âââ test_replay.py
 âââ test_risk.py
 âââ test_scanner.py
 âââ test_score.py
