@@ -1,6 +1,16 @@
-# US Stock Scanner v2.9.0
+# US Stock Scanner v2.10.0
 
-## Point-in-Time Signal Replay
+## v2.10.0 Portfolio Simulation and Trade Log
+
+- Convert historical signals into simulated positions
+- Track portfolio cash
+- Track open and closed positions
+- Apply entry and exit rules
+- Apply position sizing
+- Generate an equity curve
+- Model transaction costs and slippage
+- Export a structured trade log
+- Connect simulation results to `build_metrics`
 
 v2.9.0 introduces the Point-in-Time Signal Replay Engine.
 
@@ -200,8 +210,6 @@ Release-candidate suffixes such as `rc1` and `rc2` are not used.
 
 Current working progression:
 
-- v2.8.0 Backtest Metrics Foundation
-- v2.9.0 Point-in-Time Signal Replay
 - v2.10.0 Portfolio Simulation and Trade Log
 - v2.11.0 Benchmark and Risk Analytics
 - v2.12.0 Factor Validation
@@ -520,20 +528,6 @@ Use the commands configured by the repository if its `pyproject.toml` or CI work
 
 ## Next Planned Release
 
-v2.10.0 Portfolio Simulation and Trade Log
-
-- Convert historical signals into simulated positions
-- Track portfolio cash
-- Track open and closed positions
-- Apply entry and exit rules
-- Apply position sizing
-- Generate an equity curve
-- Model transaction costs and slippage
-- Export a structured trade log
-- Connect simulation results to `build_metrics`
-
-## Roadmap
-
 ### v2.11.0 Benchmark and Risk Analytics
 
 - Align portfolio returns with SPY returns
@@ -541,6 +535,8 @@ v2.10.0 Portfolio Simulation and Trade Log
 - Add information ratio
 - Validate benchmark alignment
 - Export portfolio-versus-benchmark results
+
+## Roadmap
 
 ### v2.12.0 Factor Validation
 
@@ -582,7 +578,7 @@ If an enhancement reduces stability, it must remain disabled until validated.
 
 ## Current Release
 
-v2.9.0
+v2.10.0
 
 ## Disclaimer
 
