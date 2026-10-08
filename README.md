@@ -415,37 +415,38 @@ The Top20 results include multi-timeframe Relative Strength and breakout diagnos
 
 ```text
 scanner/
-âââ backtest.py
-âââ download.py
-âââ filter.py
-âââ indicator.py
-âââ portfolio.py
-âââ replay.py
-âââ risk.py
-âââ scanner.py
-âââ score.py
+backtest.py
+download.py
+filter.py
+indicator.py
+portfolio.py
+replay.py
+risk.py
+scanner.py
+score.py
 
 tests/
-âââ test_backtest.py
-âââ test_breakout.py
-âââ test_download.py
-âââ test_filters.py
-âââ test_indicator.py
-âââ test_main.py
-âââ test_market_context.py
-âââ test_market_regime.py
-âââ test_portfolio.py
-âââ test_regime_reporting.py
-âââ test_relative_strength.py
-âââ test_replay.py
-âââ test_risk.py
-âââ test_scanner.py
-âââ test_score.py
-âââ test_volume.py
+test_backtest.py
+test_breakout.py
+test_download.py
+test_filters.py
+test_indicator.py
+test_main.py
+test_market_context.py
+test_market_regime.py
+test_portfolio.py
+test_regime_reporting.py
+test_relative_strength.py
+test_replay.py
+test_risk.py
+test_scanner.py
+test_score.py
+test_volume.py
 
 .github/workflows/
-âââ ci.yml
-âââ stock_scan.yml
+ci.yml
+stock_scan.yml
+tests.yml
 
 CHANGELOG.md
 Project.txt
@@ -484,6 +485,14 @@ Production scoring formula.
 `scanner/risk.py`
 
 ATR stops, targets and position sizing.
+
+`scanner/portfolio.py`
+ 
+Deterministic portfolio simulation, cash accounting, position tracking, transaction costs, slippage, equity-curve generation and structured trade-log export.
+
+`scanner/replay.py`
+
+Point-in-time historical signal generation and production-engine replay.
 
 ## Environment Variables
 
