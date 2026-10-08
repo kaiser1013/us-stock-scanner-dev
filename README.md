@@ -46,8 +46,8 @@ HistoricalSignal
 
 - Ruff PASS
 - MyPy PASS
-- 215 Tests PASS
-- Coverage 93.45%
+- 232 Tests PASS
+- Coverage 92.43%
 
 ### Validated Capabilities
 
