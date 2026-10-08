@@ -147,7 +147,7 @@ Calculates expected return per trade from win rate, average gain and average los
 
 Builds the standard backtest metrics dictionary from an equity curve, trade returns and an optional benchmark return.
 
-## Current Replay Scope
+## Historical Signal Replay (v2.9.0)
 
 v2.9.0 provides:
 
