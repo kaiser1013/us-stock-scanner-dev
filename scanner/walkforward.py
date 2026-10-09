@@ -1,16 +1,3 @@
-v3.0.0 walkforward 2
-Wong, Kaiser<kaichung.wong@scotiabank.com>
-您
-v3.0.0 walkforward 2
-
-This e-mail, including any attachments, is confidential and may be privileged and is for the intended recipient(s) only. If received in error, please immediately delete this email and any attachments and contact the sender. Unauthorized copying, use or disclosure of this email or its content or attachments is prohibited. View our full email disclaimer.
-
-If you would like to stop receiving commercial electronic messages from The Bank of Nova Scotia, you can unsubscribe.
-
-Consultez la traduction en français
-
-Ver la traducción al español
-
 """Integrated walk-forward validation for US Stock Scanner v3.0.0.
 
 Phase 1 provides deterministic rolling/expanding windows, summaries and report
