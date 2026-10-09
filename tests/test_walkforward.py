@@ -9,7 +9,6 @@ from scanner.portfolio import PortfolioConfig
 from scanner.walkforward import (
     EvaluationResult,
     WalkForwardConfig,
-    WalkForwardResult,
     WalkForwardWindow,
     build_walkforward_report,
     build_walkforward_summary,
