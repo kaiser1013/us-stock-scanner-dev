@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from factor_validation import (
+from scanner.factor_validation import (
     DEFAULT_FACTORS,
     FactorDefinition,
     build_factor_validation_report,
